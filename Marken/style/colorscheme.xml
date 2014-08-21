@@ -1,0 +1,130 @@
+<editor scheme="Default">
+  <scheme name="Default" size="12" family="Consolas">
+    <node name="Atx Header 1">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Atx Header 2">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Atx Header 3">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Atx Header 4">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Atx Header 5">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Atx Header 6">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Block Quote">
+      <foreground>#FFFFFF</foreground>
+      <background>#111111</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Code Block">
+      <foreground>#FFFFFF</foreground>
+      <background>#111111</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Default">
+      <foreground>#FFFFFF</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Emphasis">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>true</italic>
+    </node>
+    <node name="Horizontal">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Image">
+      <foreground>#7F0000</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Inline Code">
+      <foreground>#FFFFFF</foreground>
+      <background>#333333</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Inline Link">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Link Label">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Ordered List">
+      <foreground>#FFFFFF</foreground>
+      <background>#000033</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Reference Link">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Setext Header 1">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Setext Header 2">
+      <foreground>#00007F</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Strong">
+      <foreground>#B30059</foreground>
+      <background>#000000</background>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Unordered List">
+      <foreground>#FFFFFF</foreground>
+      <background>#000033</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+  </scheme>
+</editor>

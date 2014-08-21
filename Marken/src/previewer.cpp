@@ -1,5 +1,5 @@
-#include "previewer.h"
-#include "ui_previewer.h"
+#include "Previewer.h"
+#include "ui_Previewer.h"
 
 Previewer::Previewer(QWidget *parent) :
     QWidget(parent),

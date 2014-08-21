@@ -1,4 +1,4 @@
-#include "markdownhighlighter.h"
+#include "MarkdownHighlighter.h"
 
 MarkdownHighlighter::MarkdownHighlighter(QTextDocument *parent) :
     QSyntaxHighlighter(parent) {

@@ -3,7 +3,7 @@
 
 #include <QMap>
 #include <QString>
-#include "colorschemenode.h"
+#include "ColorSchemeNode.h"
 
 class ColorScheme {
 public:

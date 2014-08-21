@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QTabWidget>
 #include <QTextStream>
-#include "markdownhighlighter.h"
-#include "editor.h"
+#include "MarkdownHighlighter.h"
+#include "Editor.h"
 #include "ui_editor.h"
 
 Editor::Editor(QWidget *parent) :
@@ -96,8 +96,10 @@ void Editor::updateTitle() {
 
 void Editor::on_textEdit_textChanged() {
     if (not this->_modified) {
-        this->_modified = true;
-        this->updateTitle();
+        if (not this->path().isEmpty()) {
+            this->_modified = true;
+            this->updateTitle();
+        }
     }
 }
 

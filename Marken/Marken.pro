@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
@@ -19,27 +19,27 @@ TRANSLATIONS += lang/Lang_CH.ts
 INCLUDEPATH += "./include"
 
 SOURCES += src/main.cpp\
-    src/marken.cpp \
-    src/editor.cpp \
-    src/previewer.cpp \
-    src/markdownhighlighter.cpp \
-    src/preferenceeditor.cpp \
-    src/setting.cpp \
-    src/settingeditor.cpp \
-    src/colorschemenode.cpp \
-    src/colorscheme.cpp
+    src/Marken.cpp \
+    src/Editor.cpp \
+    src/Previewer.cpp \
+    src/MarkdownHighlighter.cpp \
+    src/ColorSchemeWidget.cpp \
+    src/Setting.cpp \
+    src/ColorSchemeSetting.cpp \
+    src/ColorSchemeNode.cpp \
+    src/ColorScheme.cpp
 
-HEADERS  += include/marken.h \
-    include/editor.h \
-    include/previewer.h \
-    include/markdownhighlighter.h \
-    include/preferenceeditor.h \
-    include/setting.h \
-    include/settingeditor.h \
-    include/colorschemenode.h \
-    include/colorscheme.h
+HEADERS  += include/Marken.h \
+    include/Editor.h \
+    include/Previewer.h \
+    include/MarkdownHighlighter.h \
+    include/ColorSchemeWidget.h \
+    include/Setting.h \
+    include/ColorSchemeSetting.h \
+    include/ColorSchemeNode.h \
+    include/ColorScheme.h
 
-FORMS    += form/marken.ui \
-    form/editor.ui \
-    form/previewer.ui \
-    form/preferenceeditor.ui
+FORMS    += form/Marken.ui \
+    form/Editor.ui \
+    form/Previewer.ui \
+    form/ColorSchemeWidget.ui

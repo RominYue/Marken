@@ -1,4 +1,4 @@
-#include "setting.h"
+#include "Setting.h"
 
 
 Setting* Setting::_instance = nullptr;

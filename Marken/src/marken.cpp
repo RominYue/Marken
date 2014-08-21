@@ -6,9 +6,10 @@
 #include <QKeyEvent>
 #include <QCoreApplication>
 #include <QUrl>
-#include "editor.h"
-#include "marken.h"
-#include "ui_marken.h"
+#include "Setting.h"
+#include "Editor.h"
+#include "Marken.h"
+#include "ui_Marken.h"
 
 Marken::Marken(QWidget *parent) :
     QMainWindow(parent),

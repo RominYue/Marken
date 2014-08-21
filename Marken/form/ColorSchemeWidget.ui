@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PreferenceEditor</class>
- <widget class="QWidget" name="PreferenceEditor">
+ <class>ColorSchemeWidget</class>
+ <widget class="QWidget" name="ColorSchemeWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -38,7 +38,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QSpinBox" name="spinBoxFontSize">
         <property name="minimum">
          <number>1</number>
         </property>
@@ -81,7 +81,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="comboBoxScheme">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -91,14 +91,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="buttonCopy">
           <property name="text">
            <string>Copy...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="buttonDelete">
           <property name="text">
            <string>Delete</string>
           </property>
@@ -109,7 +109,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QListWidget" name="listWidget"/>
+         <widget class="QListWidget" name="listWidgetScheme"/>
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout">
@@ -137,7 +137,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="checkBoxBold">
             <property name="text">
              <string>Bold</string>
             </property>
@@ -167,7 +167,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="checkBoxItalic">
             <property name="text">
              <string>Italic</string>
             </property>

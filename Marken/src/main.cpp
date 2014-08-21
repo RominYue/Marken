@@ -1,4 +1,4 @@
-#include "marken.h"
+#include "Marken.h"
 #include <QApplication>
 
 int main(int argc, char *argv[]) {

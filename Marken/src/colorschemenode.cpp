@@ -1,4 +1,4 @@
-#include "colorschemenode.h"
+#include "ColorSchemeNode.h"
 
 ColorSchemeNode::ColorSchemeNode() {
 }
