@@ -34,8 +34,16 @@ private slots:
     void on_actionClose_All_triggered();
     void on_actionQuit_triggered();
     void on_tabWidget_tabCloseRequested(int index);
-
     void on_actionSave_All_triggered();
+    void on_actionUndo_triggered();
+    void on_actionRedo_triggered();
+    void on_actionCut_triggered();
+    void on_actionCopy_triggered();
+    void on_actionPaste_triggered();
+    void on_actionDelete_triggered();
+    void on_actionSelect_All_triggered();
+    void on_actionFind_Replace_triggered();
+    void on_actionPreference_triggered();
 
 private:
     Ui::Marken *ui;

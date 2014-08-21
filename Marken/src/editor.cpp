@@ -10,10 +10,10 @@ Editor::Editor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Editor) {
     this->ui->setupUi(this);
+    new MarkdownHighlighter(this->ui->textEdit->document());
     this->_name = tr("New File");
     this->_path = "";
     this->_modified = false;
-    new MarkdownHighlighter(this->ui->textEdit->document());
 }
 
 Editor::~Editor() {
@@ -68,6 +68,10 @@ void Editor::save() {
 void Editor::saveAs(const QString &path) {
     this->setPath(path);
     this->save();
+}
+
+QTextEdit* Editor::textEdit() const {
+    return this->ui->textEdit;
 }
 
 void Editor::updateTitle() {

@@ -2,6 +2,7 @@
 #define EDITOR_H
 
 #include <QWidget>
+#include <QTextEdit>
 
 namespace Ui {
 class Editor;
@@ -22,6 +23,8 @@ public:
     void open(const QString &path);
     void save();
     void saveAs(const QString &path);
+
+    QTextEdit* textEdit() const;
 
 private:
     Ui::Editor *ui;
