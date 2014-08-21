@@ -1,0 +1,124 @@
+<editor family="Consolas" size="12" fore="#000000" back="#FFFFFF">
+  <scheme name="Default">
+    <node name="atx-header-1">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="atx-header-2">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="atx-header-3">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="atx-header-4">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="atx-header-5">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="atx-header-6">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="setext-header-1">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="setext-header-2">
+      <fore>#00007F</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="block-quote">
+      <fore>#FFFFFF</fore>
+      <back>#111111</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="unordered-list">
+      <fore>#FFFFFF</fore>
+      <back>#000033</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="ordered-list">
+      <fore>#FFFFFF</fore>
+      <back>#000033</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="code-block">
+      <fore>#FFFFFF</fore>
+      <back>#111111</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="horizontal">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="inline-link">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="reference-link">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="link-label">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="emphasis">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>true</italic>
+    </node>
+    <node name="strong">
+      <fore>#B30059</fore>
+      <back>#000000</back>
+      <bold>true</bold>
+      <italic>false</italic>
+    </node>
+    <node name="inline-code">
+      <fore>#FFFFFF</fore>
+      <back>#333333</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="image">
+      <fore>#7F0000</fore>
+      <back>#000000</back>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+  </scheme>
+</editor>
