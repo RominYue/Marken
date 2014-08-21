@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QTabWidget>
 #include <QTextStream>
+#include "markdownhighlighter.h"
 #include "editor.h"
 #include "ui_editor.h"
 
@@ -12,6 +13,7 @@ Editor::Editor(QWidget *parent) :
     this->_name = tr("New File");
     this->_path = "";
     this->_modified = false;
+    new MarkdownHighlighter(this->ui->textEdit->document());
 }
 
 Editor::~Editor() {
@@ -71,7 +73,7 @@ void Editor::saveAs(const QString &path) {
 void Editor::updateTitle() {
     QString title = this->_name;
     if (this->_modified) {
-        title = "* " + title;
+        title = "*" + title;
     }
     if (this->parent() != nullptr) {
         QWidget *stack = dynamic_cast<QWidget*>(this->parent());

@@ -41,6 +41,7 @@ bool Marken::tryOpen(const QString &path) {
         this->ui->tabWidget->addTab(editor, editor->name());
         this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
     }
+    return true;
 }
 
 void Marken::on_actionOpen_triggered() {

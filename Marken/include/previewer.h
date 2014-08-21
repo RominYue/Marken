@@ -7,8 +7,7 @@ namespace Ui {
 class Previewer;
 }
 
-class Previewer : public QWidget
-{
+class Previewer : public QWidget {
     Q_OBJECT
 
 public:

@@ -21,11 +21,13 @@ INCLUDEPATH += "./include"
 SOURCES += src/main.cpp\
     src/marken.cpp \
     src/editor.cpp \
-    src/previewer.cpp
+    src/previewer.cpp \
+    src/markdownhighlighter.cpp
 
 HEADERS  += include/marken.h \
     include/editor.h \
-    include/previewer.h
+    include/previewer.h \
+    include/markdownhighlighter.h
 
 FORMS    += form/marken.ui \
     form/editor.ui \

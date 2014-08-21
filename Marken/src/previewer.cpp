@@ -3,12 +3,10 @@
 
 Previewer::Previewer(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Previewer)
-{
+    ui(new Ui::Previewer) {
     ui->setupUi(this);
 }
 
-Previewer::~Previewer()
-{
+Previewer::~Previewer() {
     delete ui;
 }
