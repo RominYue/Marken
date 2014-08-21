@@ -7,16 +7,26 @@
 QT       += core gui
 
 CONFIG += c++11
+QMAKE_CXXFLAGS += -std=c++0x
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Marken
 TEMPLATE = app
 
+TRANSLATIONS += lang/Lang_CH.ts
 
-SOURCES += main.cpp\
-        marken.cpp
+INCLUDEPATH += "./include"
 
-HEADERS  += marken.h
+SOURCES += src/main.cpp\
+    src/marken.cpp \
+    src/editor.cpp \
+    src/previewer.cpp
 
-FORMS    += marken.ui
+HEADERS  += include/marken.h \
+    include/editor.h \
+    include/previewer.h
+
+FORMS    += form/marken.ui \
+    form/editor.ui \
+    form/previewer.ui
