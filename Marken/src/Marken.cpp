@@ -11,6 +11,7 @@
 #include "ColorSchemeWidget.h"
 #include "Setting.h"
 #include "Editor.h"
+#include "Previewer.h"
 #include "Marken.h"
 #include "ui_Marken.h"
 
@@ -293,4 +294,13 @@ void Marken::on_actionPreference_triggered() {
         editor->updateColorScheme();
         editor->rehighlight();
     }
+}
+
+void Marken::on_actionPreview_triggered() {
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
+    this->ui->previewer->showPreview(editor);
+}
+
+void Marken::on_actionSyntax_triggered() {
+    this->tryOpen("doc/parse.md");
 }
