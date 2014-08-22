@@ -21,6 +21,8 @@ public:
     void closeEvent(QCloseEvent *event) override final;
 
 private:
+    void initToolbar();
+
     bool tryOpen(const QString &path);
     bool trySave();
     bool tryCloseAll();

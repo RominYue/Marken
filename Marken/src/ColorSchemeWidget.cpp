@@ -58,7 +58,7 @@ void ColorSchemeWidget::updateColorScheme(QString scheme) {
 }
 
 void ColorSchemeWidget::on_fontComboBox_currentTextChanged(const QString &family) {
-    if (not this->_schemeChanging) {
+    if (!this->_schemeChanging) {
         Setting::instance()->colorScheme.scheme().setFontFamily(family);
         for (int i = 0; i < this->ui->listWidgetScheme->count(); ++i) {
             auto item = this->ui->listWidgetScheme->item(i);
@@ -68,7 +68,7 @@ void ColorSchemeWidget::on_fontComboBox_currentTextChanged(const QString &family
 }
 
 void ColorSchemeWidget::on_spinBoxFontSize_valueChanged(int size) {
-    if (not this->_schemeChanging) {
+    if (!this->_schemeChanging) {
         Setting::instance()->colorScheme.scheme().setFontSize(size);
         for (int i = 0; i < this->ui->listWidgetScheme->count(); ++i) {
             auto item = this->ui->listWidgetScheme->item(i);
@@ -93,7 +93,7 @@ void ColorSchemeWidget::on_listWidgetScheme_currentRowChanged(int currentRow) {
 
 
 void ColorSchemeWidget::on_colorForeground_colorChanged(QColor color) {
-    if (not this->_colorChanging) {
+    if (!this->_colorChanging) {
         ColorSchemeSetting& colorScheme = Setting::instance()->colorScheme;
         ColorScheme& scheme = colorScheme.scheme();
         QListWidgetItem *item = this->ui->listWidgetScheme->currentItem();
@@ -105,7 +105,7 @@ void ColorSchemeWidget::on_colorForeground_colorChanged(QColor color) {
 }
 
 void ColorSchemeWidget::on_colorBackground_colorChanged(QColor color) {
-    if (not this->_colorChanging) {
+    if (!this->_colorChanging) {
         ColorSchemeSetting& colorScheme = Setting::instance()->colorScheme;
         ColorScheme& scheme = colorScheme.scheme();
         QListWidgetItem *item = this->ui->listWidgetScheme->currentItem();
@@ -117,7 +117,7 @@ void ColorSchemeWidget::on_colorBackground_colorChanged(QColor color) {
 }
 
 void ColorSchemeWidget::on_checkBoxBold_toggled(bool checked) {
-    if (not this->_colorChanging) {
+    if (!this->_colorChanging) {
         ColorSchemeSetting& colorScheme = Setting::instance()->colorScheme;
         ColorScheme& scheme = colorScheme.scheme();
         QListWidgetItem *item = this->ui->listWidgetScheme->currentItem();
@@ -129,7 +129,7 @@ void ColorSchemeWidget::on_checkBoxBold_toggled(bool checked) {
 }
 
 void ColorSchemeWidget::on_checkBoxItalic_toggled(bool checked) {
-    if (not this->_colorChanging) {
+    if (!this->_colorChanging) {
         ColorSchemeSetting& colorScheme = Setting::instance()->colorScheme;
         ColorScheme& scheme = colorScheme.scheme();
         QListWidgetItem *item = this->ui->listWidgetScheme->currentItem();

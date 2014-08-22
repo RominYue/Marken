@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QDialog>
 #include <QHBoxLayout>
+#include <QSettings>
 #include "ColorSchemeWidget.h"
 #include "Setting.h"
 #include "Editor.h"
@@ -19,11 +20,36 @@ Marken::Marken(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Marken) {
     this->ui->setupUi(this);
+    this->initToolbar();
     this->on_actionNew_triggered();
+    QSettings settings;
+    restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
+    restoreState(settings.value("mainWindowState").toByteArray());
 }
 
 Marken::~Marken() {
     delete ui;
+}
+
+void Marken::initToolbar() {
+    QToolBar *toolBarFile = addToolBar(tr("File"));
+    toolBarFile->setObjectName("toolBarFile");
+    toolBarFile->addAction(this->ui->actionNew);
+    toolBarFile->addAction(this->ui->actionOpen);
+    toolBarFile->addAction(this->ui->actionSave);
+    toolBarFile->addAction(this->ui->actionSave_As);
+    toolBarFile->addAction(this->ui->actionSave_All);
+    QToolBar *toolBarEdit = addToolBar(tr("Edit"));
+    toolBarEdit->setObjectName("toolBarEdit");
+    toolBarEdit->addAction(this->ui->actionUndo);
+    toolBarEdit->addAction(this->ui->actionRedo);
+    toolBarEdit->addSeparator();
+    toolBarEdit->addAction(this->ui->actionCopy);
+    toolBarEdit->addAction(this->ui->actionPaste);
+    toolBarEdit->addAction(this->ui->actionCut);
+    QToolBar *toolBarTool = addToolBar(tr("Tool"));
+    toolBarTool->setObjectName("toolBarTool");
+    toolBarTool->addAction(this->ui->actionPreview);
 }
 
 void Marken::on_actionNew_triggered() {
@@ -54,7 +80,7 @@ bool Marken::tryOpen(const QString &path) {
 
 void Marken::on_actionOpen_triggered() {
     QString caption = tr("Open File");
-    QString dir = ".";
+    QString dir = "";
     QString filter = tr("Markdown file(*.md);;All files(*.*)");
     QStringList pathes = QFileDialog::getOpenFileNames(this, caption, dir, filter);
     for (auto path : pathes) {
@@ -75,7 +101,7 @@ bool Marken::trySave() {
     if (editor->path().isEmpty()) {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
-        QString dir = ".";
+        QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
         if (path.isEmpty()) {
@@ -94,7 +120,7 @@ void Marken::on_actionSave_triggered() {
 void Marken::on_actionSave_All_triggered() {
     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
         this->ui->tabWidget->setCurrentIndex(i);
-        if (not this->trySave()) {
+        if (!this->trySave()) {
             break;
         }
     }
@@ -105,10 +131,10 @@ void Marken::on_actionSave_As_triggered() {
     if (index != -1) {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
-        QString dir = ".";
+        QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
-        if (not path.isEmpty()) {
+        if (!path.isEmpty()) {
             editor->saveAs(path);
         }
     }
@@ -158,10 +184,10 @@ bool Marken::tryCloseAll() {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
         if (editor->isModified()) {
             if (saveAll) {
-                if (not this->trySave()) {
+                if (!this->trySave()) {
                     return false;
                 }
-            } else if (not ignoreAll) {
+            } else if (!ignoreAll) {
                 QString title = tr("Save File");
                 QString text = tr("File is modified, save file?");
                 auto buttons = QMessageBox::Yes | QMessageBox::No |
@@ -171,7 +197,7 @@ bool Marken::tryCloseAll() {
                 auto result = QMessageBox::question(this, title, text, buttons, defaultButton);
                 switch (result) {
                 case QMessageBox::Yes:
-                    if (not this->trySave()) {
+                    if (!this->trySave()) {
                         return false;
                     }
                     break;
@@ -179,7 +205,7 @@ bool Marken::tryCloseAll() {
                     break;
                 case QMessageBox::YesToAll:
                     saveAll = true;
-                    if (not this->trySave()) {
+                    if (!this->trySave()) {
                         return false;
                     }
                     break;
@@ -209,6 +235,9 @@ void Marken::on_actionQuit_triggered() {
 
 void Marken::closeEvent(QCloseEvent *event) {
     if (this->tryCloseAll()) {
+        QSettings settings;
+        settings.setValue("mainWindowGeometry", saveGeometry());
+        settings.setValue("mainWindowState", saveState());
         event->accept();
     } else {
         event->ignore();
