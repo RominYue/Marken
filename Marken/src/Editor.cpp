@@ -114,7 +114,7 @@ void Editor::updateTitle() {
 }
 
 void Editor::on_textEdit_textChanged() {
-    if (not this->_modified) {
+    if (!this->_modified) {
         int newLength = this->ui->textEdit->toPlainText().length();
         if (this->_lastLength != newLength) {
             this->_modified = true;

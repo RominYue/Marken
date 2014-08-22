@@ -90,7 +90,7 @@ QString ColorSchemeSetting::color2str(const QColor &color) const {
 
 void ColorSchemeSetting::load() {
     QFile file("style/colorscheme.xml");
-    if (not file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return;
     }
     QDomDocument document;
@@ -99,14 +99,14 @@ void ColorSchemeSetting::load() {
     this->_currentScheme = editor.attribute("scheme", "Default");
     this->_schemes.clear();
     for (auto schemeElement = editor.firstChildElement();
-         not schemeElement.isNull();
+         !schemeElement.isNull();
          schemeElement = schemeElement.nextSiblingElement()) {
         QString schemeName = schemeElement.attribute("name");
         ColorScheme scheme;
         scheme.setFontFamily(schemeElement.attribute("family"));
         scheme.setFontSize(schemeElement.attribute("size").toInt());
         for (auto colorElement = schemeElement.firstChildElement();
-             not colorElement.isNull();
+             !colorElement.isNull();
              colorElement = colorElement.nextSiblingElement()) {
             QString nodeName = colorElement.attribute("name");
             ColorSchemeNode node;
@@ -158,7 +158,7 @@ void ColorSchemeSetting::save() {
     }
     document.appendChild(editor);
     QFile file("style/colorscheme.xml");
-    if (not file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
     }
     QTextStream out(&file);

@@ -80,7 +80,7 @@ bool Marken::tryOpen(const QString &path) {
 
 void Marken::on_actionOpen_triggered() {
     QString caption = tr("Open File");
-    QString dir = ".";
+    QString dir = "";
     QString filter = tr("Markdown file(*.md);;All files(*.*)");
     QStringList pathes = QFileDialog::getOpenFileNames(this, caption, dir, filter);
     for (auto path : pathes) {
@@ -101,7 +101,7 @@ bool Marken::trySave() {
     if (editor->path().isEmpty()) {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
-        QString dir = ".";
+        QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
         if (path.isEmpty()) {
@@ -120,7 +120,7 @@ void Marken::on_actionSave_triggered() {
 void Marken::on_actionSave_All_triggered() {
     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
         this->ui->tabWidget->setCurrentIndex(i);
-        if (not this->trySave()) {
+        if (!this->trySave()) {
             break;
         }
     }
@@ -131,10 +131,10 @@ void Marken::on_actionSave_As_triggered() {
     if (index != -1) {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
-        QString dir = ".";
+        QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
-        if (not path.isEmpty()) {
+        if (!path.isEmpty()) {
             editor->saveAs(path);
         }
     }
@@ -184,10 +184,10 @@ bool Marken::tryCloseAll() {
         Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
         if (editor->isModified()) {
             if (saveAll) {
-                if (not this->trySave()) {
+                if (!this->trySave()) {
                     return false;
                 }
-            } else if (not ignoreAll) {
+            } else if (!ignoreAll) {
                 QString title = tr("Save File");
                 QString text = tr("File is modified, save file?");
                 auto buttons = QMessageBox::Yes | QMessageBox::No |
@@ -197,7 +197,7 @@ bool Marken::tryCloseAll() {
                 auto result = QMessageBox::question(this, title, text, buttons, defaultButton);
                 switch (result) {
                 case QMessageBox::Yes:
-                    if (not this->trySave()) {
+                    if (!this->trySave()) {
                         return false;
                     }
                     break;
@@ -205,7 +205,7 @@ bool Marken::tryCloseAll() {
                     break;
                 case QMessageBox::YesToAll:
                     saveAll = true;
-                    if (not this->trySave()) {
+                    if (!this->trySave()) {
                         return false;
                     }
                     break;
