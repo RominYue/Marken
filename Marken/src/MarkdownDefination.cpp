@@ -20,10 +20,10 @@ QString MarkdownDefination::getString(SyntaxType type) {
         return "Atx Header 5";
     case ATX_HEADER_6:
         return "Atx Header 6";
-    case SETEX_HEADER_1:
-        return "Setex Header 1";
-    case SETEX_HEADER_2:
-        return "Setex Header 2";
+    case SETEXT_HEADER_1:
+        return "Setext Header 1";
+    case SETEXT_HEADER_2:
+        return "Setext Header 2";
     case HORIZONTAL:
         return "Horizontal";
     case BLOCK_QUOTE:

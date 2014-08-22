@@ -12,11 +12,15 @@ const QRegExp& MarkdownRegex::regex(MarkdownDefination::SyntaxType name) const {
     if (this->_regex.contains(name)) {
         return this->_regex.find(name).value();
     }
-    return this->_matchNothing;
+    return this->_matchEmpty;
+}
+
+const QRegExp& MarkdownRegex::empty() const {
+    return this->_matchEmpty;
 }
 
 void MarkdownRegex::initRegex() {
-    this->_matchNothing = QRegExp("^$");
+    this->_matchEmpty = QRegExp("^$");
     this->_regex[MarkdownDefination::DEFAULT] = QRegExp("^.*$");
     this->_regex[MarkdownDefination::ATX_HEADER_1] = QRegExp("^#([^#].*|$)");
     this->_regex[MarkdownDefination::ATX_HEADER_2] = QRegExp("^#{2}([^#].*|$)");
@@ -24,9 +28,9 @@ void MarkdownRegex::initRegex() {
     this->_regex[MarkdownDefination::ATX_HEADER_4] = QRegExp("^#{4}([^#].*|$)");
     this->_regex[MarkdownDefination::ATX_HEADER_5] = QRegExp("^#{5}([^#].*|$)");
     this->_regex[MarkdownDefination::ATX_HEADER_6] = QRegExp("^#{6}([^#].*|$)");
-    this->_regex[MarkdownDefination::SETEX_HEADER_1] = QRegExp("^=+$");
-    this->_regex[MarkdownDefination::SETEX_HEADER_2] = QRegExp("^-+$");
-    this->_regex[MarkdownDefination::HORIZONTAL] = QRegExp("^([\\*\\-_]\\W*){3,}$");
+    this->_regex[MarkdownDefination::SETEXT_HEADER_1] = QRegExp("^=+$");
+    this->_regex[MarkdownDefination::SETEXT_HEADER_2] = QRegExp("^-+$");
+    this->_regex[MarkdownDefination::HORIZONTAL] = QRegExp("^([\\*-_]\\W*){3,}$");
     this->_regex[MarkdownDefination::BLOCK_QUOTE] = QRegExp("^>");
     this->_regex[MarkdownDefination::UNORDERED_LIST] = QRegExp("^[\\*\\+-]");
     this->_regex[MarkdownDefination::ORDERED_LIST] = QRegExp("^\\d+\\.");

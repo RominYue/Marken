@@ -29,7 +29,6 @@ SOURCES += src/main.cpp\
     src/ColorSchemeNode.cpp \
     src/ColorScheme.cpp \
     src/ColorWidget.cpp \
-    src/HTMLGenerator.cpp \
     src/MarkdownRegex.cpp \
     src/MarkdownDefination.cpp
 
@@ -43,7 +42,6 @@ HEADERS  += include/Marken.h \
     include/ColorSchemeNode.h \
     include/ColorScheme.h \
     include/ColorWidget.h \
-    include/HTMLGenerator.h \
     include/MarkdownRegex.h \
     include/MarkdownDefination.h
 
