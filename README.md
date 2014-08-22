@@ -6,3 +6,4 @@ Marken is an Markdown editor.
 
 * Markdown syntax highlight.
 * Custom color scheme.
+* Convert Markdown document to HTML.
