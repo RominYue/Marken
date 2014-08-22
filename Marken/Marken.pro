@@ -45,3 +45,6 @@ FORMS    += form/Marken.ui \
     form/Editor.ui \
     form/Previewer.ui \
     form/ColorSchemeWidget.ui
+
+RESOURCES += \
+    icons.qrc
