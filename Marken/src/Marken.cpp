@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QDialog>
 #include <QHBoxLayout>
+#include <QSettings>
 #include "ColorSchemeWidget.h"
 #include "Setting.h"
 #include "Editor.h"
@@ -19,11 +20,36 @@ Marken::Marken(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Marken) {
     this->ui->setupUi(this);
+    this->initToolbar();
     this->on_actionNew_triggered();
+    QSettings settings;
+    restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
+    restoreState(settings.value("mainWindowState").toByteArray());
 }
 
 Marken::~Marken() {
     delete ui;
+}
+
+void Marken::initToolbar() {
+    QToolBar *toolBarFile = addToolBar(tr("File"));
+    toolBarFile->setObjectName("toolBarFile");
+    toolBarFile->addAction(this->ui->actionNew);
+    toolBarFile->addAction(this->ui->actionOpen);
+    toolBarFile->addAction(this->ui->actionSave);
+    toolBarFile->addAction(this->ui->actionSave_As);
+    toolBarFile->addAction(this->ui->actionSave_All);
+    QToolBar *toolBarEdit = addToolBar(tr("Edit"));
+    toolBarEdit->setObjectName("toolBarEdit");
+    toolBarEdit->addAction(this->ui->actionUndo);
+    toolBarEdit->addAction(this->ui->actionRedo);
+    toolBarEdit->addSeparator();
+    toolBarEdit->addAction(this->ui->actionCopy);
+    toolBarEdit->addAction(this->ui->actionPaste);
+    toolBarEdit->addAction(this->ui->actionCut);
+    QToolBar *toolBarTool = addToolBar(tr("Tool"));
+    toolBarTool->setObjectName("toolBarTool");
+    toolBarTool->addAction(this->ui->actionPreview);
 }
 
 void Marken::on_actionNew_triggered() {
@@ -209,6 +235,9 @@ void Marken::on_actionQuit_triggered() {
 
 void Marken::closeEvent(QCloseEvent *event) {
     if (this->tryCloseAll()) {
+        QSettings settings;
+        settings.setValue("mainWindowGeometry", saveGeometry());
+        settings.setValue("mainWindowState", saveState());
         event->accept();
     } else {
         event->ignore();

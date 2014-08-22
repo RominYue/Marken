@@ -1,5 +1,18 @@
 <RCC>
     <qresource prefix="/">
         <file>icon/new.png</file>
+        <file>icon/open.png</file>
+        <file>icon/save all.png</file>
+        <file>icon/save.png</file>
+        <file>icon/save_as.png</file>
+        <file>icon/close.png</file>
+        <file>icon/quit.png</file>
+        <file>icon/copy.png</file>
+        <file>icon/cut.png</file>
+        <file>icon/paste.png</file>
+        <file>icon/preference.png</file>
+        <file>icon/redo.png</file>
+        <file>icon/undo.png</file>
+        <file>icon/preview.png</file>
     </qresource>
 </RCC>

@@ -105,14 +105,6 @@
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetPreview">
    <property name="windowTitle">
@@ -144,7 +136,19 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/open.png</normaloff>:/icon/open.png</iconset>
+   </property>
    <property name="text">
     <string>Open...(&amp;O)</string>
    </property>
@@ -153,6 +157,10 @@
    </property>
   </action>
   <action name="actionNew">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/new.png</normaloff>:/icon/new.png</iconset>
+   </property>
    <property name="text">
     <string>New(&amp;N)</string>
    </property>
@@ -161,6 +169,10 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/save.png</normaloff>:/icon/save.png</iconset>
+   </property>
    <property name="text">
     <string>Save(&amp;S)</string>
    </property>
@@ -169,6 +181,10 @@
    </property>
   </action>
   <action name="actionSave_As">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/save_as.png</normaloff>:/icon/save_as.png</iconset>
+   </property>
    <property name="text">
     <string>Save As...</string>
    </property>
@@ -177,6 +193,10 @@
    </property>
   </action>
   <action name="actionClose">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/close.png</normaloff>:/icon/close.png</iconset>
+   </property>
    <property name="text">
     <string>Close(&amp;C)</string>
    </property>
@@ -185,6 +205,10 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/quit.png</normaloff>:/icon/quit.png</iconset>
+   </property>
    <property name="text">
     <string>Quit(&amp;Q)</string>
    </property>
@@ -198,11 +222,19 @@
    </property>
   </action>
   <action name="actionSave_All">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/save all.png</normaloff>:/icon/save all.png</iconset>
+   </property>
    <property name="text">
     <string>Save All</string>
    </property>
   </action>
   <action name="actionUndo">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/undo.png</normaloff>:/icon/undo.png</iconset>
+   </property>
    <property name="text">
     <string>Undo(&amp;U)</string>
    </property>
@@ -211,6 +243,10 @@
    </property>
   </action>
   <action name="actionRedo">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/redo.png</normaloff>:/icon/redo.png</iconset>
+   </property>
    <property name="text">
     <string>Redo(&amp;R)</string>
    </property>
@@ -219,6 +255,10 @@
    </property>
   </action>
   <action name="actionCut">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+   </property>
    <property name="text">
     <string>Cut(&amp;X)</string>
    </property>
@@ -227,6 +267,10 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/copy.png</normaloff>:/icon/copy.png</iconset>
+   </property>
    <property name="text">
     <string>Copy(&amp;C)</string>
    </property>
@@ -235,6 +279,10 @@
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/paste.png</normaloff>:/icon/paste.png</iconset>
+   </property>
    <property name="text">
     <string>Paste(&amp;V)</string>
    </property>
@@ -264,11 +312,19 @@
    </property>
   </action>
   <action name="actionPreference">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/preference.png</normaloff>:/icon/preference.png</iconset>
+   </property>
    <property name="text">
     <string>Preference...</string>
    </property>
   </action>
   <action name="actionPreview">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/preview.png</normaloff>:/icon/preview.png</iconset>
+   </property>
    <property name="text">
     <string>Preview(&amp;P)</string>
    </property>
@@ -291,6 +347,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

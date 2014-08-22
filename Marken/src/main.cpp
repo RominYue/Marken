@@ -2,9 +2,12 @@
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    Marken w;
-    w.show();
-
-    return a.exec();
+    QApplication app(argc, argv);
+    QCoreApplication::setOrganizationDomain("Marken");
+    QCoreApplication::setOrganizationName("Marken");
+    QCoreApplication::setApplicationName("Marken");
+    QCoreApplication::setApplicationVersion("1.0.0");
+    Marken marken;
+    marken.show();
+    return app.exec();
 }
