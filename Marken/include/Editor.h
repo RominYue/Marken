@@ -2,7 +2,8 @@
 #define EDITOR_H
 
 #include <QWidget>
-#include <QTextEdit>
+#include <QPaintEvent>
+#include "MarkdownEditor.h"
 #include "MarkdownHighlighter.h"
 
 namespace Ui {
@@ -25,7 +26,7 @@ public:
     void save();
     void saveAs(const QString &path);
 
-    QTextEdit* textEdit() const;
+    MarkdownEditor* editor() const;
 
     void updateColorScheme();
     void rehighlight();
@@ -42,7 +43,7 @@ private:
     void updateTitle();
 
 private slots:
-    void on_textEdit_textChanged();
+    void on_markdownEditor_textChanged();
 };
 
 #endif // EDITOR_H

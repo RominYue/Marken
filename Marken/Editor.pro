@@ -30,7 +30,8 @@ SOURCES += src/main.cpp\
     src/ColorScheme.cpp \
     src/ColorWidget.cpp \
     src/MarkdownRegex.cpp \
-    src/MarkdownDefination.cpp
+    src/MarkdownDefination.cpp \
+    src/MarkdownEditor.cpp
 
 HEADERS  += include/Marken.h \
     include/Editor.h \
@@ -43,7 +44,8 @@ HEADERS  += include/Marken.h \
     include/ColorScheme.h \
     include/ColorWidget.h \
     include/MarkdownRegex.h \
-    include/MarkdownDefination.h
+    include/MarkdownDefination.h \
+    include/MarkdownEditor.h
 
 FORMS    += form/Marken.ui \
     form/Editor.ui \

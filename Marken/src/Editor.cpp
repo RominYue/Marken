@@ -12,12 +12,13 @@ Editor::Editor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Editor) {
     this->ui->setupUi(this);
-    this->highlighter = new MarkdownHighlighter(this->ui->textEdit->document());
+    this->highlighter = new MarkdownHighlighter(this->ui->markdownEditor->document());
     this->_name = tr("New File");
     this->_path = "";
     this->updateColorScheme();
     this->_modified = false;
     this->_lastLength = 0;
+    this->connect(this->ui->markdownEditor, SIGNAL(textChanged()), this, SLOT(on_markdownEditor_textChanged()));
 }
 
 Editor::~Editor() {
@@ -48,11 +49,11 @@ void Editor::open(const QString &path) {
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         in.setCodec("UTF-8");
-        this->ui->textEdit->setText(in.readAll());
+        this->ui->markdownEditor->setPlainText(in.readAll());
         file.close();
         this->_modified = false;
     }
-    this->_lastLength = this->ui->textEdit->toPlainText().length();
+    this->_lastLength = this->ui->markdownEditor->toPlainText().length();
 }
 
 void Editor::save() {
@@ -60,7 +61,7 @@ void Editor::save() {
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
         out.setCodec("UTF-8");
-        out << this->ui->textEdit->toPlainText();
+        out << this->ui->markdownEditor->toPlainText();
         out.flush();
         file.close();
         if (this->_modified) {
@@ -75,18 +76,17 @@ void Editor::saveAs(const QString &path) {
     this->save();
 }
 
-QTextEdit* Editor::textEdit() const {
-    return this->ui->textEdit;
+MarkdownEditor* Editor::editor() const {
+    return this->ui->markdownEditor;
 }
 
 void Editor::updateColorScheme() {
     ColorSchemeSetting& scheme = Setting::instance()->colorScheme;
     ColorSchemeNode& node = scheme.scheme().color("Default");
-    this->ui->textEdit->setFont(scheme.font());
-    this->ui->textEdit->setTextColor(node.foreground());
-    QPalette palette = this->ui->textEdit->palette();
+    this->ui->markdownEditor->setFont(scheme.font());
+    QPalette palette = this->ui->markdownEditor->palette();
     palette.setColor(QPalette::Base, node.background());
-    this->ui->textEdit->setPalette(palette);
+    this->ui->markdownEditor->setPalette(palette);
 }
 
 void Editor::rehighlight() {
@@ -113,9 +113,9 @@ void Editor::updateTitle() {
     }
 }
 
-void Editor::on_textEdit_textChanged() {
+void Editor::on_markdownEditor_textChanged() {
     if (!this->_modified) {
-        int newLength = this->ui->textEdit->toPlainText().length();
+        int newLength = this->ui->markdownEditor->toPlainText().length();
         if (this->_lastLength != newLength) {
             this->_modified = true;
             this->updateTitle();
@@ -123,4 +123,3 @@ void Editor::on_textEdit_textChanged() {
         }
     }
 }
-

@@ -44,7 +44,7 @@ void Previewer::showPreview(Editor* editor) {
     }
     QTextStream out(&markdownFile);
     out.setCodec("UTF-8");
-    out << editor->textEdit()->toPlainText() << endl;
+    out << editor->editor()->toPlainText() << endl;
     markdownFile.close();
     QProcess::execute("./mdc " + randomName + ".md " + randomName + ".html");
     QFile htmlFile(randomName + ".html");

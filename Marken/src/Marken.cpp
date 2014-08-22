@@ -254,7 +254,7 @@ void Marken::on_actionUndo_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Z, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -263,7 +263,7 @@ void Marken::on_actionRedo_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -272,7 +272,7 @@ void Marken::on_actionCut_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -281,7 +281,7 @@ void Marken::on_actionCopy_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -290,7 +290,7 @@ void Marken::on_actionPaste_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -299,7 +299,7 @@ void Marken::on_actionDelete_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
@@ -308,7 +308,7 @@ void Marken::on_actionSelect_All_triggered() {
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_A, Qt::ControlModifier);
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
-        QCoreApplication::postEvent(editor->textEdit(), event);
+        QCoreApplication::postEvent(editor->editor(), event);
     }
 }
 
