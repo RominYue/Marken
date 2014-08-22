@@ -19,8 +19,8 @@ private:
     QRegExp inlineLinkRegex;
     QRegExp referenceLinkRegex;
     QRegExp linkLabelRegex;
-    QRegExp emEmphasisRegex;
-    QRegExp strongEmphasisRegex;
+    QRegExp emphasisRegex;
+    QRegExp strongRegex;
     QRegExp imageRegex;
     QRegExp inlineCodeRegex;
 };

@@ -3,8 +3,7 @@
 
 Setting* Setting::_instance = nullptr;
 
-Setting::Setting()
-{
+Setting::Setting() {
 }
 
 Setting* Setting::instance() {

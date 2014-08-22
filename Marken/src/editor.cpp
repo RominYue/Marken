@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QTabWidget>
 #include <QTextStream>
+#include <QPalette>
+#include "Setting.h"
 #include "MarkdownHighlighter.h"
 #include "Editor.h"
 #include "ui_editor.h"
@@ -14,6 +16,7 @@ Editor::Editor(QWidget *parent) :
     this->_name = tr("New File");
     this->_path = "";
     this->_modified = false;
+    this->updateColorScheme();
 }
 
 Editor::~Editor() {
@@ -72,6 +75,16 @@ void Editor::saveAs(const QString &path) {
 
 QTextEdit* Editor::textEdit() const {
     return this->ui->textEdit;
+}
+
+void Editor::updateColorScheme() {
+    ColorSchemeSetting& scheme = Setting::instance()->colorScheme;
+    ColorSchemeNode& node = scheme.scheme().color("Default");
+    this->ui->textEdit->setFont(scheme.font());
+    this->ui->textEdit->setTextColor(node.foreground());
+    QPalette palette = this->ui->textEdit->palette();
+    palette.setColor(QPalette::Base, node.background());
+    this->ui->textEdit->setPalette(palette);
 }
 
 void Editor::updateTitle() {

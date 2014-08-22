@@ -38,12 +38,7 @@ void ColorSchemeWidget::updateColorItem(QListWidgetItem *item) {
         auto node = colorScheme.scheme().color(item->text());
         item->setTextColor(node.foreground());
         item->setBackgroundColor(node.background());
-        QFont font;
-        font.setFamily(colorScheme.fontFamily());
-        font.setPointSize(colorScheme.fontSize());
-        font.setBold(node.isBold());
-        font.setItalic(node.isItalic());
-        item->setFont(font);
+        item->setFont(colorScheme.font(item->text()));
     }
 }
 

@@ -292,4 +292,7 @@ void Marken::on_actionPreference_triggered() {
     dialog.setLayout(new QHBoxLayout());
     dialog.layout()->addWidget(new ColorSchemeWidget());
     dialog.exec();
+    Setting::instance()->colorScheme.save();
+    ((Editor*)this->ui->tabWidget->currentWidget())->updateColorScheme();
+    ((Editor*)this->ui->tabWidget->currentWidget())->textEdit()->setText(((Editor*)this->ui->tabWidget->currentWidget())->textEdit()->toPlainText());
 }

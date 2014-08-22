@@ -2,6 +2,7 @@
 #define COLORSCHEME_H
 
 #include <QMap>
+#include <QFont>
 #include <QString>
 #include "ColorSchemeNode.h"
 
@@ -12,8 +13,8 @@ public:
 
     const QString& fontFamily() const;
     int fontSize() const;
-    const QMap<QString, ColorSchemeNode>& colors() const;
-    const ColorSchemeNode& color(const QString &section) const;
+    QMap<QString, ColorSchemeNode>& colors();
+    ColorSchemeNode &color(const QString &section);
 
     void setFontFamily(const QString &family);
     void setFontSize(int size);

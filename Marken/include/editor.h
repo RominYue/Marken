@@ -26,6 +26,8 @@ public:
 
     QTextEdit* textEdit() const;
 
+    void updateColorScheme();
+
 private:
     Ui::Editor *ui;
     QString _name;

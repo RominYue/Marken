@@ -3,8 +3,7 @@
 
 #include "ColorSchemeSetting.h"
 
-class Setting
-{
+class Setting {
 public:
     static Setting* instance();
     ColorSchemeSetting colorScheme;

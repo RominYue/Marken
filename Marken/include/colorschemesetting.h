@@ -1,6 +1,7 @@
 #ifndef SETTINGEDITOR_H
 #define SETTINGEDITOR_H
 
+#include <QTextCharFormat>
 #include "ColorScheme.h"
 
 class ColorSchemeSetting {
@@ -25,6 +26,11 @@ public:
     bool isSchemeExist(const QString &schemeName) const;
     void cloneScheme(const QString &clone);
     void deleteScheme(const QString &schemeName);
+
+    QFont font();
+    QFont font(const QString &colorName);
+    QTextCharFormat format();
+    QTextCharFormat format(const QString &colorName);
 
 private:
     QString _currentScheme;

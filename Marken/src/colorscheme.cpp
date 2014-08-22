@@ -14,11 +14,11 @@ int ColorScheme::fontSize() const {
     return this->_fontSize;
 }
 
-const QMap<QString, ColorSchemeNode>& ColorScheme::colors() const {
+QMap<QString, ColorSchemeNode> &ColorScheme::colors() {
     return this->_colors;
 }
 
-const ColorSchemeNode& ColorScheme::color(const QString &section) const {
+ColorSchemeNode& ColorScheme::color(const QString &section) {
     return this->_colors.find(section).value();
 }
 

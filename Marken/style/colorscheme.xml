@@ -1,128 +1,128 @@
 <editor scheme="Default">
-  <scheme name="Default" size="12" family="Consolas">
+  <scheme family="Consolas" name="Default" size="12">
     <node name="Atx Header 1">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#22CEE1</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Atx Header 2">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#1FC2D0</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Atx Header 3">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#1DBBC6</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Atx Header 4">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#1AB0B8</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Atx Header 5">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#179EA5</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Atx Header 6">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#149094</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Block Quote">
-      <foreground>#FFFFFF</foreground>
-      <background>#111111</background>
+      <foreground>#ADADAD</foreground>
+      <background>#444444</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Code Block">
       <foreground>#FFFFFF</foreground>
-      <background>#111111</background>
+      <background>#2D2D2D</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Default">
       <foreground>#FFFFFF</foreground>
-      <background>#000000</background>
+      <background>#1B1B1B</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Emphasis">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#FFFFFF</foreground>
+      <background>#1B1B1B</background>
       <bold>false</bold>
       <italic>true</italic>
     </node>
     <node name="Horizontal">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#9BAEFF</foreground>
+      <background>#1B1B1B</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Image">
-      <foreground>#7F0000</foreground>
-      <background>#000000</background>
+      <foreground>#9F9522</foreground>
+      <background>#2A2A2A</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Inline Code">
       <foreground>#FFFFFF</foreground>
-      <background>#333333</background>
+      <background>#565656</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Inline Link">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#B39444</foreground>
+      <background>#2A2A2A</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Link Label">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#B36C39</foreground>
+      <background>#2A2A2A</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Ordered List">
-      <foreground>#FFFFFF</foreground>
-      <background>#000033</background>
+      <foreground>#E2E533</foreground>
+      <background>#1B1B1B</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Reference Link">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#B3A434</foreground>
+      <background>#2A2A2A</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>
     <node name="Setext Header 1">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#19CADD</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Setext Header 2">
-      <foreground>#00007F</foreground>
-      <background>#000000</background>
+      <foreground>#0C9BA2</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Strong">
-      <foreground>#B30059</foreground>
-      <background>#000000</background>
+      <foreground>#FFFFFF</foreground>
+      <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
     <node name="Unordered List">
-      <foreground>#FFFFFF</foreground>
-      <background>#000033</background>
+      <foreground>#69FF18</foreground>
+      <background>#1B1B1B</background>
       <bold>false</bold>
       <italic>false</italic>
     </node>

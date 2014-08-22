@@ -197,3 +197,33 @@ void ColorSchemeSetting::deleteScheme(const QString &schemeName) {
     this->_schemes.remove(schemeName);
     this->_currentScheme = this->_schemes.keys()[0];
 }
+
+QFont ColorSchemeSetting::font() {
+    return this->font("Default");
+}
+
+QFont ColorSchemeSetting::font(const QString &colorName) {
+    QFont font;
+    font.setFamily(this->fontFamily());
+    font.setPointSize(this->fontSize());
+    auto node = this->scheme().color(colorName);
+    font.setBold(node.isBold());
+    font.setItalic(node.isItalic());
+    return font;
+}
+
+QTextCharFormat ColorSchemeSetting::format() {
+    return this->format("Default");
+}
+
+QTextCharFormat ColorSchemeSetting::format(const QString &colorName) {
+    QTextCharFormat format;
+    format.setFontFamily(this->fontFamily());
+    format.setFontPointSize(this->fontSize());
+    auto node = this->scheme().color(colorName);
+    format.setForeground(node.foreground());
+    format.setBackground(node.background());
+    format.setFontWeight(node.isBold() ? QFont::Bold : QFont::Normal);
+    format.setFontItalic(node.isItalic());
+    return format;
+}
