@@ -12,15 +12,19 @@ public:
     const QString& fontFamily(const QString &schemeName) const;
     int fontSize() const;
     int fontSize(const QString &schemeName) const;
-    const ColorScheme& scheme() const;
-    const ColorScheme& scheme(const QString &schemeName) const;
+    ColorScheme& scheme();
+    ColorScheme &scheme(const QString &schemeName);
 
     void setCurrentScheme(const QString &schemeName);
     const QString& currentScheme() const;
-    const QMap<QString, ColorScheme>& schemes() const;
+    QMap<QString, ColorScheme>& schemes();
 
     void load();
     void save();
+
+    bool isSchemeExist(const QString &schemeName) const;
+    void cloneScheme(const QString &clone);
+    void deleteScheme(const QString &schemeName);
 
 private:
     QString _currentScheme;

@@ -114,7 +114,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="1" column="1">
-           <widget class="QWidget" name="widget_2" native="true">
+           <widget class="ColorWidget" name="colorBackground" native="true">
             <property name="minimumSize">
              <size>
               <width>30</width>
@@ -144,7 +144,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QWidget" name="widget" native="true">
+           <widget class="ColorWidget" name="colorForeground" native="true">
             <property name="minimumSize">
              <size>
               <width>30</width>
@@ -195,6 +195,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">ColorWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

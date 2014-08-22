@@ -27,7 +27,8 @@ SOURCES += src/main.cpp\
     src/Setting.cpp \
     src/ColorSchemeSetting.cpp \
     src/ColorSchemeNode.cpp \
-    src/ColorScheme.cpp
+    src/ColorScheme.cpp \
+    src/ColorWidget.cpp
 
 HEADERS  += include/Marken.h \
     include/Editor.h \
@@ -37,7 +38,8 @@ HEADERS  += include/Marken.h \
     include/Setting.h \
     include/ColorSchemeSetting.h \
     include/ColorSchemeNode.h \
-    include/ColorScheme.h
+    include/ColorScheme.h \
+    include/ColorWidget.h
 
 FORMS    += form/Marken.ui \
     form/Editor.ui \

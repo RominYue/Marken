@@ -27,11 +27,11 @@ int ColorSchemeSetting::fontSize(const QString &schemeName) const {
     return this->_schemes[schemeName].fontSize();
 }
 
-const ColorScheme& ColorSchemeSetting::scheme() const {
+ColorScheme &ColorSchemeSetting::scheme() {
     return this->_schemes.find(this->_currentScheme).value();
 }
 
-const ColorScheme& ColorSchemeSetting::scheme(const QString &schemeName) const {
+ColorScheme& ColorSchemeSetting::scheme(const QString &schemeName) {
     return this->_schemes.find(schemeName).value();
 }
 
@@ -43,7 +43,7 @@ const QString& ColorSchemeSetting::currentScheme() const {
     return this->_currentScheme;
 }
 
-const QMap<QString, ColorScheme>& ColorSchemeSetting::schemes() const {
+QMap<QString, ColorScheme> &ColorSchemeSetting::schemes() {
     return this->_schemes;
 }
 
@@ -165,4 +165,35 @@ void ColorSchemeSetting::save() {
     out.setCodec("UTF-8");
     document.save(out, 2);
     file.close();
+}
+
+bool ColorSchemeSetting::isSchemeExist(const QString &schemeName) const {
+    for (auto name : this->_schemes.keys()) {
+        if (name == schemeName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void ColorSchemeSetting::cloneScheme(const QString &clone) {
+    auto scheme = this->scheme();
+    ColorScheme cloneScheme;
+    cloneScheme.setFontFamily(scheme.fontFamily());
+    cloneScheme.setFontSize(scheme.fontSize());
+    for (auto nodeName : scheme.colors().keys()) {
+        auto node = scheme.colors().value(nodeName);
+        ColorSchemeNode cloneNode;
+        cloneNode.setForeground(node.foreground());
+        cloneNode.setBackground(node.background());
+        cloneNode.setBold(node.isBold());
+        cloneNode.setItalic(node.isItalic());
+        cloneScheme.setColor(nodeName, cloneNode);
+    }
+    this->_schemes[clone] = cloneScheme;
+}
+
+void ColorSchemeSetting::deleteScheme(const QString &schemeName) {
+    this->_schemes.remove(schemeName);
+    this->_currentScheme = this->_schemes.keys()[0];
 }

@@ -6,6 +6,9 @@
 #include <QKeyEvent>
 #include <QCoreApplication>
 #include <QUrl>
+#include <QDialog>
+#include <QHBoxLayout>
+#include "ColorSchemeWidget.h"
 #include "Setting.h"
 #include "Editor.h"
 #include "Marken.h"
@@ -284,5 +287,9 @@ void Marken::on_actionFind_Replace_triggered() {
 }
 
 void Marken::on_actionPreference_triggered() {
-    // TODO
+    // Test
+    QDialog dialog;
+    dialog.setLayout(new QHBoxLayout());
+    dialog.layout()->addWidget(new ColorSchemeWidget());
+    dialog.exec();
 }
