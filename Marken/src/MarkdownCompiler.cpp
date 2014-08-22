@@ -8,7 +8,7 @@ void MarkdownCompiler::analysis(const QStringList &list) {
     for (int i = 0; i < list.size(); ++i) {
         if (this->_regex.empty().indexIn(list[i]) == 0) {
             this->_types.push_back(LINE_EMPTY);
-        } if (this->_regex.regex(MarkdownDefination::ATX_HEADER_1).indexIn(list[i]) == 0) {
+        } else if (this->_regex.regex(MarkdownDefination::ATX_HEADER_1).indexIn(list[i]) == 0) {
             this->_types.push_back(LINE_ATX_HEADER_1);
         } else if (this->_regex.regex(MarkdownDefination::ATX_HEADER_2).indexIn(list[i]) == 0) {
             this->_types.push_back(LINE_ATX_HEADER_2);
@@ -32,6 +32,18 @@ void MarkdownCompiler::analysis(const QStringList &list) {
             this->_types.push_back(LINE_HORIZONTAL);
         } else if (this->_regex.regex(MarkdownDefination::HORIZONTAL).indexIn(list[i]) == 0) {
             this->_types.push_back(LINE_HORIZONTAL);
+        } else if (this->_regex.regex(MarkdownDefination::BLOCK_QUOTE).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_BLOCK_QUOTE);
+        } else if (this->_regex.regex(MarkdownDefination::UNORDERED_LIST).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_UNORDERED_LIST);
+        } else if (this->_regex.regex(MarkdownDefination::ORDERED_LIST).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_ORDERED_LIST);
+        }else if (this->_regex.regex(MarkdownDefination::BLOCK_QUOTE).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_BLOCK_QUOTE);
+        } else if (this->_regex.regex(MarkdownDefination::CODE_BLOCK).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_CODE_BLOCK);
+        } else if (this->_regex.regex(MarkdownDefination::LINK_LABEL).indexIn(list[i]) == 0) {
+            this->_types.push_back(LINE_LINK_LABEL);
         } else {
             this->_types.push_back(LINE_DEFAULT);
         }
@@ -41,50 +53,80 @@ void MarkdownCompiler::analysis(const QStringList &list) {
 QString MarkdownCompiler::parseToHTML(const QStringList &list) {
     QString html;
     this->analysis(list);
-    for (int i = 0; i < list.size(); ++i) {
-        switch (this->_types[i]) {
-        case LINE_DEFAULT:
-            html += translate(list[i]) + "\n";
-            break;
-        case LINE_EMPTY:
-            break;
-        case LINE_ATX_HEADER_1:
-            html += "<h1>" + cleanHeader(list[i]) + "</h1>\n<hr>\n";
-            break;
-        case LINE_ATX_HEADER_2:
-            html += "<h2>" + cleanHeader(list[i]) + "</h2>\n<hr>\n";
-            break;
-        case LINE_ATX_HEADER_3:
-            html += "<h3>" + cleanHeader(list[i]) + "</h3>\n<hr>\n";
-            break;
-        case LINE_ATX_HEADER_4:
-            html += "<h4>" + cleanHeader(list[i]) + "</h4>\n";
-            break;
-        case LINE_ATX_HEADER_5:
-            html += "<h5>" + cleanHeader(list[i]) + "</h5>\n";
-            break;
-        case LINE_ATX_HEADER_6:
-            html += "<h6>" + cleanHeader(list[i]) + "</h6>\n";
-            break;
-        case LINE_SETEXT_HEADER_1:
-            html += "<h1>" + cleanHeader(list[i]) + "</h1>\n";
-            break;
-        case LINE_SETEXT_HEADER_2:
-            html += "<h2>" + cleanHeader(list[i]) + "</h2>\n";
-            break;
-        case LINE_BLOCK_QUOTE:
-            break;
-        case LINE_UNORDERED_LIST:
-            break;
-        case LINE_ORDERED_LIST:
-            break;
-        case LINE_CODE_BLOCK:
-            break;
-        case LINE_HORIZONTAL:
-            html += "<hr>\n";
-            break;
-        case LINE_LINK_LABEL:
-            break;
+    int cnt = 1;
+    for (int i = 1; i <= this->_types.size(); ++i) {
+        if (i == this->_types.size() || this->_types[i] != this->_types[i - 1]) {
+            switch (this->_types[i - 1]) {
+            case LINE_DEFAULT:
+                html += "<p>\n";
+                for (int j = cnt; j >= 1; --j) {
+                    html += translate(list[i - j]);
+                }
+                html += "\n</p>\n";
+                break;
+            case LINE_EMPTY:
+                break;
+            case LINE_ATX_HEADER_1:
+                html += "<h1>" + cleanHeader(list[i - 1]) + "</h1>\n<hr>\n";
+                break;
+            case LINE_ATX_HEADER_2:
+                html += "<h2>" + cleanHeader(list[i - 1]) + "</h2>\n<hr>\n";
+                break;
+            case LINE_ATX_HEADER_3:
+                html += "<h3>" + cleanHeader(list[i - 1]) + "</h3>\n<hr>\n";
+                break;
+            case LINE_ATX_HEADER_4:
+                html += "<h4>" + cleanHeader(list[i - 1]) + "</h4>\n";
+                break;
+            case LINE_ATX_HEADER_5:
+                html += "<h5>" + cleanHeader(list[i - 1]) + "</h5>\n";
+                break;
+            case LINE_ATX_HEADER_6:
+                html += "<h6>" + cleanHeader(list[i - 1]) + "</h6>\n";
+                break;
+            case LINE_SETEXT_HEADER_1:
+                html += "<h1>" + cleanHeader(list[i - 1]) + "</h1>\n";
+                break;
+            case LINE_SETEXT_HEADER_2:
+                html += "<h2>" + cleanHeader(list[i - 1]) + "</h2>\n";
+                break;
+            case LINE_BLOCK_QUOTE:
+                html += "<blockquote>\n";
+                for (int j = cnt; j >= 1; --j) {
+                    html += translate(list[i - j]) + "<br>\n";
+                }
+                html += "</blockquote>\n";
+                break;
+            case LINE_UNORDERED_LIST:
+                html += "<ul>\n";
+                for (int j = cnt; j >= 1; --j) {
+                    html += "<li>" + translate(list[i - j]) + "</li>\n";
+                }
+                html += "</ul>\n";
+                break;
+            case LINE_ORDERED_LIST:
+                html += "<ol>\n";
+                for (int j = cnt; j >= 1; --j) {
+                    html += "<li>" + translate(list[i - j]) + "</li>\n";
+                }
+                html += "</ol>\n";
+                break;
+            case LINE_CODE_BLOCK:
+                html += "<pre><code>\n";
+                for (int j = cnt; j >= 1; --j) {
+                    html += translate(list[i - j]) + "\n";
+                }
+                html += "</code></pre>\n";
+                break;
+            case LINE_HORIZONTAL:
+                html += "<hr>\n";
+                break;
+            case LINE_LINK_LABEL:
+                break;
+            }
+            cnt = 1;
+        } else {
+            ++cnt;
         }
     }
     return html;

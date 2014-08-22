@@ -10,7 +10,7 @@ This is the document about how **Marken** convert your Markdown document to HTML
 
 There are two styles of headers, Setext and atx.
 
-* Setext-style
+#### Setext-style
 
 Setext-style headers are "underlined" using equal signs (for first-level headers) and dashes (for second-level headers). For example:
 
@@ -27,7 +27,7 @@ Actually, the headers using underscore also meet the condition of the horizontal
     <h2>This is an H2</h1>
     <hr>
 
-* Atx-style
+#### Atx-style
 
 Atx-style headers begins with 1~6 hash characters, any number of hash characters in the end of line will be ignored. For example:
 

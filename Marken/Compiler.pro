@@ -4,7 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core testlib
+QT       += core
+
+debug {
+  QT += testlib
+}
 
 QT       -= gui
 

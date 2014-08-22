@@ -62,6 +62,6 @@ void MarkdownTest::testHorizontal_data() {
     QTest::newRow("Horizon +") << "+++" << "<hr>\n";
     QTest::newRow("Horizon -") << "---" << "<hr>\n";
     QTest::newRow("Horizon _") << "___" << "<hr>\n";
-    QTest::newRow("Horizon Not Enough +") << "++" << "++\n";
+    QTest::newRow("Horizon Not Enough _") << "_" << "<p>\n_\n</p>\n";
     QTest::newRow("Horizon Spaces +") << "+  +  +" << "<hr>\n";
 }

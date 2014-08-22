@@ -1,6 +1,3 @@
-#include <QFile>
-#include <QTextStream>
-#include <QStringList>
 #include "MarkdownCompiler.h"
 
 #ifdef QT_DEBUG
@@ -11,6 +8,9 @@
 QTEST_APPLESS_MAIN(MarkdownTest)
 
 #else
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
 
 int main(int argc, char *argv[]) {
     if (argc == 3) {

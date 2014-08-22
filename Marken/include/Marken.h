@@ -43,6 +43,9 @@ private slots:
     void on_actionDelete_triggered();
     void on_actionSelect_All_triggered();
     void on_actionPreference_triggered();
+    void on_actionPreview_triggered();
+
+    void on_actionSyntax_triggered();
 
 private:
     Ui::Marken *ui;

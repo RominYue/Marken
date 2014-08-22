@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core gui xml webkit webkitwidgets
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
