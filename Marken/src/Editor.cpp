@@ -12,11 +12,12 @@ Editor::Editor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Editor) {
     this->ui->setupUi(this);
-    new MarkdownHighlighter(this->ui->textEdit->document());
+    this->highlighter = new MarkdownHighlighter(this->ui->textEdit->document());
     this->_name = tr("New File");
     this->_path = "";
-    this->_modified = false;
     this->updateColorScheme();
+    this->_modified = false;
+    this->_lastLength = 0;
 }
 
 Editor::~Editor() {
@@ -51,6 +52,7 @@ void Editor::open(const QString &path) {
         file.close();
         this->_modified = false;
     }
+    this->_lastLength = this->ui->textEdit->toPlainText().length();
 }
 
 void Editor::save() {
@@ -87,6 +89,10 @@ void Editor::updateColorScheme() {
     this->ui->textEdit->setPalette(palette);
 }
 
+void Editor::rehighlight() {
+    this->highlighter->rehighlight();
+}
+
 void Editor::updateTitle() {
     QString title = this->_name;
     if (this->_modified) {
@@ -109,9 +115,11 @@ void Editor::updateTitle() {
 
 void Editor::on_textEdit_textChanged() {
     if (not this->_modified) {
-        if (not this->path().isEmpty()) {
+        int newLength = this->ui->textEdit->toPlainText().length();
+        if (this->_lastLength != newLength) {
             this->_modified = true;
             this->updateTitle();
+            this->_lastLength = newLength;
         }
     }
 }

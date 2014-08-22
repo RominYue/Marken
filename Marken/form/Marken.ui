@@ -86,8 +86,6 @@
     <addaction name="separator"/>
     <addaction name="actionSelect_All"/>
     <addaction name="separator"/>
-    <addaction name="actionFind_Replace"/>
-    <addaction name="separator"/>
     <addaction name="actionPreference"/>
    </widget>
    <widget class="QMenu" name="menuHelp">

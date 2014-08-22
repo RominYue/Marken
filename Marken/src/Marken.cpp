@@ -282,17 +282,15 @@ void Marken::on_actionSelect_All_triggered() {
     }
 }
 
-void Marken::on_actionFind_Replace_triggered() {
-    // TODO
-}
-
 void Marken::on_actionPreference_triggered() {
-    // Test
     QDialog dialog;
     dialog.setLayout(new QHBoxLayout());
     dialog.layout()->addWidget(new ColorSchemeWidget());
     dialog.exec();
     Setting::instance()->colorScheme.save();
-    ((Editor*)this->ui->tabWidget->currentWidget())->updateColorScheme();
-    ((Editor*)this->ui->tabWidget->currentWidget())->textEdit()->setText(((Editor*)this->ui->tabWidget->currentWidget())->textEdit()->toPlainText());
+    for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
+        editor->updateColorScheme();
+        editor->rehighlight();
+    }
 }

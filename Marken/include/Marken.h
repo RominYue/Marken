@@ -42,7 +42,6 @@ private slots:
     void on_actionPaste_triggered();
     void on_actionDelete_triggered();
     void on_actionSelect_All_triggered();
-    void on_actionFind_Replace_triggered();
     void on_actionPreference_triggered();
 
 private:

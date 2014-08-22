@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTextEdit>
+#include "MarkdownHighlighter.h"
 
 namespace Ui {
 class Editor;
@@ -27,9 +28,13 @@ public:
     QTextEdit* textEdit() const;
 
     void updateColorScheme();
+    void rehighlight();
 
 private:
     Ui::Editor *ui;
+    MarkdownHighlighter *highlighter;
+    int _lastLength;
+
     QString _name;
     QString _path;
     bool _modified;
