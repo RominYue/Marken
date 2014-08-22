@@ -28,7 +28,10 @@ SOURCES += src/main.cpp\
     src/ColorSchemeSetting.cpp \
     src/ColorSchemeNode.cpp \
     src/ColorScheme.cpp \
-    src/ColorWidget.cpp
+    src/ColorWidget.cpp \
+    src/HTMLGenerator.cpp \
+    src/MarkdownRegex.cpp \
+    src/MarkdownDefination.cpp
 
 HEADERS  += include/Marken.h \
     include/Editor.h \
@@ -39,7 +42,10 @@ HEADERS  += include/Marken.h \
     include/ColorSchemeSetting.h \
     include/ColorSchemeNode.h \
     include/ColorScheme.h \
-    include/ColorWidget.h
+    include/ColorWidget.h \
+    include/HTMLGenerator.h \
+    include/MarkdownRegex.h \
+    include/MarkdownDefination.h
 
 FORMS    += form/Marken.ui \
     form/Editor.ui \

@@ -102,13 +102,13 @@
       <bold>false</bold>
       <italic>false</italic>
     </node>
-    <node name="Setext Header 1">
+    <node name="Setex Header 1">
       <foreground>#19CADD</foreground>
       <background>#1B1B1B</background>
       <bold>true</bold>
       <italic>false</italic>
     </node>
-    <node name="Setext Header 2">
+    <node name="Setex Header 2">
       <foreground>#0C9BA2</foreground>
       <background>#1B1B1B</background>
       <bold>true</bold>
