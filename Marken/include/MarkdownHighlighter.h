@@ -2,6 +2,7 @@
 #define MARKDOWNHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include "MarkdownRegex.h"
 
 class MarkdownHighlighter : public QSyntaxHighlighter {
     Q_OBJECT
@@ -12,17 +13,7 @@ protected:
     void highlightBlock(const QString &text) override final;
 
 private:
-    QRegExp setextHeaderRegex;
-    QRegExp horizontalRegex;
-    QRegExp orderedListRegex;
-    QRegExp codeBlockRegex;
-    QRegExp inlineLinkRegex;
-    QRegExp referenceLinkRegex;
-    QRegExp linkLabelRegex;
-    QRegExp emphasisRegex;
-    QRegExp strongRegex;
-    QRegExp imageRegex;
-    QRegExp inlineCodeRegex;
+    MarkdownRegex _regex;
 };
 
 #endif // MARKDOWNHIGHLIGHTER_H
