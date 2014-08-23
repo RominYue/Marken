@@ -14,15 +14,15 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
     if (data == nullptr) {
         data = new MarkdownBlockData();
         this->setCurrentBlockUserData(data);
-    } else {
-        data->clear();
     }
-    data->setText(text);
     QTextBlock prevBlock = block.previous();
     MarkdownBlockData* prev = dynamic_cast<MarkdownBlockData*>(prevBlock.userData());
     if (this->isBlockHtmlFormat(text, data, prev)) {
         this->blockHtmlFormat(text);
-    } else if (this->isCodeBlockFormat(text, data, prev)) {
+    } else if (this->isNestedBlock(text, data)) {
+    } else if (text.isEmpty()) {
+        data->setType(MarkdownBlockData::LINE_EMPTY);
+    } else if (this->isCodeBlockFormat(text, data)) {
     } else if (this->isAtxHeader(text, data)) {
     } else if (this->isSetextHeader(text, data)) {
     } else if (this->isHorizonLine(text, data)) {
@@ -30,16 +30,15 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
         this->defaultFormat(text);
         data->setType(MarkdownBlockData::LINE_DEFAULT);
     }
-    data->generateHtml();
-    this->setCurrentBlockState(data->firstType());
+    this->setCurrentBlockState(data->type());
 }
 
-void MarkdownHighlighter::defaultFormat(const QString &text) {
+void MarkdownHighlighter::defaultFormat(const QString &text, int offset) {
     ColorSchemeSetting& colorScheme = Setting::instance()->colorScheme;
     auto regex = this->_regex.regex();
     for (auto name : regex.keys()) {
         QRegExp val = regex.value(name);
-        int index = val.indexIn(text);
+        int index = val.indexIn(text, offset);
         while (index >= 0) {
             int length = val.matchedLength();
             if (length == 0) {

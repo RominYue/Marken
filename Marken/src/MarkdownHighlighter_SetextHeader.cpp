@@ -5,12 +5,12 @@ bool MarkdownHighlighter::isSetextHeader(const QString &text, MarkdownBlockData 
     QRegExp header2("^-+$");
     if (header1.indexIn(text) == 0) {
         this->setFormat(0, text.length(), Setting::instance()->colorScheme.format(MarkdownDefination::getString(MarkdownDefination::SETEXT_HEADER_1)));
-        data->setType(MarkdownBlockData::LINE_SETEXT_HEADER_1_END);
+        data->setType(MarkdownBlockData::LINE_SETEXT_HEADER_1);
         return true;
     }
     if (header2.indexIn(text) == 0) {
         this->setFormat(0, text.length(), Setting::instance()->colorScheme.format(MarkdownDefination::getString(MarkdownDefination::SETEXT_HEADER_2)));
-        data->setType(MarkdownBlockData::LINE_SETEXT_HEADER_2_END);
+        data->setType(MarkdownBlockData::LINE_SETEXT_HEADER_2);
         return true;
     }
     return false;

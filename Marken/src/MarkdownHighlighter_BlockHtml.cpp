@@ -4,7 +4,7 @@ bool MarkdownHighlighter::isBlockHtmlFormat(const QString &text, MarkdownBlockDa
     QRegExp beginTagRegex("^<(address|blockquote|ol|p|pre|table|ul)>$");
     QRegExp endTagRegex("^</(address|blockquote|ol|p|pre|table|ul)>$");
     if (prev != nullptr) {
-        if (prev->firstType() == MarkdownBlockData::LINE_BLOCK_HTML) {
+        if (prev->type() == MarkdownBlockData::LINE_BLOCK_HTML) {
             // Block level HTML element.
             int index = endTagRegex.indexIn(text);
             if (index == 0) {
@@ -13,12 +13,12 @@ bool MarkdownHighlighter::isBlockHtmlFormat(const QString &text, MarkdownBlockDa
                 data->setHtmlTag(endTag);
                 if (prev->htmlTag() == data->htmlTag()) {
                     // End of the HTML block.
-                    data->types()->append(MarkdownBlockData::LINE_BLOCK_HTML_END);
+                    data->setType(MarkdownBlockData::LINE_BLOCK_HTML_END);
                     return true;
                 }
             }
             // Mid of the HTML block.
-            data->types()->append(MarkdownBlockData::LINE_BLOCK_HTML);
+            data->setType(MarkdownBlockData::LINE_BLOCK_HTML);
             data->setHtmlTag(prev->htmlTag());
             return true;
         }
@@ -27,7 +27,7 @@ bool MarkdownHighlighter::isBlockHtmlFormat(const QString &text, MarkdownBlockDa
     if (index == 0) {
         // Begin of an HTML block.
         int length = beginTagRegex.matchedLength();
-        data->types()->append(MarkdownBlockData::LINE_BLOCK_HTML);
+        data->setType(MarkdownBlockData::LINE_BLOCK_HTML);
         QString startTag = text.mid(index + 1, length - 2);
         data->setHtmlTag(startTag);
         return true;
