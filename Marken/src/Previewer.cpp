@@ -18,7 +18,7 @@ Previewer::~Previewer() {
     delete ui;
 }
 
-void Previewer::showPreview(Editor* editor) {
+void Previewer::showPreview(MarkdownEditor *editor) {
     QDir tempDir;
     if (!tempDir.exists("temp")) {
         tempDir.mkdir("temp");
@@ -44,7 +44,7 @@ void Previewer::showPreview(Editor* editor) {
     }
     QTextStream out(&markdownFile);
     out.setCodec("UTF-8");
-    out << editor->editor()->toPlainText() << endl;
+    out << editor->toPlainText() << endl;
     markdownFile.close();
     QProcess::execute("./mdc " + randomName + ".md " + randomName + ".html");
     QFile htmlFile(randomName + ".html");

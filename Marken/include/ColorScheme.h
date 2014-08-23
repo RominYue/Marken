@@ -14,7 +14,8 @@ public:
     const QString& fontFamily() const;
     int fontSize() const;
     QMap<QString, ColorSchemeNode>& colors();
-    ColorSchemeNode &color(const QString &section);
+    ColorSchemeNode& color();
+    ColorSchemeNode& color(const QString &section);
 
     void setFontFamily(const QString &family);
     void setFontSize(int size);

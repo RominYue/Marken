@@ -18,6 +18,10 @@ QMap<QString, ColorSchemeNode> &ColorScheme::colors() {
     return this->_colors;
 }
 
+ColorSchemeNode& ColorScheme::color() {
+    return this->color("Default");
+}
+
 ColorSchemeNode& ColorScheme::color(const QString &section) {
     return this->_colors.find(section).value();
 }

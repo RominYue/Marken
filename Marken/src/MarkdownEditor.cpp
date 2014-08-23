@@ -1,32 +1,84 @@
 #include <QPainter>
 #include <QTextBlock>
+#include <QFileInfo>
+#include <QFile>
+#include <QTextStream>
+#include <QPalette>
+#include "Setting.h"
 #include "MarkdownEditor.h"
-
-class LineNumberArea : public QWidget {
-public:
-    LineNumberArea(MarkdownEditor *editor) : QWidget(editor) {
-        this->_markdownEditor = editor;
-    }
-
-    QSize sizeHint() const {
-        return QSize(this->_markdownEditor->lineNumberAreaWidth(), 0);
-    }
-
-protected:
-    void paintEvent(QPaintEvent *event) {
-        this->_markdownEditor->lineNumberAreaPaintEvent(event);
-    }
-
-private:
-    MarkdownEditor *_markdownEditor;
-};
 
 MarkdownEditor::MarkdownEditor(QWidget *parent) :
     QPlainTextEdit(parent) {
+    this->_name = tr("New File");
+    this->_path = "";
+
     this->_lineNumberArea = new LineNumberArea(this);
     this->connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     this->connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+    this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
+
+    this->highlighter = new MarkdownHighlighter(this->document());
+    this->updateColorScheme();
+    this->highlightCurrentLine();
+}
+
+QString MarkdownEditor::name() const {
+    return this->_name;
+}
+
+QString MarkdownEditor::path() const {
+    return this->_path;
+}
+
+void MarkdownEditor::setPath(const QString &path) {
+    QFileInfo info(path);
+    this->_path = info.absoluteFilePath();
+    this->_name = info.fileName();
+}
+
+void MarkdownEditor::open(const QString &path) {
+    this->setPath(path);
+    QFile file(path);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+        this->setPlainText(in.readAll());
+        file.close();
+        this->document()->setModified(false);
+    }
+}
+
+void MarkdownEditor::save() {
+    QFile file(this->_path);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << this->toPlainText();
+        out.flush();
+        file.close();
+        this->document()->setModified(false);
+    }
+}
+
+void MarkdownEditor::saveAs(const QString &path) {
+    this->setPath(path);
+    this->save();
+}
+
+void MarkdownEditor::updateColorScheme() {
+    ColorSchemeSetting& scheme = Setting::instance()->colorScheme;
+    ColorSchemeNode& node = scheme.scheme().color();
+    this->setFont(scheme.font());
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Base, node.background());
+    palette.setColor(QPalette::Text, node.foreground());
+    this->setPalette(palette);
+}
+
+void MarkdownEditor::rehighlight() {
+    this->highlighter->rehighlight();
+    this->highlightCurrentLine();
 }
 
 int MarkdownEditor::lineNumberAreaWidth() {
@@ -36,11 +88,11 @@ int MarkdownEditor::lineNumberAreaWidth() {
         temp /= 10;
         ++cnt;
     }
-    return 3 + this->fontMetrics().width(QLatin1Char('0')) * cnt;
+    return 6 + this->fontMetrics().width(QLatin1Char('0')) * cnt;
 }
 
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
-    this->setViewportMargins(lineNumberAreaWidth() + 3, 0, 0, 0);
+    this->setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
 void MarkdownEditor::updateLineNumberArea(const QRect &rect, int dy) {
@@ -54,12 +106,30 @@ void MarkdownEditor::updateLineNumberArea(const QRect &rect, int dy) {
     }
 }
 
+void MarkdownEditor::highlightCurrentLine() {
+    QList<QTextEdit::ExtraSelection> extraSelections;
+    if (!isReadOnly()) {
+        QTextEdit::ExtraSelection selection;
+        QColor lineColor;
+        if (this->palette().base().color().value() < 128) {
+            lineColor = this->palette().base().color().lighter();
+        } else {
+            lineColor = this->palette().base().color().darker();
+        }
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        selection.cursor = textCursor();
+        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+    }
+    setExtraSelections(extraSelections);
+}
+
 void MarkdownEditor::resizeEvent(QResizeEvent *e) {
     QPlainTextEdit::resizeEvent(e);
     QRect cr = contentsRect();
     this->_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
-
 
 void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
     QPainter painter(this->_lineNumberArea);
@@ -72,7 +142,7 @@ void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
-            painter.drawText(0, top, this->_lineNumberArea->width(), fontMetrics().height(),
+            painter.drawText(0, top, this->_lineNumberArea->width() - 3, fontMetrics().height(),
                              Qt::AlignRight, number);
         }
         block = block.next();

@@ -2,7 +2,7 @@
 #define PREVIEWER_H
 
 #include <QWidget>
-#include "Editor.h"
+#include "MarkdownEditor.h"
 
 namespace Ui {
 class Previewer;
@@ -15,7 +15,7 @@ public:
     explicit Previewer(QWidget *parent = 0);
     ~Previewer();
 
-    void showPreview(Editor* editor);
+    void showPreview(MarkdownEditor* editor);
 
 private:
     Ui::Previewer *ui;

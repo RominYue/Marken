@@ -20,7 +20,7 @@ void ColorWidget::setColor(const QColor &color) {
 
 void ColorWidget::mouseReleaseEvent(QMouseEvent*) {
     QColor color = QColorDialog::getColor(this->_color, this);
-    if (this->_color != color) {
+    if (color.isValid() && this->_color != color) {
         this->_color = color;
         this->update();
         emit colorChanged(color);

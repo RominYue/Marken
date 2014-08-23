@@ -20,7 +20,6 @@ INCLUDEPATH += "./include"
 
 SOURCES += src/main.cpp\
     src/Marken.cpp \
-    src/Editor.cpp \
     src/Previewer.cpp \
     src/MarkdownHighlighter.cpp \
     src/ColorSchemeWidget.cpp \
@@ -34,7 +33,6 @@ SOURCES += src/main.cpp\
     src/MarkdownEditor.cpp
 
 HEADERS  += include/Marken.h \
-    include/Editor.h \
     include/Previewer.h \
     include/MarkdownHighlighter.h \
     include/ColorSchemeWidget.h \
@@ -48,7 +46,6 @@ HEADERS  += include/Marken.h \
     include/MarkdownEditor.h
 
 FORMS    += form/Marken.ui \
-    form/Editor.ui \
     form/Previewer.ui \
     form/ColorSchemeWidget.ui
 

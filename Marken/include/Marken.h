@@ -28,6 +28,8 @@ private:
     bool tryCloseAll();
 
 private slots:
+    void updateTabTitle(bool);
+
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
@@ -46,7 +48,6 @@ private slots:
     void on_actionSelect_All_triggered();
     void on_actionPreference_triggered();
     void on_actionPreview_triggered();
-
     void on_actionSyntax_triggered();
 
 private:
