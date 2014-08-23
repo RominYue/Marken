@@ -8,7 +8,6 @@ MarkdownBlockData::LineType MarkdownBlockData::type() const {
     return this->_type;
 }
 
-
 void MarkdownBlockData::setType(LineType type) {
     this->_type = type;
 }

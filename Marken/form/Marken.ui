@@ -75,7 +75,7 @@ QTabBar::tab:selected {
      <x>0</x>
      <y>0</y>
      <width>627</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -113,7 +113,7 @@ QTabBar::tab:selected {
     <property name="title">
      <string>Help(&amp;H)</string>
     </property>
-    <addaction name="actionSyntax"/>
+    <addaction name="actionSyntax_Document"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -121,8 +121,49 @@ QTabBar::tab:selected {
     </property>
     <addaction name="actionPreview"/>
    </widget>
+   <widget class="QMenu" name="menuSyntax">
+    <property name="title">
+     <string>Syntax(&amp;S)</string>
+    </property>
+    <widget class="QMenu" name="menuAtx_Header">
+     <property name="title">
+      <string>Atx Header</string>
+     </property>
+     <addaction name="actionAtx_Header_1"/>
+     <addaction name="actionAtx_Header_2"/>
+     <addaction name="actionAtx_Header_3"/>
+     <addaction name="actionAtx_Header_4"/>
+     <addaction name="actionAtx_Header_5"/>
+     <addaction name="actionAtx_Header_6"/>
+    </widget>
+    <widget class="QMenu" name="menuSetext_Header">
+     <property name="title">
+      <string>Setext Header</string>
+     </property>
+     <addaction name="actionSetext_Header_1"/>
+     <addaction name="actionSetext_Header_2"/>
+    </widget>
+    <addaction name="menuAtx_Header"/>
+    <addaction name="menuSetext_Header"/>
+    <addaction name="actionHorizon_Line"/>
+    <addaction name="separator"/>
+    <addaction name="actionEmphasis"/>
+    <addaction name="actionBold"/>
+    <addaction name="actionInline_Code"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuote"/>
+    <addaction name="actionUnquote"/>
+    <addaction name="actionOrdered_List"/>
+    <addaction name="actionUnordered_List"/>
+    <addaction name="separator"/>
+    <addaction name="actionImage"/>
+    <addaction name="actionInline_Link"/>
+    <addaction name="actionReference_Code"/>
+    <addaction name="actionLink_Label"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuSyntax"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -372,9 +413,109 @@ QDockWidget::title {
     <string>F9</string>
    </property>
   </action>
-  <action name="actionSyntax">
+  <action name="actionSyntax_Document">
    <property name="text">
-    <string>Syntax(&amp;S)</string>
+    <string>Syntax Document</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_1">
+   <property name="text">
+    <string>Atx Header 1</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_2">
+   <property name="text">
+    <string>Atx Header 2</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_3">
+   <property name="text">
+    <string>Atx Header 3</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_4">
+   <property name="text">
+    <string>Atx Header 4</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_5">
+   <property name="text">
+    <string>Atx Header 5</string>
+   </property>
+  </action>
+  <action name="actionAtx_Header_6">
+   <property name="text">
+    <string>Atx Header 6</string>
+   </property>
+  </action>
+  <action name="actionSetext_Header_1">
+   <property name="text">
+    <string>Setext Header 1</string>
+   </property>
+  </action>
+  <action name="actionSetext_Header_2">
+   <property name="text">
+    <string>Setext Header 2</string>
+   </property>
+  </action>
+  <action name="actionHorizon_Line">
+   <property name="text">
+    <string>Horizon Line</string>
+   </property>
+  </action>
+  <action name="actionInline_Link">
+   <property name="text">
+    <string>Inline Link</string>
+   </property>
+  </action>
+  <action name="actionInline_Code">
+   <property name="text">
+    <string>Inline Code</string>
+   </property>
+  </action>
+  <action name="actionImage">
+   <property name="text">
+    <string>Image</string>
+   </property>
+  </action>
+  <action name="actionReference_Code">
+   <property name="text">
+    <string>Reference Code</string>
+   </property>
+  </action>
+  <action name="actionOrdered_List">
+   <property name="text">
+    <string>Ordered List</string>
+   </property>
+  </action>
+  <action name="actionUnordered_List">
+   <property name="text">
+    <string>Unordered List</string>
+   </property>
+  </action>
+  <action name="actionQuote">
+   <property name="text">
+    <string>Quote</string>
+   </property>
+  </action>
+  <action name="actionLink_Label">
+   <property name="text">
+    <string>Link Label</string>
+   </property>
+  </action>
+  <action name="actionEmphasis">
+   <property name="text">
+    <string>Emphasis</string>
+   </property>
+  </action>
+  <action name="actionBold">
+   <property name="text">
+    <string>Bold</string>
+   </property>
+  </action>
+  <action name="actionUnquote">
+   <property name="text">
+    <string>Unquote</string>
    </property>
   </action>
  </widget>

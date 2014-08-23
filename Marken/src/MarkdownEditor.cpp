@@ -95,6 +95,51 @@ int MarkdownEditor::lineNumberAreaWidth() {
     return width;
 }
 
+void MarkdownEditor::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Tab && e->modifiers() == Qt::NoModifier) {
+        QTextCursor cursor = this->textCursor();
+        if (cursor.hasSelection()) {
+            // Indent multiline.
+            int spos = cursor.anchor();
+            int epos = cursor.position();
+            if (spos > epos) {
+                int temp = spos;
+                spos = epos;
+                epos = temp;
+            }
+            cursor.setPosition(spos, QTextCursor::MoveAnchor);
+            int sblock = cursor.block().blockNumber();
+            cursor.setPosition(epos, QTextCursor::MoveAnchor);
+            int eblock = cursor.block().blockNumber();
+            cursor.setPosition(spos, QTextCursor::MoveAnchor);
+            cursor.beginEditBlock();
+            for (int i = 0; i <= (eblock - sblock); ++i) {
+                cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+                cursor.insertText("    ");
+                cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+            }
+            cursor.endEditBlock();
+            cursor.setPosition(spos, QTextCursor::MoveAnchor);
+            cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+            while (cursor.block().blockNumber() < eblock) {
+                cursor.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor);
+            }
+            cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            this->setTextCursor(cursor);
+        } else if (e->key() == Qt::Key_Return && e->modifiers() == Qt::NoModifier) {
+            // Auto indent.
+            // TODO
+        } else {
+            // Indent with spaces.
+            cursor.beginEditBlock();
+            cursor.insertText("    ");
+            cursor.endEditBlock();
+        }
+        return;
+    }
+    QPlainTextEdit::keyPressEvent(e);
+}
+
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
     this->setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }

@@ -1,6 +1,7 @@
 #ifndef MARKDOWNEDITOR_H
 #define MARKDOWNEDITOR_H
 
+#include <QKeyEvent>
 #include <QPlainTextEdit>
 #include "MarkdownHighlighter.h"
 
@@ -22,6 +23,9 @@ public:
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
+
+protected:
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     QWidget *_lineNumberArea;

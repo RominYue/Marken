@@ -344,6 +344,87 @@ void Marken::on_actionPreview_triggered() {
     this->ui->previewer->showPreview(editor);
 }
 
-void Marken::on_actionSyntax_triggered() {
+void Marken::on_actionAtx_Header_1_triggered() {
+
+}
+
+void Marken::on_actionAtx_Header_2_triggered() {
+
+}
+
+void Marken::on_actionAtx_Header_3_triggered() {
+
+}
+
+void Marken::on_actionAtx_Header_4_triggered() {
+
+}
+
+void Marken::on_actionAtx_Header_5_triggered() {
+
+}
+
+void Marken::on_actionAtx_Header_6_triggered() {
+
+}
+
+void Marken::on_actionSetext_Header_1_triggered() {
+
+}
+
+void Marken::on_actionSetext_Header_2_triggered() {
+
+}
+
+void Marken::on_actionHorizon_Line_triggered() {
+
+}
+
+void Marken::on_actionInline_Link_triggered() {
+
+}
+
+void Marken::on_actionInline_Code_triggered() {
+
+}
+
+void Marken::on_actionImage_triggered() {
+
+}
+
+void Marken::on_actionReference_Code_triggered() {
+
+}
+
+void Marken::on_actionOrdered_List_triggered() {
+
+}
+
+void Marken::on_actionUnordered_List_triggered() {
+
+}
+
+void Marken::on_actionQuote_triggered() {
+
+}
+
+void Marken::on_actionLink_Label_triggered() {
+
+}
+
+void Marken::on_actionEmphasis_triggered() {
+
+}
+
+void Marken::on_actionBold_triggered() {
+
+}
+
+void Marken::on_actionUnquote_triggered() {
+
+}
+
+void Marken::on_actionSyntax_Document_triggered() {
     this->tryOpen("doc/parse.md");
+    this->on_actionPreview_triggered();
 }
