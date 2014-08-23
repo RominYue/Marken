@@ -14,7 +14,7 @@ Example:
 
 ### Rule
 
-Block-level HTML elements include: `<address>`, `<article>`, `<blockquote>`, `<dd>`, `<div>`, `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<ol>`, `<p>`, `<pre>`, `<table>`, `<ul>`. Some block-level elements are not listed because they are not suitable for text-based document.
+Block-level HTML elements include: `<address>`, `<blockquote>`, `<ol>`, `<p>`, `<pre>`, `<table>`, `<ul>`. Some block-level elements are not listed because they are not suitable for text-based document.
 
 * The root tag is not closed.
 

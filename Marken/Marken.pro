@@ -32,7 +32,8 @@ SOURCES += src/main.cpp\
     src/MarkdownDefination.cpp \
     src/MarkdownEditor.cpp \
     src/MarkdownBlockData.cpp \
-    src/MarkdownHighlighter_BlockHtml.cpp
+    src/MarkdownHighlighter_BlockHtml.cpp \
+    src/MarkdownHighlighter_CodeBlock.cpp
 
 HEADERS  += include/Marken.h \
     include/Previewer.h \

@@ -128,8 +128,27 @@ QTabBar::tab:selected {
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetPreview">
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>10</pointsize>
+     <stylestrategy>PreferAntialias</stylestrategy>
+     <kerning>true</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QDockWidget {
+  color: white;
+}
+
+QDockWidget::title {
+  padding: 5px;
+  background-color: #1B1B1B;
+  border-top: 2px solid darkgray;
+}</string>
+   </property>
    <property name="windowTitle">
-    <string>Previewer</string>
+    <string>Preview</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>

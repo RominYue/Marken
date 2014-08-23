@@ -1,10 +1,8 @@
-#include <QRegExp>
-#include "Setting.h"
 #include "MarkdownHighlighter.h"
 
 bool MarkdownHighlighter::isBlockHtmlFormat(const QString &text, MarkdownBlockData *data, MarkdownBlockData *prev) {
-    QRegExp beginTagRegex("^<(address|blockquote|div|dl|fieldset|form|ol|p|pre|table|ul)>$");
-    QRegExp endTagRegex("^</(address|blockquote|div|dl|fieldset|form|ol|p|pre|table|ul)>$");
+    QRegExp beginTagRegex("^<(address|blockquote|ol|p|pre|table|ul)>$");
+    QRegExp endTagRegex("^</(address|blockquote|ol|p|pre|table|ul)>$");
     if (prev != nullptr) {
         if (prev->firstType() == MarkdownBlockData::LINE_BLOCK_HTML) {
             // Block level HTML element.
