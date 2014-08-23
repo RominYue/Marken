@@ -6,7 +6,9 @@ QString MarkdownDefination::getString(SyntaxType type) {
         return "Default";
     case BLOCK_HTML:
         return "Block HTML";
-    case SPAN_HTML:
+    case SPAN_BEGIN_HTML:
+        return "Span HTML";
+    case SPAN_END_HTML:
         return "Span HTML";
     case ATX_HEADER_1:
         return "Atx Header 1";

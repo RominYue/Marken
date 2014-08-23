@@ -327,7 +327,7 @@ void Marken::on_actionSelect_All_triggered() {
 }
 
 void Marken::on_actionPreference_triggered() {
-    QDialog dialog;
+    QDialog dialog(this);
     dialog.setLayout(new QHBoxLayout());
     dialog.layout()->addWidget(new ColorSchemeWidget());
     dialog.exec();

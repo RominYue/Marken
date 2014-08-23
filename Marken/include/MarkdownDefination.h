@@ -9,7 +9,8 @@ public:
     enum SyntaxType {
         DEFAULT,
         BLOCK_HTML,
-        SPAN_HTML,
+        SPAN_BEGIN_HTML,
+        SPAN_END_HTML,
         ATX_HEADER_1,
         ATX_HEADER_2,
         ATX_HEADER_3,

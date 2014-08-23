@@ -88,7 +88,11 @@ int MarkdownEditor::lineNumberAreaWidth() {
         temp /= 10;
         ++cnt;
     }
-    return 6 + this->fontMetrics().width(QLatin1Char('0')) * cnt;
+    int width = 10 + this->fontMetrics().width(QLatin1Char('9')) * cnt;
+    if (width < 30) {
+        width = 30;
+    }
+    return width;
 }
 
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
@@ -142,7 +146,7 @@ void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
-            painter.drawText(0, top, this->_lineNumberArea->width() - 3, fontMetrics().height(),
+            painter.drawText(0, top, this->_lineNumberArea->width() - 5, fontMetrics().height(),
                              Qt::AlignRight, number);
         }
         block = block.next();

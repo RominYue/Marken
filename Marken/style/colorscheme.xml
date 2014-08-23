@@ -42,6 +42,18 @@
       <bold>false</bold>
       <italic>false</italic>
     </node>
+    <node name="Block HTML">
+      <foreground>#ADADAD</foreground>
+      <background>#444444</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
+    <node name="Span HTML">
+      <foreground>#ADADAD</foreground>
+      <background>#444444</background>
+      <bold>false</bold>
+      <italic>false</italic>
+    </node>
     <node name="Code Block">
       <foreground>#FFFFFF</foreground>
       <background>#2D2D2D</background>
