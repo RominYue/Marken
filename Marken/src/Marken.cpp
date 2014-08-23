@@ -345,39 +345,48 @@ void Marken::on_actionPreview_triggered() {
 }
 
 void Marken::on_actionAtx_Header_1_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(1);
 }
 
 void Marken::on_actionAtx_Header_2_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(2);
 }
 
 void Marken::on_actionAtx_Header_3_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(3);
 }
 
 void Marken::on_actionAtx_Header_4_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(4);
 }
 
 void Marken::on_actionAtx_Header_5_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(5);
 }
 
 void Marken::on_actionAtx_Header_6_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addAtxHeader(6);
 }
 
 void Marken::on_actionSetext_Header_1_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addSetextHeader(1);
 }
 
 void Marken::on_actionSetext_Header_2_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addSetextHeader(2);
 }
 
 void Marken::on_actionHorizon_Line_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addHorizonLine();
 }
 
 void Marken::on_actionInline_Link_triggered() {

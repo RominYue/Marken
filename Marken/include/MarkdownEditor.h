@@ -24,6 +24,14 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+    void spaceIndent();
+    void multilineIndent(bool increase);
+    void autoIndent();
+
+    void addAtxHeader(int num);
+    void addSetextHeader(int num);
+    void addHorizonLine();
+
 protected:
     void keyPressEvent(QKeyEvent *e);
 

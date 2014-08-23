@@ -96,48 +96,125 @@ int MarkdownEditor::lineNumberAreaWidth() {
 }
 
 void MarkdownEditor::keyPressEvent(QKeyEvent *e) {
-    if (e->key() == Qt::Key_Tab && e->modifiers() == Qt::NoModifier) {
+    if (e->key() == Qt::Key_Tab) {
         QTextCursor cursor = this->textCursor();
         if (cursor.hasSelection()) {
-            // Indent multiline.
-            int spos = cursor.anchor();
-            int epos = cursor.position();
-            if (spos > epos) {
-                int temp = spos;
-                spos = epos;
-                epos = temp;
+            if (e->modifiers() == Qt::NoModifier) {
+                this->multilineIndent(true);
+                return;
+            } else if (e->modifiers() & Qt::ShiftModifier) {
+                this->multilineIndent(false);
+                return;
             }
-            cursor.setPosition(spos, QTextCursor::MoveAnchor);
-            int sblock = cursor.block().blockNumber();
-            cursor.setPosition(epos, QTextCursor::MoveAnchor);
-            int eblock = cursor.block().blockNumber();
-            cursor.setPosition(spos, QTextCursor::MoveAnchor);
-            cursor.beginEditBlock();
-            for (int i = 0; i <= (eblock - sblock); ++i) {
-                cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-                cursor.insertText("    ");
-                cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
-            }
-            cursor.endEditBlock();
-            cursor.setPosition(spos, QTextCursor::MoveAnchor);
-            cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-            while (cursor.block().blockNumber() < eblock) {
-                cursor.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor);
-            }
-            cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-            this->setTextCursor(cursor);
-        } else if (e->key() == Qt::Key_Return && e->modifiers() == Qt::NoModifier) {
-            // Auto indent.
-            // TODO
-        } else {
-            // Indent with spaces.
-            cursor.beginEditBlock();
-            cursor.insertText("    ");
-            cursor.endEditBlock();
+        } else if (e->modifiers() & Qt::NoModifier) {
+            this->spaceIndent();
+            return;
         }
-        return;
+    } else if (e->key() == Qt::Key_Return && (e->modifiers() & Qt::NoModifier)) {
+        this->autoIndent();
+        //return;
     }
     QPlainTextEdit::keyPressEvent(e);
+}
+
+void MarkdownEditor::spaceIndent() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    cursor.insertText("    ");
+    cursor.endEditBlock();
+}
+
+void MarkdownEditor::multilineIndent(bool increase) {
+    QTextCursor cursor = this->textCursor();
+    int spos = cursor.anchor();
+    int epos = cursor.position();
+    if (spos > epos) {
+        int temp = spos;
+        spos = epos;
+        epos = temp;
+    }
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    int sblock = cursor.block().blockNumber();
+    cursor.setPosition(epos, QTextCursor::MoveAnchor);
+    int eblock = cursor.block().blockNumber();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.beginEditBlock();
+    for (int i = 0; i <= (eblock - sblock); ++i) {
+        cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+        if (increase) {
+            cursor.insertText("    ");
+        } else {
+            int pos = cursor.position();
+            for (int i = 0; i < 4; ++i) {
+                QChar next = this->toPlainText().at(pos + 1);
+                if (next == ' ') {
+                    cursor.deleteChar();
+                } else {
+                    break;
+                }
+            }
+        }
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    }
+    cursor.endEditBlock();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+    while (cursor.block().blockNumber() < eblock) {
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor);
+    }
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::autoIndent() {
+    QTextCursor cursor = this->textCursor();
+    // TODO
+}
+
+void MarkdownEditor::addAtxHeader(int num) {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    for (int i = 0; i < num; ++i) {
+        cursor.insertText("#");
+    }
+    cursor.insertText(" ");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addSetextHeader(int num) {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    if (num == 1) {
+        cursor.insertText("======");
+    } else {
+        cursor.insertText("-----");
+    }
+    cursor.movePosition(QTextCursor::PreviousBlock, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addHorizonLine() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("________");
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
 }
 
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
