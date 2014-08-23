@@ -19,6 +19,9 @@ private:
 
     bool isBlockHtmlFormat(const QString &text, MarkdownBlockData *data, MarkdownBlockData *prev);
     bool isCodeBlockFormat(const QString &text, MarkdownBlockData *data, MarkdownBlockData *prev);
+    bool isAtxHeader(const QString &text, MarkdownBlockData *data);
+    bool isSetextHeader(const QString &text, MarkdownBlockData *data);
+    bool isHorizonLine(const QString &text, MarkdownBlockData *data);
 
     void defaultFormat(const QString &text);
     void blockHtmlFormat(const QString &text);

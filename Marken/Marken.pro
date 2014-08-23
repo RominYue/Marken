@@ -33,7 +33,10 @@ SOURCES += src/main.cpp\
     src/MarkdownEditor.cpp \
     src/MarkdownBlockData.cpp \
     src/MarkdownHighlighter_BlockHtml.cpp \
-    src/MarkdownHighlighter_CodeBlock.cpp
+    src/MarkdownHighlighter_CodeBlock.cpp \
+    src/MarkdownHighlighter_AtxHeader.cpp \
+    src/MarkdownHighlighter_SetextHeader.cpp \
+    src/MarkdownHighlighter_HorizonLine.cpp
 
 HEADERS  += include/Marken.h \
     include/Previewer.h \

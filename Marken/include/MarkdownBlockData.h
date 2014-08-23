@@ -7,28 +7,32 @@ class MarkdownBlockData : public QTextBlockUserData {
 public:
     enum LineType {
         LINE_DEFAULT,
+        LINE_EMPTY,
         LINE_BLOCK_HTML,
         LINE_BLOCK_HTML_END,
-        //LINE_ATX_HEADER_1,
-        //LINE_ATX_HEADER_2,
-        //LINE_ATX_HEADER_3,
-        //LINE_ATX_HEADER_4,
-        //LINE_ATX_HEADER_5,
-        //LINE_ATX_HEADER_6,
-        //LINE_SETEXT_HEADER_1,
-        //LINE_SETEXT_HEADER_2,
-        //LINE_BLOCK_QUOTE,
-        //LINE_UNORDERED_LIST,
-        //LINE_ORDERED_LIST,
+        LINE_ATX_HEADER_1,
+        LINE_ATX_HEADER_2,
+        LINE_ATX_HEADER_3,
+        LINE_ATX_HEADER_4,
+        LINE_ATX_HEADER_5,
+        LINE_ATX_HEADER_6,
+        LINE_SETEXT_HEADER_1_BEGIN,
+        LINE_SETEXT_HEADER_1_END,
+        LINE_SETEXT_HEADER_2_BEGIN,
+        LINE_SETEXT_HEADER_2_END,
+        LINE_BLOCK_QUOTE,
+        LINE_UNORDERED_LIST,
+        LINE_ORDERED_LIST,
         LINE_CODE_BLOCK_SINGLE,
         LINE_CODE_BLOCK_BEGIN,
         LINE_CODE_BLOCK_MID,
         LINE_CODE_BLOCK_END,
-        //LINE_HORIZONTAL,
+        LINE_HORIZONTAL,
         //LINE_LINK_LABEL,
     };
 
     MarkdownBlockData();
+    void clear();
     QVector<LineType>* types();
     LineType firstType() const;
     LineType lastType() const;
@@ -50,6 +54,15 @@ private:
 
     QString removeCodeIndent(const QString &str);
     QString translate(const QString &str);
+    QString removeTitleHash(const QString &str);
+    QString translateSpan(const QString &str);
+
+    QString parseImage(const QString &str, int offset, int &length);
+    QString parseLink(const QString &str, int offset, int &length);
+    QString parseCode(const QString &str, int offset, int &length);
+    QString parseHtml(const QString &str, int offset, int &length);
+    QString parseEmphasis(const QString &str, int offset, int &length);
+    QString parseTransChar(const QString &str, int offset, int &length);
 };
 
 #endif // MARKDOWNBLOCKDATA_H

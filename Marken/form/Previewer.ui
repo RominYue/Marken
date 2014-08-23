@@ -33,7 +33,7 @@
     <widget class="QTextEdit" name="textEdit">
      <property name="font">
       <font>
-       <family>Verdana</family>
+       <family>Arial</family>
        <pointsize>12</pointsize>
       </font>
      </property>
