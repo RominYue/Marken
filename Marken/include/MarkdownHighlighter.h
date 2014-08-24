@@ -42,6 +42,9 @@ private:
 
     void defaultFormat(const QString &text, int offset = 0);
     void blockHtmlFormat(const QString &text);
+
+signals:
+    void parseBlock(int blockNum);
 };
 
 #endif // MARKDOWNHIGHLIGHTER_H

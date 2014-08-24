@@ -18,9 +18,12 @@ MarkdownEditor::MarkdownEditor(QWidget *parent) :
     this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
 
-    this->highlighter = new MarkdownHighlighter(this->document());
+    this->_highlighter = new MarkdownHighlighter(this->document());
     this->updateColorScheme();
     this->highlightCurrentLine();
+
+    this->_parsedDocument = new QTextDocument(this);
+    this->connect(this->_highlighter, SIGNAL(parseBlock(int)), this, SLOT(parseBlock(int)));
 }
 
 QString MarkdownEditor::name() const {
@@ -77,7 +80,7 @@ void MarkdownEditor::updateColorScheme() {
 }
 
 void MarkdownEditor::rehighlight() {
-    this->highlighter->rehighlight();
+    this->_highlighter->rehighlight();
     this->highlightCurrentLine();
 }
 
@@ -217,6 +220,10 @@ void MarkdownEditor::addHorizonLine() {
     this->setTextCursor(cursor);
 }
 
+QTextDocument* MarkdownEditor::parsedDocument() const {
+    return this->_parsedDocument;
+}
+
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
     this->setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
@@ -257,6 +264,10 @@ void MarkdownEditor::resizeEvent(QResizeEvent *e) {
     this->_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
+QTextBlock MarkdownEditor::publicFirstVisibleBlock() const {
+    return this->firstVisibleBlock();
+}
+
 void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
     QPainter painter(this->_lineNumberArea);
     painter.fillRect(event->rect(), Qt::lightGray);
@@ -276,4 +287,40 @@ void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
+}
+
+void MarkdownEditor::adjustParsedBlockCount(int blockNum) {
+    if (this->document()->blockCount() > this->_parsedDocument->blockCount()) {
+        int num = this->document()->blockCount() - this->_parsedDocument->blockCount();
+        QTextBlock block = this->_parsedDocument->findBlockByNumber(blockNum);
+        QTextCursor cursor(block);
+        cursor.beginEditBlock();
+        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
+        while (num--) {
+            cursor.insertBlock();
+        }
+        cursor.endEditBlock();
+    } else if (this->document()->blockCount() < this->_parsedDocument->blockCount()) {
+        int num = this->_parsedDocument->blockCount() - this->document()->blockCount();
+        QTextBlock block = this->_parsedDocument->findBlockByNumber(blockNum);
+        block = block.next();
+        while (num--) {
+            QTextCursor cursor(block);
+            block = block.next();
+            cursor.select(QTextCursor::BlockUnderCursor);
+            cursor.removeSelectedText();
+        }
+    }
+}
+
+void MarkdownEditor::parseBlock(int blockNum) {
+    this->adjustParsedBlockCount(blockNum);
+    QTextBlock block = this->_parsedDocument->findBlockByNumber(blockNum);
+    QTextCursor cursor(block);
+    cursor.beginEditBlock();
+    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
+    cursor.insertText(this->document()->findBlockByNumber(blockNum).text());
+    cursor.endEditBlock();
 }

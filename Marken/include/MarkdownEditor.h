@@ -21,6 +21,7 @@ public:
     void updateColorScheme();
     void rehighlight();
 
+    QTextBlock publicFirstVisibleBlock() const;
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
@@ -32,16 +33,22 @@ public:
     void addSetextHeader(int num);
     void addHorizonLine();
 
+    QTextDocument* parsedDocument() const;
+
 protected:
     void keyPressEvent(QKeyEvent *e);
 
 private:
     QWidget *_lineNumberArea;
 
-    MarkdownHighlighter *highlighter;
+    MarkdownHighlighter *_highlighter;
 
     QString _name;
     QString _path;
+
+    QTextDocument *_parsedDocument;
+
+    void adjustParsedBlockCount(int blockNum);
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -50,6 +57,8 @@ private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
     void highlightCurrentLine();
+
+    void parseBlock(int blockNum);
 };
 
 class LineNumberArea : public QWidget {

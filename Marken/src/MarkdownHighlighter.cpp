@@ -238,8 +238,12 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
         this->defaultFormat(text, i);
         break;
     }
+    int blockNum = this->currentBlock().blockNumber();
+    emit parseBlock(blockNum);
     if (data->isStateChanged()) {
-        // Regenerate Prev Line.
+        if (blockNum > 0) {
+            emit parseBlock(blockNum - 1);
+        }
         this->setCurrentBlockState(this->currentBlockState() + 1);
     }
     data->recordState();

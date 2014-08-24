@@ -70,9 +70,9 @@ private slots:
     void on_actionBold_triggered();
     void on_actionUnquote_triggered();
 
-    void on_actionPreview_triggered();
-
     void on_actionSyntax_Document_triggered();
+
+    void on_tabWidget_currentChanged(int index);
 
 private:
     Ui::Marken *ui;

@@ -340,13 +340,6 @@ void Marken::on_actionPreference_triggered() {
     }
 }
 
-void Marken::on_actionPreview_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
-    MarkdownDebug debug;
-    debug.saveBlockData(editor->document());
-    //this->ui->previewer->showPreview(editor);
-}
-
 void Marken::on_actionAtx_Header_1_triggered() {
     MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(1);
@@ -438,5 +431,9 @@ void Marken::on_actionUnquote_triggered() {
 
 void Marken::on_actionSyntax_Document_triggered() {
     this->tryOpen("doc/parse.md");
-    this->on_actionPreview_triggered();
+}
+
+void Marken::on_tabWidget_currentChanged(int index) {
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+    this->ui->previewer->showPreview(editor);
 }
