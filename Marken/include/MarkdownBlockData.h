@@ -20,7 +20,6 @@ public:
         LINE_SETEXT_HEADER_2,
         LINE_CODE_BLOCK,
         LINE_HORIZONTAL,
-        LINE_NESTED_BLOCK,
         LINE_LINK_LABEL,
         LINE_BLOCK_QUOTE,
         LINE_ORDERED_LIST,

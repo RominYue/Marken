@@ -3,6 +3,7 @@
 
 #include <QKeyEvent>
 #include <QPlainTextEdit>
+#include "MarkdownParser.h"
 #include "MarkdownHighlighter.h"
 
 class MarkdownEditor : public QPlainTextEdit {
@@ -21,7 +22,6 @@ public:
     void updateColorScheme();
     void rehighlight();
 
-    QTextBlock publicFirstVisibleBlock() const;
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
@@ -33,6 +33,11 @@ public:
     void addSetextHeader(int num);
     void addHorizonLine();
 
+    int getParsedBlockNum() const;
+    QTextBlock findParsedBlock(int blockNum) const;
+    QTextBlock findParsedLastBlock(int blockNum) const;
+    int countParsedBlock(int blockCnt, int index) const;
+    void scrollParsedDocument(QTextEdit *textEdit);
     QTextDocument* parsedDocument() const;
 
 protected:
@@ -47,6 +52,8 @@ private:
     QString _path;
 
     QTextDocument *_parsedDocument;
+    QList<int> _blockNums; // TODO: Substitude with Balanced Tree
+    MarkdownParser _parser;
 
     void adjustParsedBlockCount(int blockNum);
 

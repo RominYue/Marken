@@ -32,7 +32,8 @@ SOURCES += src/main.cpp\
     src/MarkdownEditor.cpp \
     src/MarkdownBlockData.cpp \
     src/MarkdownDefine.cpp \
-    src/MarkdownDebug.cpp
+    src/MarkdownDebug.cpp \
+    src/MarkdownParser.cpp
 
 HEADERS  += include/Marken.h \
     include/Previewer.h \
@@ -47,7 +48,8 @@ HEADERS  += include/Marken.h \
     include/MarkdownEditor.h \
     include/MarkdownBlockData.h \
     include/MarkdownDefine.h \
-    include/MarkdownDebug.h
+    include/MarkdownDebug.h \
+    include/MarkdownParser.h
 
 FORMS    += form/Marken.ui \
     form/Previewer.ui \

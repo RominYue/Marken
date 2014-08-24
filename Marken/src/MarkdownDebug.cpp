@@ -59,8 +59,6 @@ QString MarkdownDebug::getDataTypeString(MarkdownBlockData::LineType type) const
         return "Code Block";
     case MarkdownBlockData::LINE_HORIZONTAL:
         return "Horizontal";
-    case MarkdownBlockData::LINE_NESTED_BLOCK:
-        return "Nested Block";
     case MarkdownBlockData::LINE_LINK_LABEL:
         return "Link Label";
     case MarkdownBlockData::LINE_BLOCK_QUOTE:
