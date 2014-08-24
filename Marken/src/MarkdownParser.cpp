@@ -6,43 +6,47 @@ MarkdownParser::MarkdownParser() {
 
 QString MarkdownParser::generateHtml(QTextBlock block) {
     QString html;
+    if (!block.isValid()) {
+        return "";
+    }
+    QString text = block.text();
     MarkdownBlockData* data = dynamic_cast<MarkdownBlockData*>(block.userData());
     for (int i = 0; i < data->types()->size(); ++i) {
         int indent = data->indent(i);
         switch (data->type(i)) {
         case MarkdownBlockData::LINE_ATX_HEADER_1:
-            html += "<h1>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h1><hr/>";
+            html += "<h1>" + translate(removeTitleHash(text).mid(indent)) + "</h1><hr/>";
             break;
         case MarkdownBlockData::LINE_ATX_HEADER_2:
-            html += "<h2>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h2><hr/>";
+            html += "<h2>" + translate(removeTitleHash(text).mid(indent)) + "</h2><hr/>";
             break;
         case MarkdownBlockData::LINE_ATX_HEADER_3:
-            html += "<h3>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h3><hr/>";
+            html += "<h3>" + translate(removeTitleHash(text).mid(indent)) + "</h3><hr/>";
             break;
         case MarkdownBlockData::LINE_ATX_HEADER_4:
-            html += "<h4>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h4>";
+            html += "<h4>" + translate(removeTitleHash(text).mid(indent)) + "</h4>";
             break;
         case MarkdownBlockData::LINE_ATX_HEADER_5:
-            html += "<h5>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h5>";
+            html += "<h5>" + translate(removeTitleHash(text).mid(indent)) + "</h5>";
             break;
         case MarkdownBlockData::LINE_ATX_HEADER_6:
-            html += "<h6>" + translate(removeTitleHash(block.text()).mid(indent)) + "</h6>";
+            html += "<h6>" + translate(removeTitleHash(text).mid(indent)) + "</h6>";
             break;
         case MarkdownBlockData::LINE_BLOCK_HTML:
         case MarkdownBlockData::LINE_BLOCK_HTML_END:
-            html += block.text();
+            html += text;
             break;
         case MarkdownBlockData::LINE_CODE_BLOCK:
             if (this->prevType(block, i) != MarkdownBlockData::LINE_CODE_BLOCK) {
                 html += "<pre><code>";
             }
-            html += removeCodeIndent(translate(block.text().mid(indent))) + "<br>";
+            html += removeCodeIndent(translate(text.mid(indent))) + "<br/>";
             break;
         case MarkdownBlockData::LINE_DEFAULT:
             if (this->prevType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
                 html += "<p>";
             }
-            html += translateSpan(block.text().mid(indent));
+            html += translateSpan(text.mid(indent));
             break;
         case MarkdownBlockData::LINE_EMPTY:
             html += "";
@@ -63,23 +67,29 @@ QString MarkdownParser::generateHtml(QTextBlock block) {
             if (this->prevType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
                 html += "<quote>";
             }
-            html += translateSpan(block.text().mid(indent + 2));
+            break;
         case MarkdownBlockData::LINE_UNORDERED_LIST:
             if (this->prevType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
                 html += "<ul>";
             }
-            if (block.text().at(indent) == '*' || block.text().at(indent) == '+' || block.text().at(indent) == '-') {
-                html += "<li>" + translateSpan(block.text().mid(indent + 2));
+            if (indent < text.length()) {
+                if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
+                    html += "<li>" + translateSpan(text.mid(indent + 2));
+                }
             }
+            break;
         case MarkdownBlockData::LINE_ORDERED_LIST:
             if (this->prevType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
                 html += "<ol>";
             }
-            if (block.text().at(indent).isDigit()) {
-                html += "<li>" + translateSpan(block.text().mid(indent + 2));
+            if (indent < text.length()) {
+                if (text.at(indent) >= '0' && text.at(indent) <= '9') {
+                    html += "<li>" + translateSpan(text.mid(indent + 2));
+                }
             }
+            break;
         default:
-            html += block.text().mid(indent);
+            html += text.mid(indent);
             break;
         }
     }
@@ -100,21 +110,27 @@ QString MarkdownParser::generateHtml(QTextBlock block) {
             if (this->nextType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
                 html += "</quote>";
             }
-            html += translateSpan(block.text().mid(indent));
+            break;
         case MarkdownBlockData::LINE_UNORDERED_LIST:
+            if (indent < text.length()) {
+                if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
+                    html += "</li>";
+                }
+            }
             if (this->nextType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
                 html += "</ul>";
             }
-            if (block.text().at(indent) == '*' || block.text().at(indent) == '+' || block.text().at(indent) == '-') {
-                html += "</li>";
-            }
+            break;
         case MarkdownBlockData::LINE_ORDERED_LIST:
+            if (indent < text.length()) {
+                if (text.at(indent).isDigit()) {
+                    html += "</li>";
+                }
+            }
             if (this->nextType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
                 html += "</ol>";
             }
-            if (block.text().at(indent).isDigit()) {
-                html += "</li>";
-            }
+            break;
         default:
             break;
         }
@@ -295,14 +311,14 @@ QString MarkdownParser::parseHtml(const QString &str, int offset, int &length) {
 }
 
 QString MarkdownParser::parseEmphasis(const QString &str, int offset, int &length) {
-    QRegExp strong("[\\*_]{2}([^\\s].*[^\\s]|[^\\s])[\\*_]{2}");
+    QRegExp strong("\\*{2}([^\\*\\s\\t]+)\\*{2}|_{2}([^_\\s\\t]+)_{2}");
     strong.setMinimal(true);
     int index = strong.indexIn(str, offset);
     if (index == offset) {
         length = strong.matchedLength();
         return "<strong>" + strong.capturedTexts()[1] + "</strong>";
     }
-    QRegExp emphasis("[\\*_]([^\\s].*[^\\s]|[^\\s])[\\*_]");
+    QRegExp emphasis("\\*([^\\*\\s\\t]+)\\*|_([^_\\s\\t]+)_");
     emphasis.setMinimal(true);
     index = strong.indexIn(str, offset);
     if (index == offset) {

@@ -30,7 +30,6 @@ public:
     MarkdownBlockData();
     void clear();
     LineType type(int index) const;
-    LineType typeAt(int indent) const;
     int indent(int index) const;
     QVector<LineType>* types();
     QVector<int>* indents();

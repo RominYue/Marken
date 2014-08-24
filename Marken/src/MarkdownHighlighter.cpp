@@ -39,8 +39,12 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
             if (prev != nullptr) {
                 while (j < prev->indents()->size()) {
                     if (i <= prev->indent(j)) {
-                        data->types()->append(prev->type(j));
-                        data->indents()->append(prev->indent(j));
+                        if (prev->type(j) == MarkdownBlockData::LINE_BLOCK_QUOTE ||
+                            prev->type(j) == MarkdownBlockData::LINE_UNORDERED_LIST ||
+                            prev->type(j) == MarkdownBlockData::LINE_ORDERED_LIST) {
+                            data->types()->append(prev->type(j));
+                            data->indents()->append(prev->indent(j));
+                        }
                     }
                     ++j;
                 }
@@ -209,7 +213,9 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
                 while (j < prev->indents()->size()) {
                     if (i >= prev->indent(j)) {
                         if (data->indents()->size() == 0 || prev->indent(j) > data->indents()->last()) {
-                            if (prev->type(j) != MarkdownBlockData::LINE_DEFAULT) {
+                            if (prev->type(j) == MarkdownBlockData::LINE_BLOCK_QUOTE ||
+                                prev->type(j) == MarkdownBlockData::LINE_UNORDERED_LIST ||
+                                prev->type(j) == MarkdownBlockData::LINE_ORDERED_LIST) {
                                 data->types()->append(prev->type(j));
                                 data->indents()->append(prev->indent(j));
                             }

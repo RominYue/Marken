@@ -19,15 +19,6 @@ MarkdownBlockData::LineType MarkdownBlockData::type(int index) const {
     return this->_types[index];
 }
 
-MarkdownBlockData::LineType MarkdownBlockData::typeAt(int indent) const {
-    for (int i = 0; i < this->_indents.size(); ++i) {
-        if (this->_indents[i] == indent) {
-            return this->_types[i];
-        }
-    }
-    return LINE_INVALID;
-}
-
 int MarkdownBlockData::indent(int index) const {
     if (index >= this->_indents.size()) {
         return -1;

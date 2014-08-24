@@ -386,7 +386,7 @@ void MarkdownEditor::parseBlock(int blockNum) {
     cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
     cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
-    cursor.insertHtml(this->_parser.generateHtml(this->document()->findBlockByNumber(originNum)));
+    cursor.insertText(this->_parser.generateHtml(this->document()->findBlockByNumber(originNum)));
     cursor.endEditBlock();
     int cnt2 = this->_parsedDocument->blockCount();
     for (int i = 0; i < cnt2 - cnt1; ++i) {
