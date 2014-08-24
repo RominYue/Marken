@@ -32,13 +32,17 @@ public:
     void addAtxHeader(int num);
     void addSetextHeader(int num);
     void addHorizonLine();
-
-    int getParsedBlockNum() const;
-    QTextBlock findParsedBlock(int blockNum) const;
-    QTextBlock findParsedLastBlock(int blockNum) const;
-    int countParsedBlock(int blockCnt, int index) const;
-    void scrollParsedDocument(QTextEdit *textEdit);
-    QTextDocument* parsedDocument() const;
+    void addInlineLink();
+    void addInlineCode();
+    void addInlineImage();
+    void addReferenceLink();
+    void addOrderedList();
+    void addUnorderedList();
+    void addQuote();
+    void addLinkLabel();
+    void addEmphasis();
+    void addBold();
+    void addUnquote();
 
 protected:
     void keyPressEvent(QKeyEvent *e);
@@ -51,11 +55,7 @@ private:
     QString _name;
     QString _path;
 
-    QTextDocument *_parsedDocument;
-    QList<int> _blockNums; // TODO: Substitude with Balanced Tree
     MarkdownParser _parser;
-
-    void adjustParsedBlockCount(int blockNum);
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -64,8 +64,6 @@ private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
     void highlightCurrentLine();
-
-    void parseBlock(int blockNum);
 };
 
 class LineNumberArea : public QWidget {

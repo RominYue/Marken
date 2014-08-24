@@ -152,12 +152,19 @@ QTabBar::tab:selected {
     <addaction name="separator"/>
     <addaction name="actionImage"/>
     <addaction name="actionInline_Link"/>
-    <addaction name="actionReference_Code"/>
+    <addaction name="actionReference_Link"/>
     <addaction name="actionLink_Label"/>
+   </widget>
+   <widget class="QMenu" name="menuTool">
+    <property name="title">
+     <string>Tool(&amp;T)</string>
+    </property>
+    <addaction name="actionPreview"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuSyntax"/>
+   <addaction name="menuTool"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -394,18 +401,6 @@ QDockWidget::title {
     <string>Preference...</string>
    </property>
   </action>
-  <action name="actionPreview">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icon/preview.png</normaloff>:/icon/preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>Preview(&amp;P)</string>
-   </property>
-   <property name="shortcut">
-    <string>F9</string>
-   </property>
-  </action>
   <action name="actionSyntax_Document">
    <property name="text">
     <string>Syntax Document</string>
@@ -471,9 +466,9 @@ QDockWidget::title {
     <string>Image</string>
    </property>
   </action>
-  <action name="actionReference_Code">
+  <action name="actionReference_Link">
    <property name="text">
-    <string>Reference Code</string>
+    <string>Reference Link</string>
    </property>
   </action>
   <action name="actionOrdered_List">
@@ -509,6 +504,18 @@ QDockWidget::title {
   <action name="actionUnquote">
    <property name="text">
     <string>Unquote</string>
+   </property>
+  </action>
+  <action name="actionPreview">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icon/preview.png</normaloff>:/icon/preview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Preview</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

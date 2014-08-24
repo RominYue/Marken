@@ -19,10 +19,6 @@ public:
 
 private:
     Ui::Previewer *ui;
-    MarkdownEditor* _editor;
-
-private slots:
-    void scroll(const QRect &, int);
 };
 
 #endif // PREVIEWER_H

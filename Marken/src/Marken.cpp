@@ -386,54 +386,65 @@ void Marken::on_actionHorizon_Line_triggered() {
 }
 
 void Marken::on_actionInline_Link_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addInlineLink();
 }
 
 void Marken::on_actionInline_Code_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addInlineCode();
 }
 
 void Marken::on_actionImage_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addInlineImage();
 }
 
-void Marken::on_actionReference_Code_triggered() {
-
+void Marken::on_actionReference_Link_triggered() {
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addReferenceLink();
 }
 
 void Marken::on_actionOrdered_List_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addOrderedList();
 }
 
 void Marken::on_actionUnordered_List_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addUnorderedList();
 }
 
 void Marken::on_actionQuote_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addQuote();
 }
 
 void Marken::on_actionLink_Label_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addLinkLabel();
 }
 
 void Marken::on_actionEmphasis_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addEmphasis();
 }
 
 void Marken::on_actionBold_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addBold();
 }
 
 void Marken::on_actionUnquote_triggered() {
-
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addUnquote();
 }
 
 void Marken::on_actionSyntax_Document_triggered() {
     this->tryOpen("doc/parse.md");
 }
 
-void Marken::on_tabWidget_currentChanged(int index) {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+void Marken::on_actionPreview_triggered() {
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
     this->ui->previewer->showPreview(editor);
 }

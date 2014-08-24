@@ -21,10 +21,6 @@ MarkdownEditor::MarkdownEditor(QWidget *parent) :
     this->_highlighter = new MarkdownHighlighter(this->document());
     this->updateColorScheme();
     this->highlightCurrentLine();
-
-    this->_parsedDocument = new QTextDocument(this);
-    this->connect(this->_highlighter, SIGNAL(parseBlock(int)), this, SLOT(parseBlock(int)));
-    this->_blockNums.append(1);
 }
 
 QString MarkdownEditor::name() const {
@@ -221,8 +217,124 @@ void MarkdownEditor::addHorizonLine() {
     this->setTextCursor(cursor);
 }
 
-QTextDocument* MarkdownEditor::parsedDocument() const {
-    return this->_parsedDocument;
+void MarkdownEditor::addInlineLink() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("[Text](Link)");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addInlineCode() {
+    QTextCursor cursor = this->textCursor();
+    QString content;
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        content = cursor.selectedText();
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("`" + content + "`");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addInlineImage() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("![Alt](Link)");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addReferenceLink() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("[Cite][Link]");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addOrderedList() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("1. ");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addUnorderedList() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("* ");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addQuote() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("> ");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addLinkLabel() {
+    QTextCursor cursor = this->textCursor();
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("[Cite]:(Link)");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addEmphasis() {
+    QTextCursor cursor = this->textCursor();
+    QString content;
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        content = cursor.selectedText();
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("_" + content + "_");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addBold() {
+    QTextCursor cursor = this->textCursor();
+    QString content;
+    cursor.beginEditBlock();
+    if (cursor.hasSelection()) {
+        content = cursor.selectedText();
+        cursor.removeSelectedText();
+    }
+    cursor.insertText("**" + content + "**");
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
+}
+
+void MarkdownEditor::addUnquote() {
+    // TODO
 }
 
 void MarkdownEditor::updateLineNumberAreaWidth(int) {
@@ -284,113 +396,4 @@ void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
-}
-
-int MarkdownEditor::getParsedBlockNum() const {
-    int num = 0;
-    for (int i = 0; i < this->_blockNums.size(); ++i) {
-        if (this->_blockNums[i] > 0) {
-            ++num;
-        }
-    }
-    return num;
-}
-
-QTextBlock MarkdownEditor::findParsedBlock(int blockNum) const {
-    int parsedBlockNum = 0;
-    for (int i = 0; i < blockNum; ++i) {
-        parsedBlockNum += this->_blockNums[parsedBlockNum];
-    }
-    return this->_parsedDocument->findBlockByNumber(parsedBlockNum);
-}
-
-QTextBlock MarkdownEditor::findParsedLastBlock(int blockNum) const {
-    QTextBlock block = this->findParsedBlock(blockNum);
-    int num = this->_blockNums[block.blockNumber()];
-    for (int i = 1; i < num; ++i) {
-        block = block.next();
-    }
-    return block;
-}
-
-int MarkdownEditor::countParsedBlock(int blockCnt, int index) const {
-    int cnt = 0;
-    for (int i = 0; i < blockCnt; ++i) {
-        cnt += this->_blockNums[index + cnt];
-    }
-    return cnt;
-}
-
-void MarkdownEditor::scrollParsedDocument(QTextEdit *textEdit) {
-    int blockNum = this->firstVisibleBlock().blockNumber();
-    QTextCursor lastCursor(this->_parsedDocument->lastBlock());
-    lastCursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
-    textEdit->setTextCursor(lastCursor);
-    QTextCursor cursor(this->findParsedBlock(blockNum));
-    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-    textEdit->setTextCursor(cursor);
-}
-
-void MarkdownEditor::adjustParsedBlockCount(int blockNum) {
-    int blockCnt = this->document()->blockCount();
-    int parsedBlockCnt = this->getParsedBlockNum();
-    if (blockCnt > parsedBlockCnt) {
-        int num = blockCnt - parsedBlockCnt;
-        QTextBlock block = this->findParsedLastBlock(blockNum);
-        QTextCursor cursor(block);
-        cursor.beginEditBlock();
-        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
-        while (num--) {
-            cursor.insertBlock();
-            this->_blockNums.insert(block.blockNumber() + 1, 1);
-        }
-        cursor.endEditBlock();
-    } else if (blockCnt < parsedBlockCnt) {
-        int num = parsedBlockCnt - blockCnt;
-        QTextBlock block = this->findParsedLastBlock(blockNum);
-        block = block.next();
-        blockNum = block.blockNumber();
-        num = this->countParsedBlock(num, blockNum);
-        while (num--) {
-            QTextCursor cursor(block);
-            block = block.next();
-            cursor.select(QTextCursor::BlockUnderCursor);
-            cursor.removeSelectedText();
-            this->_blockNums.removeAt(blockNum);
-        }
-    }
-}
-
-
-void MarkdownEditor::parseBlock(int blockNum) {
-    int originNum = blockNum;
-    this->adjustParsedBlockCount(blockNum);
-    QTextBlock block = this->findParsedBlock(blockNum);
-    blockNum = block.blockNumber();
-    int num = this->_blockNums[blockNum] - 1;
-    while (num--) {
-        QTextCursor cursor(block);
-        block = block.next();
-        cursor.select(QTextCursor::BlockUnderCursor);
-        if (blockNum == 0) {
-            cursor.deleteChar();
-            cursor.deleteChar();
-        } else {
-            cursor.removeSelectedText();
-        }
-        this->_blockNums.removeAt(blockNum);
-    }
-    int cnt1 = this->_parsedDocument->blockCount();
-    QTextCursor cursor(block);
-    cursor.beginEditBlock();
-    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-    cursor.removeSelectedText();
-    cursor.insertText(this->_parser.generateHtml(this->document()->findBlockByNumber(originNum)));
-    cursor.endEditBlock();
-    int cnt2 = this->_parsedDocument->blockCount();
-    for (int i = 0; i < cnt2 - cnt1; ++i) {
-        this->_blockNums.insert(blockNum + 1, 0);
-    }
-    this->_blockNums[blockNum] = cnt2 - cnt1 + 1;
 }

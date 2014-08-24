@@ -2,13 +2,14 @@
 #define MARKDOWNPARSER_H
 
 #include <QString>
-#include <QVector>
+#include <QTextDocument>
 #include "MarkdownBlockData.h"
 
 class MarkdownParser {
 public:
     MarkdownParser();
     QString generateHtml(QTextBlock block);
+    QString generateHtml(QTextDocument *document);
 
 private:
     MarkdownBlockData::LineType prevType(QTextBlock& block, int index) const;

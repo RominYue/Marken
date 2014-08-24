@@ -1,7 +1,16 @@
-#include <QStringList>
 #include "MarkdownParser.h"
 
 MarkdownParser::MarkdownParser() {
+}
+
+QString MarkdownParser::generateHtml(QTextDocument *document) {
+    QString html;
+    QTextBlock block = document->firstBlock();
+    while (block.isValid()) {
+        html += this->generateHtml(block);
+        block = block.next();
+    }
+    return html;
 }
 
 QString MarkdownParser::generateHtml(QTextBlock block) {
@@ -65,7 +74,7 @@ QString MarkdownParser::generateHtml(QTextBlock block) {
             break;
         case MarkdownBlockData::LINE_BLOCK_QUOTE:
             if (this->prevType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
-                html += "<quote>";
+                html += "<blockquote>";
             }
             break;
         case MarkdownBlockData::LINE_UNORDERED_LIST:
@@ -108,7 +117,7 @@ QString MarkdownParser::generateHtml(QTextBlock block) {
             break;
         case MarkdownBlockData::LINE_BLOCK_QUOTE:
             if (this->nextType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
-                html += "</quote>";
+                html += "</blockquote>";
             }
             break;
         case MarkdownBlockData::LINE_UNORDERED_LIST:
@@ -311,16 +320,16 @@ QString MarkdownParser::parseHtml(const QString &str, int offset, int &length) {
 }
 
 QString MarkdownParser::parseEmphasis(const QString &str, int offset, int &length) {
-    QRegExp strong("\\*{2}([^\\*\\s\\t]+)\\*{2}|_{2}([^_\\s\\t]+)_{2}");
+    QRegExp strong("\\*{2}([^\\*\\s\\t].+[^\\*\\s\\t])\\*{2}|_{2}([^_\\s\\t]+)_{2}");
     strong.setMinimal(true);
     int index = strong.indexIn(str, offset);
     if (index == offset) {
         length = strong.matchedLength();
         return "<strong>" + strong.capturedTexts()[1] + "</strong>";
     }
-    QRegExp emphasis("\\*([^\\*\\s\\t]+)\\*|_([^_\\s\\t]+)_");
+    QRegExp emphasis("\\*([^\\*\\s\\t].+[^\\*\\s\\t])\\*|_([^_\\s\\t]+)_");
     emphasis.setMinimal(true);
-    index = strong.indexIn(str, offset);
+    index = emphasis.indexIn(str, offset);
     if (index == offset) {
         length = emphasis.matchedLength();
         return "<em>" + emphasis.capturedTexts()[1] + "</em>";

@@ -61,7 +61,7 @@ private slots:
     void on_actionInline_Link_triggered();
     void on_actionInline_Code_triggered();
     void on_actionImage_triggered();
-    void on_actionReference_Code_triggered();
+    void on_actionReference_Link_triggered();
     void on_actionOrdered_List_triggered();
     void on_actionUnordered_List_triggered();
     void on_actionQuote_triggered();
@@ -72,7 +72,7 @@ private slots:
 
     void on_actionSyntax_Document_triggered();
 
-    void on_tabWidget_currentChanged(int index);
+    void on_actionPreview_triggered();
 
 private:
     Ui::Marken *ui;

@@ -1,13 +1,5 @@
-#include <ctime>
-#include <cstdlib>
-#include <QDir>
-#include <QFile>
-#include <QTextStream>
-#include <QProcess>
-#include <QUrl>
-#include <QScrollBar>
-#include <QTextCursor>
 #include "MarkdownBlockData.h"
+#include "MarkdownParser.h"
 #include "Previewer.h"
 #include "ui_Previewer.h"
 
@@ -22,14 +14,8 @@ Previewer::~Previewer() {
 }
 
 void Previewer::showPreview(MarkdownEditor *editor) {
-    this->_editor = editor;
-    this->disconnect(this, SLOT(scroll(QRect, int)));
-    if (editor != nullptr) {
-        this->ui->textBrowser->setDocument(editor->parsedDocument());
-        this->connect(editor, SIGNAL(updateRequest(QRect,int)), this, SLOT(scroll(QRect,int)));
-    }
+    MarkdownParser parser;
+    QString html = parser.generateHtml(editor->document());
+    this->ui->webView->setHtml(html);
 }
 
-void Previewer::scroll(const QRect &, int) {
-    this->_editor->scrollParsedDocument(this->ui->textBrowser);
-}

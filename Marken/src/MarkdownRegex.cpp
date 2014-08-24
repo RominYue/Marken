@@ -27,9 +27,9 @@ void MarkdownRegex::initRegex() {
     this->_regex[MarkdownDefine::REFERENCE_LINK].setMinimal(true);
     this->_regex[MarkdownDefine::LINK_LABEL] = QRegExp("^\\[.*\\]:.*$");
     this->_regex[MarkdownDefine::LINK_LABEL].setMinimal(true);
-    this->_regex[MarkdownDefine::EMPHASIS] = QRegExp("\\*[^\\*\\s\\t]+\\*|_[^_\\s\\t]+_");
+    this->_regex[MarkdownDefine::EMPHASIS] = QRegExp("\\*[^\\*\\s\\t].+[^\\*\\s\\t]\\*|_[^_\\s\\t]+_");
     this->_regex[MarkdownDefine::EMPHASIS].setMinimal(true);
-    this->_regex[MarkdownDefine::STRONG] = QRegExp("\\*{2}[^\\*\\s\\t]+\\*{2}|_{2}[^_\\s\\t]+_{2}");
+    this->_regex[MarkdownDefine::STRONG] = QRegExp("\\*{2}[^\\*\\s\\t].+[^\\*\\s\\t]\\*{2}|_{2}[^_\\s\\t]+_{2}");
     this->_regex[MarkdownDefine::STRONG].setMinimal(true);
     this->_regex[MarkdownDefine::IMAGE] = QRegExp("!\\[(.*)\\]\\s?\\(([^\\s]+)(.*)\\)");
     this->_regex[MarkdownDefine::IMAGE].setMinimal(true);
