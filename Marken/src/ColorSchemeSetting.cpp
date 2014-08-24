@@ -227,3 +227,7 @@ QTextCharFormat ColorSchemeSetting::format(const QString &colorName) {
     format.setFontItalic(node.isItalic());
     return format;
 }
+
+QTextCharFormat ColorSchemeSetting::format(MarkdownDefine::SyntaxType type) {
+    return this->format(MarkdownDefine::getString(type));
+}

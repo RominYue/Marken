@@ -29,16 +29,10 @@ SOURCES += src/main.cpp\
     src/ColorScheme.cpp \
     src/ColorWidget.cpp \
     src/MarkdownRegex.cpp \
-    src/MarkdownDefination.cpp \
     src/MarkdownEditor.cpp \
     src/MarkdownBlockData.cpp \
-    src/MarkdownHighlighter_BlockHtml.cpp \
-    src/MarkdownHighlighter_CodeBlock.cpp \
-    src/MarkdownHighlighter_AtxHeader.cpp \
-    src/MarkdownHighlighter_SetextHeader.cpp \
-    src/MarkdownHighlighter_HorizonLine.cpp \
-    src/MarkdownHighlighter_NestedBlock.cpp \
-    src/MarkdownParser.cpp
+    src/MarkdownDefine.cpp \
+    src/MarkdownDebug.cpp
 
 HEADERS  += include/Marken.h \
     include/Previewer.h \
@@ -50,10 +44,10 @@ HEADERS  += include/Marken.h \
     include/ColorScheme.h \
     include/ColorWidget.h \
     include/MarkdownRegex.h \
-    include/MarkdownDefination.h \
     include/MarkdownEditor.h \
     include/MarkdownBlockData.h \
-    include/MarkdownParser.h
+    include/MarkdownDefine.h \
+    include/MarkdownDebug.h
 
 FORMS    += form/Marken.ui \
     form/Previewer.ui \

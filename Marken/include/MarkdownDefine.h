@@ -3,7 +3,7 @@
 
 #include <QString>
 
-class MarkdownDefination
+class MarkdownDefine
 {
 public:
     enum SyntaxType {

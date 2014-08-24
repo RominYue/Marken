@@ -9,6 +9,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QSettings>
+#include "MarkdownDebug.h"
 #include "ColorSchemeWidget.h"
 #include "MarkdownEditor.h"
 #include "Setting.h"
@@ -341,7 +342,9 @@ void Marken::on_actionPreference_triggered() {
 
 void Marken::on_actionPreview_triggered() {
     MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
-    this->ui->previewer->showPreview(editor);
+    MarkdownDebug debug;
+    debug.saveBlockData(editor->document());
+    //this->ui->previewer->showPreview(editor);
 }
 
 void Marken::on_actionAtx_Header_1_triggered() {

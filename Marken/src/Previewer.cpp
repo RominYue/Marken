@@ -6,7 +6,6 @@
 #include <QProcess>
 #include <QUrl>
 #include "MarkdownBlockData.h"
-#include "MarkdownParser.h"
 #include "Previewer.h"
 #include "ui_Previewer.h"
 
@@ -21,7 +20,5 @@ Previewer::~Previewer() {
 }
 
 void Previewer::showPreview(MarkdownEditor *editor) {
-    MarkdownParser parser;
-    QString html = parser.generateHtml(editor);
-    this->ui->textEdit->setHtml(html);
+    // TODO
 }

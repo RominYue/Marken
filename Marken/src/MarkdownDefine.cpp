@@ -1,6 +1,6 @@
-#include "MarkdownDefination.h"
+#include "MarkdownDefine.h"
 
-QString MarkdownDefination::getString(SyntaxType type) {
+QString MarkdownDefine::getString(SyntaxType type) {
     switch (type) {
     case DEFAULT:
         return "Default";

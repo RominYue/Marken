@@ -17,6 +17,22 @@ protected:
 private:
     MarkdownRegex _regex;
 
+    QRegExp _atxHeader1;
+    QRegExp _atxHeader2;
+    QRegExp _atxHeader3;
+    QRegExp _atxHeader4;
+    QRegExp _atxHeader5;
+    QRegExp _atxHeader6;
+    QRegExp _setextHeader1;
+    QRegExp _setextHeader2;
+    QRegExp _blockHtmlBegin;
+    QRegExp _blockHtmlEnd;
+    QRegExp _codeblock;
+    QRegExp _horizon;
+    QRegExp _unorderedList;
+    QRegExp _orderedList;
+    QRegExp _quote;
+
     bool isBlockHtmlFormat(const QString &text, MarkdownBlockData *data, MarkdownBlockData *prev);
     bool isCodeBlockFormat(const QString &text, MarkdownBlockData *data);
     bool isAtxHeader(const QString &text, MarkdownBlockData *data);

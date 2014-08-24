@@ -22,18 +22,36 @@ public:
         LINE_HORIZONTAL,
         LINE_NESTED_BLOCK,
         LINE_LINK_LABEL,
+        LINE_BLOCK_QUOTE,
+        LINE_ORDERED_LIST,
+        LINE_UNORDERED_LIST,
         LINE_INVALID,
     };
 
     MarkdownBlockData();
-    LineType type() const;
-    void setType(LineType type);
+    void clear();
+    LineType type(int index) const;
+    LineType typeAt(int indent) const;
+    int indent(int index) const;
+    QVector<LineType>* types();
+    QVector<int>* indents();
+    int lastIndent() const;
+    void setLastIndent(int indent);
     void setHtmlTag(const QString &tag);
     const QString& htmlTag() const;
 
+    void recordState();
+    bool isStateChanged() const;
+
 private:
-    LineType _type;
+    QVector<LineType> _types;
+    QVector<int> _indents;
+    int _lastIndent;
     QString _htmlTag; // Record the start block level HTML tag.
+
+    QVector<LineType> _lastTypes;
+    QVector<int> _lastIndents;
+    int _lastLastIndent;
 };
 
 #endif // MARKDOWNBLOCKDATA_H

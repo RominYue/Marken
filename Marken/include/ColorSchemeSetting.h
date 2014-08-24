@@ -3,6 +3,7 @@
 
 #include <QTextCharFormat>
 #include "ColorScheme.h"
+#include "MarkdownDefine.h"
 
 class ColorSchemeSetting {
 public:
@@ -31,6 +32,7 @@ public:
     QFont font(const QString &colorName);
     QTextCharFormat format();
     QTextCharFormat format(const QString &colorName);
+    QTextCharFormat format(MarkdownDefine::SyntaxType type);
 
 private:
     QString _currentScheme;
