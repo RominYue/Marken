@@ -46,7 +46,15 @@ QString MarkdownParser::generateHtml(QTextDocument *document) {
                 break;
             case MarkdownBlockData::LINE_DEFAULT:
                 if (this->prevType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
-                    html += "<p>";
+                    if (this->nextType(block, i) == MarkdownBlockData::LINE_SETEXT_HEADER_1) {
+                        html += "<h1>" + this->removeTitleHash(text.mid(indent)) + "</h1>";
+                        break;
+                    } else if (this->nextType(block, i) == MarkdownBlockData::LINE_SETEXT_HEADER_2) {
+                        html += "<h2>" + this->removeTitleHash(text.mid(indent)) + "</h2>";
+                        break;
+                    } else {
+                        html += "<p>";
+                    }
                 }
                 html += translateSpan(text.mid(indent));
                 break;
@@ -106,7 +114,10 @@ QString MarkdownParser::generateHtml(QTextDocument *document) {
                 break;
             case MarkdownBlockData::LINE_DEFAULT:
                 if (this->nextType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
-                    html += "</p>";
+                    if (this->nextType(block, i) != MarkdownBlockData::LINE_SETEXT_HEADER_1 &&
+                        this->nextType(block, i) != MarkdownBlockData::LINE_SETEXT_HEADER_2) {
+                        html += "</p>";
+                    }
                 }
                 break;
             case MarkdownBlockData::LINE_BLOCK_QUOTE:
@@ -408,19 +419,19 @@ void MarkdownParser::findLinkLabels(QTextDocument *document) {
         QString text = block.text();
         MarkdownBlockData* data = dynamic_cast<MarkdownBlockData*>(block.userData());
         for (int i = 0; i < data->types()->size(); ++i) {
-            if (data[i].type(i) == MarkdownBlockData::LINE_LINK_LABEL) {
+            if (data->type(i) == MarkdownBlockData::LINE_LINK_LABEL) {
                 linkLabel.indexIn(text, data->indent(i));
-                if (linkLabel.capturedTexts().at(1).isEmpty()) {
+                if (linkLabel.capturedTexts()[1].isEmpty()) {
                     break;
                 }
-                lastLink = linkLabel.capturedTexts().at(1).toLower();
-                this->_links[lastLink] = linkLabel.capturedTexts().at(2);
-                if (!linkLabel.capturedTexts().at(3).isEmpty()) {
-                    this->_titles[lastLink] = linkLabel.capturedTexts().at(3);
+                lastLink = linkLabel.capturedTexts()[1].toLower();
+                this->_links[lastLink] = linkLabel.capturedTexts()[2];
+                if (!linkLabel.capturedTexts()[3].isEmpty()) {
+                    this->_titles[lastLink] = linkLabel.capturedTexts()[3];
                 }
                 break;
             }
-            if (data[i].type(i) == MarkdownBlockData::LINE_LINK_LABEL_DESC) {
+            if (data->type(i) == MarkdownBlockData::LINE_LINK_LABEL_DESC) {
                 if (!lastLink.isEmpty()) {
                     this->_titles[lastLink] = this->removeSpaces(text.mid(data->indent(i)));
                     lastLink = "";
