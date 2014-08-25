@@ -38,7 +38,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="MarkdownTabWidget" name="tabWidget">
       <property name="acceptDrops">
        <bool>true</bool>
       </property>
@@ -537,6 +537,12 @@ QDockWidget::title {
    <class>Previewer</class>
    <extends>QWidget</extends>
    <header>previewer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MarkdownTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>MarkdownTabWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

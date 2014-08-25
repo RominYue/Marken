@@ -23,11 +23,11 @@ public:
 private:
     void initToolbar();
 
-    bool tryOpen(const QString &path);
     bool trySave();
     bool tryCloseAll();
 
 private slots:
+    bool tryOpen(QString path);
     void updateTabTitle(bool);
 
     void on_actionNew_triggered();

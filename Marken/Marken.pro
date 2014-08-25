@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml webkit webkitwidgets
+QT       += core gui xml
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
@@ -33,7 +33,8 @@ SOURCES += src/main.cpp\
     src/MarkdownBlockData.cpp \
     src/MarkdownDefine.cpp \
     src/MarkdownDebug.cpp \
-    src/MarkdownParser.cpp
+    src/MarkdownParser.cpp \
+    src/MarkdownTabWidget.cpp
 
 HEADERS  += include/Marken.h \
     include/Previewer.h \
@@ -49,7 +50,8 @@ HEADERS  += include/Marken.h \
     include/MarkdownBlockData.h \
     include/MarkdownDefine.h \
     include/MarkdownDebug.h \
-    include/MarkdownParser.h
+    include/MarkdownParser.h \
+    include/MarkdownTabWidget.h
 
 FORMS    += form/Marken.ui \
     form/Previewer.ui \

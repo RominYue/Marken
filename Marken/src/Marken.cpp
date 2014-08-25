@@ -26,6 +26,7 @@ Marken::Marken(QWidget *parent) :
     QSettings settings;
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
+    this->connect(this->ui->tabWidget, SIGNAL(openFile(QString)), this, SLOT(tryOpen(QString)));
 }
 
 Marken::~Marken() {
@@ -71,7 +72,7 @@ void Marken::on_actionNew_triggered() {
     this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(updateTabTitle(bool)));
 }
 
-bool Marken::tryOpen(const QString &path) {
+bool Marken::tryOpen(QString path) {
     QFileInfo info(path);
     QString absolute = info.absoluteFilePath();
     bool flag = true;
