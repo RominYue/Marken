@@ -1,7 +1,7 @@
-#include <QDomDocument>
-#include <QDomElement>
 #include <QFile>
 #include <QTextStream>
+#include <QDomElement>
+#include <QDomDocument>
 #include "ColorSchemeSetting.h"
 
 ColorSchemeSetting::ColorSchemeSetting() {

@@ -8,11 +8,14 @@ QT       += core gui xml
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_LFLAGS = -static
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Marken
 TEMPLATE = app
+
+RC_FILE = resource.rc
 
 TRANSLATIONS += lang/Lang_CH.ts
 

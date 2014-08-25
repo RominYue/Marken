@@ -40,6 +40,7 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
+    void on_actionHTML_triggered();
     void on_actionClose_triggered();
     void on_actionClose_All_triggered();
     void on_actionQuit_triggered();
@@ -79,6 +80,7 @@ private slots:
     void on_actionPreview_triggered();
 
     void on_actionSyntax_Document_triggered();
+    void on_actionAbout_Marken_triggered();
 
 private:
     Ui::Marken *ui;

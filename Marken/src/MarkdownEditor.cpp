@@ -70,6 +70,19 @@ void MarkdownEditor::saveAs(const QString &path) {
     this->save();
 }
 
+void MarkdownEditor::saveAsHtml(const QString &path) {
+    MarkdownParser parse;
+    QString html = parse.generateHtml(this->document());
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << html;
+        out.flush();
+        file.close();
+    }
+}
+
 void MarkdownEditor::updateColorScheme() {
     ColorSchemeSetting& scheme = Setting::instance()->colorScheme;
     ColorSchemeNode& node = scheme.scheme().color();

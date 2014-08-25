@@ -482,11 +482,31 @@ void Marken::on_actionBold_triggered() {
     editor->addBold();
 }
 
-void Marken::on_actionSyntax_Document_triggered() {
-    this->tryOpen("doc/parse.md");
-}
-
 void Marken::on_actionPreview_triggered() {
     MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
     this->ui->previewer->showPreview(editor);
+}
+
+void Marken::on_actionSyntax_Document_triggered() {
+    this->tryOpen("doc/syntax.md");
+    this->on_actionPreview_triggered();
+}
+
+void Marken::on_actionAbout_Marken_triggered() {
+    this->tryOpen("doc/about.md");
+    this->on_actionPreview_triggered();
+}
+
+void Marken::on_actionHTML_triggered() {
+    int index = this->ui->tabWidget->currentIndex();
+    if (index != -1) {
+        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        QString caption = tr("Save File");
+        QString dir = "";
+        QString filter = tr("HTML file(*.html);;All files(*.*)");
+        QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
+        if (!path.isEmpty()) {
+            editor->saveAsHtml(path);
+        }
+    }
 }

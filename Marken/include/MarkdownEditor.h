@@ -19,6 +19,7 @@ public:
     void loadText();
     void save();
     void saveAs(const QString &path);
+    void saveAsHtml(const QString &path);
 
     void updateColorScheme();
     void rehighlight();

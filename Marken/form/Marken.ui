@@ -82,11 +82,18 @@ QTabBar::tab:selected {
     <property name="title">
      <string>File(&amp;F)</string>
     </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionHTML"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_All"/>
     <addaction name="actionSave_As"/>
+    <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="actionClose_All"/>
@@ -114,6 +121,8 @@ QTabBar::tab:selected {
      <string>Help(&amp;H)</string>
     </property>
     <addaction name="actionSyntax_Document"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout_Marken"/>
    </widget>
    <widget class="QMenu" name="menuSyntax">
     <property name="title">
@@ -528,6 +537,16 @@ QDockWidget::title {
    </property>
    <property name="shortcut">
     <string>F5</string>
+   </property>
+  </action>
+  <action name="actionAbout_Marken">
+   <property name="text">
+    <string>About Marken</string>
+   </property>
+  </action>
+  <action name="actionHTML">
+   <property name="text">
+    <string>HTML...</string>
    </property>
   </action>
  </widget>

@@ -278,14 +278,13 @@ QString MarkdownParser::translateSpan(const QString &str) {
 QString MarkdownParser::parseImage(const QString &str, int offset, int &length) {
     QRegExp image("!\\[(.*)\\]\\s?\\(([^\\s]+)(.*)\\)");
     image.setMinimal(true);
-    int index = image.indexIn(str, offset);
-    if (index == offset) {
+    if (image.indexIn(str, offset) == offset) {
         length = image.matchedLength();
         auto list = image.capturedTexts();
-        if (list.size() == 3) {
-            return "<img src=\"" + list[1] + "\" alt=\"" + list[2] + "\">";
-        } else if (list.size() == 4) {
-            return "<img src=\"" + list[1] + "\" alt=\"" + list[2] + "\" title=\"" + list[3] + "\">";
+        if (list[3].isEmpty()) {
+            return "<img src=\"" + list[2] + "\" alt=\"" + list[1] + "\">";
+        } else {
+            return "<img src=\"" + list[2] + "\" alt=\"" + list[1] + "\" title=\"" + list[3] + "\">";
         }
     }
     return "";
@@ -294,8 +293,7 @@ QString MarkdownParser::parseImage(const QString &str, int offset, int &length) 
 QString MarkdownParser::parseLink(const QString &str, int offset, int &length) {
     QRegExp inlineLink("\\[(.*)\\]\\s?\\(([^\\s]+)(.*)\\)");
     inlineLink.setMinimal(true);
-    int index = inlineLink.indexIn(str, offset);
-    if (index == offset) {
+    if (inlineLink.indexIn(str, offset) == offset) {
         length = inlineLink.matchedLength();
         auto list = inlineLink.capturedTexts();
         if (list[3].isEmpty()) {
@@ -306,8 +304,7 @@ QString MarkdownParser::parseLink(const QString &str, int offset, int &length) {
     }
     QRegExp referenceLink("\\[(.*)\\]\\s?\\[(.*)\\]");
     referenceLink.setMinimal(true);
-    index = referenceLink.indexIn(str, offset);
-    if (index == offset) {
+    if (referenceLink.indexIn(str, offset) == offset) {
         length = referenceLink.matchedLength();
         auto list = referenceLink.capturedTexts();
         QString key = list[2].toLower();
@@ -336,8 +333,7 @@ QString MarkdownParser::parseCode(const QString &str, int offset, int &length) {
     }
     QRegExp code(QString("`{%1}.*`{%1}").arg(num));
     code.setMinimal(true);
-    int index = code.indexIn(str, offset);
-    if (index == offset) {
+    if (code.indexIn(str, offset) == offset) {
         length = code.matchedLength();
         return "<code>" + str.mid(offset + num, length - num * 2) + "</code>";
     }
@@ -347,8 +343,7 @@ QString MarkdownParser::parseCode(const QString &str, int offset, int &length) {
 QString MarkdownParser::parseHtml(const QString &str, int offset, int &length) {
     QRegExp html("</?(.*)>");
     html.setMinimal(true);
-    int index = html.indexIn(str, offset);
-    if (index == offset) {
+    if (html.indexIn(str, offset) == offset) {
         QString tag = html.capturedTexts()[1];
         for (auto spanTag : {"h1", "h2", "h3", "h4", "h5", "h6", "hr", "a", "abbr", "b", "big", "br", "cite",
                              "code", "em", "i", "img", "small", "span", "strong", "sub", "sup", "del"}) {
@@ -363,17 +358,15 @@ QString MarkdownParser::parseHtml(const QString &str, int offset, int &length) {
 }
 
 QString MarkdownParser::parseEmphasis(const QString &str, int offset, int &length) {
-    QRegExp strong("\\*{2}([^\\*\\s\\t].+[^\\*\\s\\t])\\*{2}|_{2}([^_\\s\\t]+)_{2}");
+    QRegExp strong("\\*{2}([^\\*\\s\\t].*[^\\*\\s\\t])\\*{2}|_{2}([^\\*\\s\\t].*[^\\*\\s\\t])_{2}");
     strong.setMinimal(true);
-    int index = strong.indexIn(str, offset);
-    if (index == offset) {
+    if (strong.indexIn(str, offset) == offset) {
         length = strong.matchedLength();
         return "<strong>" + strong.capturedTexts()[1] + "</strong>";
     }
-    QRegExp emphasis("\\*([^\\*\\s\\t].+[^\\*\\s\\t])\\*|_([^_\\s\\t]+)_");
+    QRegExp emphasis("\\*([^\\*\\s\\t].*[^\\*\\s\\t])\\*|_([^\\*\\s\\t].*[^\\*\\s\\t])_");
     emphasis.setMinimal(true);
-    index = emphasis.indexIn(str, offset);
-    if (index == offset) {
+    if (emphasis.indexIn(str, offset) == offset) {
         length = emphasis.matchedLength();
         return "<em>" + emphasis.capturedTexts()[1] + "</em>";
     }
@@ -383,8 +376,7 @@ QString MarkdownParser::parseEmphasis(const QString &str, int offset, int &lengt
 QString MarkdownParser::parseTransChar(const QString &str, int offset, int &length) {
     QRegExp hChar("&(.+);");
     hChar.setMinimal(true);
-    int index = hChar.indexIn(str, offset);
-    if (index == offset) {
+    if (hChar.indexIn(str, offset) == offset) {
         QString tag = hChar.capturedTexts()[1];
         bool flag = true;
         for (auto hTag : {"nbsp", "lt", "gt", "amp", "cent", "pound", "yen", "euro", "copy", "reg"}) {
@@ -400,8 +392,7 @@ QString MarkdownParser::parseTransChar(const QString &str, int offset, int &leng
     }
     QRegExp hNum("&#\\d+;");
     hNum.setMinimal(true);
-    index = hChar.indexIn(str, offset);
-    if (index == offset) {
+    if (hChar.indexIn(str, offset) == offset) {
         length = hNum.matchedLength();
         return str.mid(offset, length);
     }
