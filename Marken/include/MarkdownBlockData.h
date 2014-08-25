@@ -21,6 +21,7 @@ public:
         LINE_CODE_BLOCK,
         LINE_HORIZONTAL,
         LINE_LINK_LABEL,
+        LINE_LINK_LABEL_DESC,
         LINE_BLOCK_QUOTE,
         LINE_ORDERED_LIST,
         LINE_UNORDERED_LIST,

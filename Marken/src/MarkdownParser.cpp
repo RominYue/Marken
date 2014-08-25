@@ -1,148 +1,149 @@
+#include <QMap>
+#include <QStringList>
 #include "MarkdownParser.h"
 
 MarkdownParser::MarkdownParser() {
 }
 
 QString MarkdownParser::generateHtml(QTextDocument *document) {
-    QString html;
+    QStringList list;
+    this->findLinkLabels(document);
     QTextBlock block = document->firstBlock();
     while (block.isValid()) {
-        html += this->generateHtml(block);
+        QString html;
+        QString text = block.text();
+        MarkdownBlockData* data = dynamic_cast<MarkdownBlockData*>(block.userData());
+        for (int i = 0; i < data->types()->size(); ++i) {
+            int indent = data->indent(i);
+            switch (data->type(i)) {
+            case MarkdownBlockData::LINE_ATX_HEADER_1:
+                html += "<h1>" + translate(removeTitleHash(text).mid(indent)) + "</h1><hr/>";
+                break;
+            case MarkdownBlockData::LINE_ATX_HEADER_2:
+                html += "<h2>" + translate(removeTitleHash(text).mid(indent)) + "</h2><hr/>";
+                break;
+            case MarkdownBlockData::LINE_ATX_HEADER_3:
+                html += "<h3>" + translate(removeTitleHash(text).mid(indent)) + "</h3><hr/>";
+                break;
+            case MarkdownBlockData::LINE_ATX_HEADER_4:
+                html += "<h4>" + translate(removeTitleHash(text).mid(indent)) + "</h4>";
+                break;
+            case MarkdownBlockData::LINE_ATX_HEADER_5:
+                html += "<h5>" + translate(removeTitleHash(text).mid(indent)) + "</h5>";
+                break;
+            case MarkdownBlockData::LINE_ATX_HEADER_6:
+                html += "<h6>" + translate(removeTitleHash(text).mid(indent)) + "</h6>";
+                break;
+            case MarkdownBlockData::LINE_BLOCK_HTML:
+            case MarkdownBlockData::LINE_BLOCK_HTML_END:
+                html += text;
+                break;
+            case MarkdownBlockData::LINE_CODE_BLOCK:
+                if (this->prevType(block, i) != MarkdownBlockData::LINE_CODE_BLOCK) {
+                    html += "<pre><code>";
+                }
+                html += removeCodeIndent(translate(text.mid(indent))) + "<br/>";
+                break;
+            case MarkdownBlockData::LINE_DEFAULT:
+                if (this->prevType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
+                    html += "<p>";
+                }
+                html += translateSpan(text.mid(indent));
+                break;
+            case MarkdownBlockData::LINE_EMPTY:
+                html += "";
+                break;
+            case MarkdownBlockData::LINE_HORIZONTAL:
+                html += "<hr/>";
+                break;
+            case MarkdownBlockData::LINE_LINK_LABEL:
+            case MarkdownBlockData::LINE_LINK_LABEL_DESC:
+                html += "";
+                break;
+            case MarkdownBlockData::LINE_SETEXT_HEADER_1:
+                html += "<hr/>";
+                break;
+            case MarkdownBlockData::LINE_SETEXT_HEADER_2:
+                html += "<hr/>";
+                break;
+            case MarkdownBlockData::LINE_BLOCK_QUOTE:
+                if (this->prevType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
+                    html += "<blockquote>";
+                }
+                break;
+            case MarkdownBlockData::LINE_UNORDERED_LIST:
+                if (this->prevType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
+                    html += "<ul>";
+                }
+                if (indent < text.length()) {
+                    if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
+                        html += "<li>" + translateSpan(text.mid(indent + 2));
+                    }
+                }
+                break;
+            case MarkdownBlockData::LINE_ORDERED_LIST:
+                if (this->prevType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
+                    html += "<ol>";
+                }
+                if (indent < text.length()) {
+                    if (text.at(indent) >= '0' && text.at(indent) <= '9') {
+                        html += "<li>" + translateSpan(text.mid(indent + 2));
+                    }
+                }
+                break;
+            default:
+                html += text.mid(indent);
+                break;
+            }
+        }
+        for (int i = data->types()->size() - 1; i >= 0; --i) {
+            int indent = data->indent(i);
+            switch (data->type(i)) {
+            case MarkdownBlockData::LINE_CODE_BLOCK:
+                if (this->nextType(block, i) != MarkdownBlockData::LINE_CODE_BLOCK) {
+                    html += "</code></pre>";
+                }
+                break;
+            case MarkdownBlockData::LINE_DEFAULT:
+                if (this->nextType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
+                    html += "</p>";
+                }
+                break;
+            case MarkdownBlockData::LINE_BLOCK_QUOTE:
+                if (this->nextType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
+                    html += "</blockquote>";
+                }
+                break;
+            case MarkdownBlockData::LINE_UNORDERED_LIST:
+                if (indent < text.length()) {
+                    if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
+                        html += "</li>";
+                    }
+                }
+                if (this->nextType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
+                    html += "</ul>";
+                }
+                break;
+            case MarkdownBlockData::LINE_ORDERED_LIST:
+                if (indent < text.length()) {
+                    if (text.at(indent).isDigit()) {
+                        html += "</li>";
+                    }
+                }
+                if (this->nextType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
+                    html += "</ol>";
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        list << html;
         block = block.next();
     }
-    return html;
-}
-
-QString MarkdownParser::generateHtml(QTextBlock block) {
-    QString html;
-    if (!block.isValid()) {
-        return "";
-    }
-    QString text = block.text();
-    MarkdownBlockData* data = dynamic_cast<MarkdownBlockData*>(block.userData());
-    for (int i = 0; i < data->types()->size(); ++i) {
-        int indent = data->indent(i);
-        switch (data->type(i)) {
-        case MarkdownBlockData::LINE_ATX_HEADER_1:
-            html += "<h1>" + translate(removeTitleHash(text).mid(indent)) + "</h1><hr/>";
-            break;
-        case MarkdownBlockData::LINE_ATX_HEADER_2:
-            html += "<h2>" + translate(removeTitleHash(text).mid(indent)) + "</h2><hr/>";
-            break;
-        case MarkdownBlockData::LINE_ATX_HEADER_3:
-            html += "<h3>" + translate(removeTitleHash(text).mid(indent)) + "</h3><hr/>";
-            break;
-        case MarkdownBlockData::LINE_ATX_HEADER_4:
-            html += "<h4>" + translate(removeTitleHash(text).mid(indent)) + "</h4>";
-            break;
-        case MarkdownBlockData::LINE_ATX_HEADER_5:
-            html += "<h5>" + translate(removeTitleHash(text).mid(indent)) + "</h5>";
-            break;
-        case MarkdownBlockData::LINE_ATX_HEADER_6:
-            html += "<h6>" + translate(removeTitleHash(text).mid(indent)) + "</h6>";
-            break;
-        case MarkdownBlockData::LINE_BLOCK_HTML:
-        case MarkdownBlockData::LINE_BLOCK_HTML_END:
-            html += text;
-            break;
-        case MarkdownBlockData::LINE_CODE_BLOCK:
-            if (this->prevType(block, i) != MarkdownBlockData::LINE_CODE_BLOCK) {
-                html += "<pre><code>";
-            }
-            html += removeCodeIndent(translate(text.mid(indent))) + "<br/>";
-            break;
-        case MarkdownBlockData::LINE_DEFAULT:
-            if (this->prevType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
-                html += "<p>";
-            }
-            html += translateSpan(text.mid(indent));
-            break;
-        case MarkdownBlockData::LINE_EMPTY:
-            html += "";
-            break;
-        case MarkdownBlockData::LINE_HORIZONTAL:
-            html += "<hr/>";
-            break;
-        case MarkdownBlockData::LINE_LINK_LABEL:
-            html += "";
-            break;
-        case MarkdownBlockData::LINE_SETEXT_HEADER_1:
-            html += "<hr/>";
-            break;
-        case MarkdownBlockData::LINE_SETEXT_HEADER_2:
-            html += "<hr/>";
-            break;
-        case MarkdownBlockData::LINE_BLOCK_QUOTE:
-            if (this->prevType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
-                html += "<blockquote>";
-            }
-            break;
-        case MarkdownBlockData::LINE_UNORDERED_LIST:
-            if (this->prevType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
-                html += "<ul>";
-            }
-            if (indent < text.length()) {
-                if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
-                    html += "<li>" + translateSpan(text.mid(indent + 2));
-                }
-            }
-            break;
-        case MarkdownBlockData::LINE_ORDERED_LIST:
-            if (this->prevType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
-                html += "<ol>";
-            }
-            if (indent < text.length()) {
-                if (text.at(indent) >= '0' && text.at(indent) <= '9') {
-                    html += "<li>" + translateSpan(text.mid(indent + 2));
-                }
-            }
-            break;
-        default:
-            html += text.mid(indent);
-            break;
-        }
-    }
-    for (int i = data->types()->size() - 1; i >= 0; --i) {
-        int indent = data->indent(i);
-        switch (data->type(i)) {
-        case MarkdownBlockData::LINE_CODE_BLOCK:
-            if (this->nextType(block, i) != MarkdownBlockData::LINE_CODE_BLOCK) {
-                html += "</code></pre>";
-            }
-            break;
-        case MarkdownBlockData::LINE_DEFAULT:
-            if (this->nextType(block, i) != MarkdownBlockData::LINE_DEFAULT) {
-                html += "</p>";
-            }
-            break;
-        case MarkdownBlockData::LINE_BLOCK_QUOTE:
-            if (this->nextType(block, i) != MarkdownBlockData::LINE_BLOCK_QUOTE) {
-                html += "</blockquote>";
-            }
-            break;
-        case MarkdownBlockData::LINE_UNORDERED_LIST:
-            if (indent < text.length()) {
-                if (text.at(indent) == '*' || text.at(indent) == '+' || text.at(indent) == '-') {
-                    html += "</li>";
-                }
-            }
-            if (this->nextType(block, i) != MarkdownBlockData::LINE_UNORDERED_LIST) {
-                html += "</ul>";
-            }
-            break;
-        case MarkdownBlockData::LINE_ORDERED_LIST:
-            if (indent < text.length()) {
-                if (text.at(indent).isDigit()) {
-                    html += "</li>";
-                }
-            }
-            if (this->nextType(block, i) != MarkdownBlockData::LINE_ORDERED_LIST) {
-                html += "</ol>";
-            }
-            break;
-        default:
-            break;
-        }
+    QString html = "";
+    for (auto str : list) {
+        html += str + "\n";
     }
     return html;
 }
@@ -187,11 +188,24 @@ QString MarkdownParser::translate(const QString &str) {
     return trans;
 }
 
+QString MarkdownParser::removeSpaces(const QString &str) {
+    for (int i = 0 ; i < str.length(); ++i) {
+        if (str[i] != ' ' && str[i] != '\t') {
+            for (int j = str.length() - 1; j >= i; --j) {
+                if (str[j] != ' ' && str[i] != '\t') {
+                    return str.mid(i, j + 1 - i);
+                }
+            }
+        }
+    }
+    return "";
+}
+
 QString MarkdownParser::removeTitleHash(const QString &str) {
     for (int i = 0 ; i < str.length(); ++i) {
-        if (str[i] != '#' && str[i] != ' ') {
+        if (str[i] != '#' && str[i] != ' ' && str[i] != '\t') {
             for (int j = str.length() - 1; j >= i; --j) {
-                if (str[j] != '#' && str[j] != ' ') {
+                if (str[j] != '#' && str[j] != ' ' && str[i] != '\t') {
                     if (str[j] == '\\') {
                         ++j;
                     }
@@ -267,16 +281,34 @@ QString MarkdownParser::parseImage(const QString &str, int offset, int &length) 
 }
 
 QString MarkdownParser::parseLink(const QString &str, int offset, int &length) {
-    QRegExp link("\\[(.*)\\]\\s?\\(([^\\s]+)(.*)\\)");
-    link.setMinimal(true);
-    int index = link.indexIn(str, offset);
+    QRegExp inlineLink("\\[(.*)\\]\\s?\\(([^\\s]+)(.*)\\)");
+    inlineLink.setMinimal(true);
+    int index = inlineLink.indexIn(str, offset);
     if (index == offset) {
-        length = link.matchedLength();
-        auto list = link.capturedTexts();
-        if (list.size() == 3) {
+        length = inlineLink.matchedLength();
+        auto list = inlineLink.capturedTexts();
+        if (list[3].isEmpty()) {
             return "<a href=\"" + list[2] + "\">" + list[1] + "</a>";
-        } else if (list.size() == 4) {
+        } else {
             return "<a href=\"" + list[2] + "\" title=\"" + list[3] + "\">" + list[1] + "</a>";
+        }
+    }
+    QRegExp referenceLink("\\[(.*)\\]\\s?\\[(.*)\\]");
+    referenceLink.setMinimal(true);
+    index = referenceLink.indexIn(str, offset);
+    if (index == offset) {
+        length = referenceLink.matchedLength();
+        auto list = referenceLink.capturedTexts();
+        QString key = list[2].toLower();
+        if (key.isEmpty()) {
+            key = list[1].toLower();
+        }
+        if (!key.isEmpty()) {
+            if (this->_titles.find(key) == this->_titles.end()) {
+                return "<a href=\"" + this->_links[key] + "\">" + list[1] + "</a>";
+            } else {
+                return "<a href=\"" + this->_links[key] + "\" title=\"" + this->_titles[key] + "\">" + list[1] + "</a>";
+            }
         }
     }
     return "";
@@ -363,4 +395,38 @@ QString MarkdownParser::parseTransChar(const QString &str, int offset, int &leng
         return str.mid(offset, length);
     }
     return "";
+}
+
+void MarkdownParser::findLinkLabels(QTextDocument *document) {
+    this->_links.clear();
+    this->_titles.clear();
+    QRegExp linkLabel("\\[(.*)\\]:[\\s\\t]*([^\\s\\t]+)[\\s\\t]*(.*)$");
+    linkLabel.setMinimal(true);
+    QTextBlock block = document->firstBlock();
+    QString lastLink;
+    while (block.isValid()) {
+        QString text = block.text();
+        MarkdownBlockData* data = dynamic_cast<MarkdownBlockData*>(block.userData());
+        for (int i = 0; i < data->types()->size(); ++i) {
+            if (data[i].type(i) == MarkdownBlockData::LINE_LINK_LABEL) {
+                linkLabel.indexIn(text, data->indent(i));
+                if (linkLabel.capturedTexts().at(1).isEmpty()) {
+                    break;
+                }
+                lastLink = linkLabel.capturedTexts().at(1).toLower();
+                this->_links[lastLink] = linkLabel.capturedTexts().at(2);
+                if (!linkLabel.capturedTexts().at(3).isEmpty()) {
+                    this->_titles[lastLink] = linkLabel.capturedTexts().at(3);
+                }
+                break;
+            }
+            if (data[i].type(i) == MarkdownBlockData::LINE_LINK_LABEL_DESC) {
+                if (!lastLink.isEmpty()) {
+                    this->_titles[lastLink] = this->removeSpaces(text.mid(data->indent(i)));
+                    lastLink = "";
+                }
+            }
+        }
+        block = block.next();
+    }
 }

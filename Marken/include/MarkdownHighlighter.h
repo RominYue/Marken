@@ -32,6 +32,7 @@ private:
     QRegExp _unorderedList;
     QRegExp _orderedList;
     QRegExp _quote;
+    QRegExp _linkLabel;
 
     bool isBlockHtmlFormat(const QString &text, MarkdownBlockData *data, MarkdownBlockData *prev);
     bool isCodeBlockFormat(const QString &text, MarkdownBlockData *data);

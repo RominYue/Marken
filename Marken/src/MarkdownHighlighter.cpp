@@ -20,6 +20,8 @@ MarkdownHighlighter::MarkdownHighlighter(QTextDocument *parent) :
     this->_unorderedList = QRegExp("[\\*\\+-][\\s\\t]");
     this->_orderedList = QRegExp("\\d+\\.[\\s\\t]");
     this->_quote = QRegExp(">[\\s\\t]");
+    this->_linkLabel = QRegExp("\\[.*\\]:");
+    this->_linkLabel.setMinimal(true);
 }
 
 void MarkdownHighlighter::highlightBlock(const QString &text) {
@@ -208,6 +210,16 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
             i += length - 2;
             continue;
         }
+        // Link label.
+        if (this->_linkLabel.indexIn(text, i) == i) {
+            int length = this->_linkLabel.matchedLength();
+            this->setFormat(i, length, scheme.format(MarkdownDefine::LINK_LABEL));
+            data->types()->append(MarkdownBlockData::LINE_LINK_LABEL);
+            data->indents()->append(i);
+            data->setLastIndent(i + length);
+            break;
+        }
+        // Inherit.
         if (text[i] == ' ' || text[i] == '\t') {
             if (prev != nullptr) {
                 while (j < prev->indents()->size()) {
@@ -228,12 +240,22 @@ void MarkdownHighlighter::highlightBlock(const QString &text) {
             }
             continue;
         }
-        // Continue paragraph.
+        // Continued link label.
+        if (prev != nullptr && prev->types()->last() == MarkdownBlockData::LINE_LINK_LABEL) {
+            if (data->types()->size() == 0) {
+                data->types()->append(MarkdownBlockData::LINE_LINK_LABEL_DESC);
+                data->indents()->append(i);
+                data->setLastIndent(i);
+                break;
+            }
+        }
+        // Continued paragraph.
         if (prev != nullptr && prev->types()->last() == MarkdownBlockData::LINE_DEFAULT) {
             if (data->types()->size() < prev->types()->size()) {
                 *data->types() = *prev->types();
                 *data->indents() = *prev->indents();
                 data->setLastIndent(prev->lastIndent());
+                this->defaultFormat(text, i);
                 break;
             }
         }

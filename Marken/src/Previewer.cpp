@@ -16,6 +16,6 @@ Previewer::~Previewer() {
 void Previewer::showPreview(MarkdownEditor *editor) {
     MarkdownParser parser;
     QString html = parser.generateHtml(editor->document());
-    this->ui->webView->setHtml(html);
+    this->ui->textBrowser->setHtml(html);
 }
 
