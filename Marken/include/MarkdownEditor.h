@@ -38,11 +38,13 @@ public:
     void addReferenceLink();
     void addOrderedList();
     void addUnorderedList();
+    void multilineList(bool ordered);
     void addQuote();
+    void addUnquote();
+    void multilineQuote(bool increase);
     void addLinkLabel();
     void addEmphasis();
     void addBold();
-    void addUnquote();
 
 protected:
     void keyPressEvent(QKeyEvent *e);

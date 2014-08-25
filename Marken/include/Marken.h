@@ -65,14 +65,14 @@ private slots:
     void on_actionOrdered_List_triggered();
     void on_actionUnordered_List_triggered();
     void on_actionQuote_triggered();
+    void on_actionUnquote_triggered();
     void on_actionLink_Label_triggered();
     void on_actionEmphasis_triggered();
     void on_actionBold_triggered();
-    void on_actionUnquote_triggered();
-
-    void on_actionSyntax_Document_triggered();
 
     void on_actionPreview_triggered();
+
+    void on_actionSyntax_Document_triggered();
 
 private:
     Ui::Marken *ui;

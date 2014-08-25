@@ -485,6 +485,9 @@ QDockWidget::title {
    <property name="text">
     <string>Quote</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
   </action>
   <action name="actionLink_Label">
    <property name="text">
@@ -495,15 +498,24 @@ QDockWidget::title {
    <property name="text">
     <string>Emphasis</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
   </action>
   <action name="actionBold">
    <property name="text">
     <string>Bold</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
   </action>
   <action name="actionUnquote">
    <property name="text">
     <string>Unquote</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+X</string>
    </property>
   </action>
   <action name="actionPreview">

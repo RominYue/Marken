@@ -99,20 +99,19 @@ void MarkdownEditor::keyPressEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Tab) {
         QTextCursor cursor = this->textCursor();
         if (cursor.hasSelection()) {
-            if (e->modifiers() == Qt::NoModifier) {
-                this->multilineIndent(true);
-                return;
-            } else if (e->modifiers() & Qt::ShiftModifier) {
-                this->multilineIndent(false);
-                return;
-            }
-        } else if (e->modifiers() & Qt::NoModifier) {
+            this->multilineIndent(true);
+        } else {
             this->spaceIndent();
-            return;
         }
-    } else if (e->key() == Qt::Key_Return && (e->modifiers() & Qt::NoModifier)) {
+        return;
+    }
+    if (e->key() == Qt::Key_Backtab) {
+        this->multilineIndent(false);
+        return;
+    }
+    if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         this->autoIndent();
-        //return;
+        return;
     }
     QPlainTextEdit::keyPressEvent(e);
 }
@@ -146,7 +145,7 @@ void MarkdownEditor::multilineIndent(bool increase) {
         } else {
             int pos = cursor.position();
             for (int i = 0; i < 4; ++i) {
-                QChar next = this->toPlainText().at(pos + 1);
+                QChar next = this->toPlainText().at(pos);
                 if (next == ' ') {
                     cursor.deleteChar();
                 } else {
@@ -168,7 +167,60 @@ void MarkdownEditor::multilineIndent(bool increase) {
 
 void MarkdownEditor::autoIndent() {
     QTextCursor cursor = this->textCursor();
-    // TODO
+    QString text = cursor.block().text();
+    QString indent;
+    bool nest = false;
+    for (int i = 0; i <= text.size(); ++i) {
+        if (i == text.size()) {
+            indent = text;
+            break;
+        }
+        if (text[i] == ' ' || text[i] == '\t' || text[i] == '>') {
+            continue;
+        } else if (text[i] == '*' || text[i] == '+' || text[i] == '-') {
+            if (nest) {
+                indent = text.left(i);
+                break;
+            } else {
+                nest = true;
+            }
+        } else if (text[i] >= '0' && text[i] <= '9') {
+            int num = 0, space = 0;
+            for (int j = i; j < text.size(); ++j) {
+                if (text[j] >= '0' && text[j] <= '9') {
+                    num = num * 10 + text[j].toLatin1() - '0';
+                } else if (text[j] == '.') {
+                    for (int k = j + 1; k < text.size(); ++k) {
+                        if (text[k] == ' ' || text[k] == '\t') {
+                            ++space;
+                        } else {
+                            break;
+                        }
+                    }
+                    break;
+                } else {
+                    num = -1;
+                    break;
+                }
+            }
+            if (num >= 0) {
+                indent = text.left(i) + QString("%1.").arg(num + 1);
+                for (int k = 0; k < space; ++k) {
+                    indent += " ";
+                }
+            } else {
+                indent = text.left(i);
+            }
+            break;
+        } else {
+            indent = text.left(i);
+            break;
+        }
+    }
+    cursor.beginEditBlock();
+    cursor.insertText("\n" + indent);
+    cursor.endEditBlock();
+    this->setTextCursor(cursor);
 }
 
 void MarkdownEditor::addAtxHeader(int num) {
@@ -264,35 +316,94 @@ void MarkdownEditor::addReferenceLink() {
 }
 
 void MarkdownEditor::addOrderedList() {
-    QTextCursor cursor = this->textCursor();
-    cursor.beginEditBlock();
-    if (cursor.hasSelection()) {
-        cursor.removeSelectedText();
-    }
-    cursor.insertText("1. ");
-    cursor.endEditBlock();
-    this->setTextCursor(cursor);
+    this->multilineList(true);
 }
 
 void MarkdownEditor::addUnorderedList() {
+    this->multilineList(false);
+}
+
+void MarkdownEditor::multilineList(bool ordered) {
     QTextCursor cursor = this->textCursor();
-    cursor.beginEditBlock();
-    if (cursor.hasSelection()) {
-        cursor.removeSelectedText();
+    int spos = cursor.anchor();
+    int epos = cursor.position();
+    if (spos > epos) {
+        int temp = spos;
+        spos = epos;
+        epos = temp;
     }
-    cursor.insertText("* ");
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    int sblock = cursor.block().blockNumber();
+    cursor.setPosition(epos, QTextCursor::MoveAnchor);
+    int eblock = cursor.block().blockNumber();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.beginEditBlock();
+    for (int i = 0; i <= (eblock - sblock); ++i) {
+        cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+        if (ordered) {
+            cursor.insertText(QString("%1. ").arg(i + 1));
+        } else {
+            cursor.insertText("* ");
+        }
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    }
     cursor.endEditBlock();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+    while (cursor.block().blockNumber() < eblock) {
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor);
+    }
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
     this->setTextCursor(cursor);
 }
 
 void MarkdownEditor::addQuote() {
+    this->multilineQuote(true);
+}
+
+void MarkdownEditor::addUnquote() {
+    this->multilineQuote(false);
+}
+
+void MarkdownEditor::multilineQuote(bool increase) {
     QTextCursor cursor = this->textCursor();
-    cursor.beginEditBlock();
-    if (cursor.hasSelection()) {
-        cursor.removeSelectedText();
+    int spos = cursor.anchor();
+    int epos = cursor.position();
+    if (spos > epos) {
+        int temp = spos;
+        spos = epos;
+        epos = temp;
     }
-    cursor.insertText("> ");
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    int sblock = cursor.block().blockNumber();
+    cursor.setPosition(epos, QTextCursor::MoveAnchor);
+    int eblock = cursor.block().blockNumber();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.beginEditBlock();
+    for (int i = 0; i <= (eblock - sblock); ++i) {
+        cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+        if (increase) {
+            cursor.insertText("> ");
+        } else {
+            int pos = cursor.position();
+            QChar next = this->toPlainText().at(pos);
+            if (next == '>') {
+                cursor.deleteChar();
+                next = this->toPlainText().at(pos);
+                if (next == ' ') {
+                    cursor.deleteChar();
+                }
+            }
+        }
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    }
     cursor.endEditBlock();
+    cursor.setPosition(spos, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+    while (cursor.block().blockNumber() < eblock) {
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor);
+    }
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
     this->setTextCursor(cursor);
 }
 
@@ -311,11 +422,24 @@ void MarkdownEditor::addEmphasis() {
     QTextCursor cursor = this->textCursor();
     QString content;
     cursor.beginEditBlock();
+    bool insert = true;
     if (cursor.hasSelection()) {
         content = cursor.selectedText();
-        cursor.removeSelectedText();
+        if (content.size() >= 2) {
+            if (content.left(1) == "*" && content.right(1) == "*") {
+                insert = false;
+            }
+            if (content.left(1) == "_" && content.right(1) == "_") {
+                insert = false;
+            }
+        }
     }
-    cursor.insertText("_" + content + "_");
+    if (insert) {
+        cursor.insertText("_" + content + "_");
+    } else {
+        cursor.removeSelectedText();
+        cursor.insertText(content.mid(1, content.size() - 2));
+    }
     cursor.endEditBlock();
     this->setTextCursor(cursor);
 }
@@ -324,17 +448,26 @@ void MarkdownEditor::addBold() {
     QTextCursor cursor = this->textCursor();
     QString content;
     cursor.beginEditBlock();
+    bool insert = true;
     if (cursor.hasSelection()) {
         content = cursor.selectedText();
-        cursor.removeSelectedText();
+        if (content.size() >= 4) {
+            if (content.left(2) == "**" && content.right(2) == "**") {
+                insert = false;
+            }
+            if (content.left(2) == "__" && content.right(2) == "__") {
+                insert = false;
+            }
+        }
     }
-    cursor.insertText("**" + content + "**");
+    if (insert) {
+        cursor.insertText("**" + content + "**");
+    } else {
+        cursor.removeSelectedText();
+        cursor.insertText(content.mid(2, content.size() - 4));
+    }
     cursor.endEditBlock();
     this->setTextCursor(cursor);
-}
-
-void MarkdownEditor::addUnquote() {
-    // TODO
 }
 
 void MarkdownEditor::updateLineNumberAreaWidth(int) {

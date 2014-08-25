@@ -420,6 +420,11 @@ void Marken::on_actionQuote_triggered() {
     editor->addQuote();
 }
 
+void Marken::on_actionUnquote_triggered() {
+    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    editor->addUnquote();
+}
+
 void Marken::on_actionLink_Label_triggered() {
     MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
     editor->addLinkLabel();
@@ -433,11 +438,6 @@ void Marken::on_actionEmphasis_triggered() {
 void Marken::on_actionBold_triggered() {
     MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
     editor->addBold();
-}
-
-void Marken::on_actionUnquote_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
-    editor->addUnquote();
 }
 
 void Marken::on_actionSyntax_Document_triggered() {
