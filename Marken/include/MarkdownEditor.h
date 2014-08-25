@@ -16,6 +16,7 @@ public:
 
     void setPath(const QString &path);
     void open(const QString &path);
+    void loadText();
     void save();
     void saveAs(const QString &path);
 

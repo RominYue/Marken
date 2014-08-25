@@ -39,7 +39,11 @@ void MarkdownEditor::setPath(const QString &path) {
 
 void MarkdownEditor::open(const QString &path) {
     this->setPath(path);
-    QFile file(path);
+    this->loadText();
+}
+
+void MarkdownEditor::loadText() {
+    QFile file(this->_path);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         in.setCodec("UTF-8");

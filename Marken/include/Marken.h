@@ -1,10 +1,10 @@
 #ifndef MARKEN_H
 #define MARKEN_H
 
+#include <QSet>
 #include <QMainWindow>
-#include <QDropEvent>
-#include <QDragEnterEvent>
 #include <QCloseEvent>
+#include <QFileSystemWatcher>
 
 namespace Ui {
 class Marken;
@@ -18,9 +18,14 @@ public:
     explicit Marken(QWidget *parent = 0);
     ~Marken();
 
+protected:
+    bool event(QEvent *e);
     void closeEvent(QCloseEvent *event) override final;
 
 private:
+    QFileSystemWatcher *_watcher;
+    QSet<QString> _changeList;
+
     void initToolbar();
 
     bool trySave();
@@ -29,6 +34,7 @@ private:
 private slots:
     bool tryOpen(QString path);
     void updateTabTitle(bool);
+    void fileChanged(const QString &path);
 
     void on_actionNew_triggered();
     void on_actionOpen_triggered();

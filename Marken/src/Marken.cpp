@@ -5,6 +5,7 @@
 #include <QList>
 #include <QKeyEvent>
 #include <QCoreApplication>
+#include <QApplicationStateChangeEvent>
 #include <QUrl>
 #include <QDialog>
 #include <QHBoxLayout>
@@ -27,6 +28,8 @@ Marken::Marken(QWidget *parent) :
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
     this->connect(this->ui->tabWidget, SIGNAL(openFile(QString)), this, SLOT(tryOpen(QString)));
+    this->_watcher = new QFileSystemWatcher(this);
+    this->connect(this->_watcher, SIGNAL(fileChanged(QString)), this, SLOT(fileChanged(QString)));
 }
 
 Marken::~Marken() {
@@ -65,6 +68,10 @@ void Marken::updateTabTitle(bool) {
     }
 }
 
+void Marken::fileChanged(const QString &path) {
+    this->_changeList.insert(path);
+}
+
 void Marken::on_actionNew_triggered() {
     MarkdownEditor *editor = new MarkdownEditor();
     this->ui->tabWidget->addTab(editor, editor->name());
@@ -90,6 +97,7 @@ bool Marken::tryOpen(QString path) {
         this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
         this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(updateTabTitle(bool)));
     }
+    this->_watcher->addPath(path);
     return true;
 }
 
@@ -123,6 +131,7 @@ bool Marken::trySave() {
             return false;
         }
         editor->setPath(path);
+        this->_watcher->addPath(path);
     }
     editor->save();
     return true;
@@ -150,7 +159,9 @@ void Marken::on_actionSave_As_triggered() {
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
         if (!path.isEmpty()) {
+            this->_watcher->removePath(editor->path());
             editor->saveAs(path);
+            this->_watcher->addPath(path);
         }
         this->updateTabTitle(true);
     }
@@ -169,9 +180,11 @@ void Marken::on_actionClose_triggered() {
             switch (result) {
             case QMessageBox::Yes:
                 editor->save();
+                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::No:
+                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::Cancel:
@@ -180,6 +193,7 @@ void Marken::on_actionClose_triggered() {
                 break;
             }
         } else {
+            this->_watcher->removePath(editor->path());
             this->ui->tabWidget->removeTab(index);
         }
     }
@@ -247,6 +261,33 @@ void Marken::on_actionClose_All_triggered() {
 
 void Marken::on_actionQuit_triggered() {
     this->close();
+}
+
+bool Marken::event(QEvent *e) {
+    if (e->type() == QEvent::WindowActivate) {
+        auto temp = this->_changeList;
+        this->_changeList.clear();
+        for (auto path : temp) {
+            for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
+                MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
+                if (editor->path() == path) {
+                    this->ui->tabWidget->setCurrentIndex(i);
+                    QString title = tr("Reload File");
+                    QString text = tr("File is modified by other program, do you want to reload it?");
+                    auto buttons = QMessageBox::Yes | QMessageBox::No;
+                    auto defaultButton = QMessageBox::Yes;
+                    auto result = QMessageBox::question(this, title, text, buttons, defaultButton);
+                    if (result == QMessageBox::Yes) {
+                        editor->loadText();
+                    } else {
+                        editor->document()->setModified(true);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    return QMainWindow::event(e);
 }
 
 void Marken::closeEvent(QCloseEvent *event) {
