@@ -1,0 +1,13 @@
+# Qt project files
+*.user
+*.autosave
+build-*
+
+# Code::Blocks files
+bin
+obj
+*.layout
+*.depend
+
+# Test case output
+Parser/test/*.test
