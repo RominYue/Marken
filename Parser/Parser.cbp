@@ -41,7 +41,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/Parser" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/libParser.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -63,6 +63,18 @@
 		<Unit filename="main.cpp">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="parse_elem.cpp" />
+		<Unit filename="parse_elem.h" />
+		<Unit filename="parse_elem_atx.cpp" />
+		<Unit filename="parse_elem_atx.h" />
+		<Unit filename="parse_elem_header.cpp" />
+		<Unit filename="parse_elem_header.h" />
+		<Unit filename="parse_elem_setext.cpp" />
+		<Unit filename="parse_elem_setext.h" />
+		<Unit filename="parse_elems.h" />
+		<Unit filename="parse_line_data.cpp" />
+		<Unit filename="parse_line_data.h" />
+		<Unit filename="parse_type.h" />
 		<Unit filename="parser.cpp" />
 		<Unit filename="parser.h" />
 		<Extensions>
