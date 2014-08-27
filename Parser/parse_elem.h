@@ -5,29 +5,36 @@
 #include <memory>
 #include "parse_type.h"
 
-/**
- * Parse elements include the text blocks which could translated to an HTML tag,
- * the text blocks which could translate to plain text,
- * and the hidden closed HTML tags in the end of line.
- */
+class ParseLineData;
+
 class ParseElem {
 public:
     ParseElem();
     virtual ~ParseElem();
+    ParseElem(const ParseElem&) = default;
+    ParseElem& operator=(const ParseElem&) = default;
+
     int indent() const;
-    void setIndent(const int indent);
-    ParseElemType type() const;
-    void setType(const ParseElemType type);
+    void setIndent(const int val);
+    int length() const;
+    void setLength(const int val);
     const std::string& text() const;
     void setText(const std::string& val);
+    ParseLineData* parent() const;
+    void setParent(ParseLineData* val);
+
+    virtual ParseElemType type() const;
+    virtual bool isBlockElement() const = 0;
 
     virtual bool isEqual(const std::shared_ptr<ParseElem> elem) const;
-    virtual std::string generateHtml() const;
+
+    virtual bool tryParse(std::string text, int offset, int &len);
 
 protected:
-    int _indent; /**< Indent is the start position of the element in the line. */
-    ParseElemType _type;
+    int _indent;
+    int _length;
     std::string _text;
+    ParseLineData *_parent;
 };
 
 #endif // PARSE_ELEM_H_INCLUDED

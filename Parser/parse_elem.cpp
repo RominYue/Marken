@@ -3,8 +3,9 @@ using namespace std;
 
 ParseElem::ParseElem() :
     _indent(0),
-    _type(ParseElemType::ELEM_INVALID),
-    _text() {
+    _length(),
+    _text(),
+    _parent(nullptr) {
 }
 
 ParseElem::~ParseElem() {
@@ -18,12 +19,12 @@ void ParseElem::setIndent(const int val) {
     _indent = val;
 }
 
-ParseElemType ParseElem::type() const {
-    return _type;
+int ParseElem::length() const {
+    return _length;
 }
 
-void ParseElem::setType(const ParseElemType val) {
-    _type = val;
+void ParseElem::setLength(const int val) {
+    _length = val;
 }
 
 const std::string& ParseElem::text() const {
@@ -34,10 +35,23 @@ void ParseElem::setText(const std::string& val) {
     _text = val;
 }
 
-bool ParseElem::isEqual(const shared_ptr<ParseElem> elem) const {
-    return _type == elem->_type && _indent == elem->_indent;
+ParseLineData* ParseElem::parent() const {
+    return _parent;
 }
 
-string ParseElem::generateHtml() const {
-    return "";
+void ParseElem::setParent(ParseLineData* val) {
+    _parent = val;
+}
+
+ParseElemType ParseElem::type() const {
+    return ParseElemType::ELEM_INVALID;
+}
+
+bool ParseElem::isEqual(const shared_ptr<ParseElem> elem) const {
+    return type() == elem->type() && indent() == elem->indent();
+}
+
+bool ParseElem::tryParse(std::string text, int offset, int &len) {
+
+    return false;
 }

@@ -2,7 +2,7 @@
 using namespace std;
 
 ParseElemHeader::ParseElemHeader() :
-    ParseElem(),
+    ParseElemBlock(),
     _level(1) {
 }
 
@@ -14,10 +14,13 @@ void ParseElemHeader::setLevel(const int val) {
     _level = val;
 }
 
-string ParseElemHeader::generateHtml() const {
+string ParseElemHeader::generateOpenHtml() const {
     string html = string("<h") + (char)('0' + _level) + string(">");
-    html += getCleanHeader();
-    html += string("</h") + (char)('0' + _level) + string(">");
+    return html;
+}
+
+string ParseElemHeader::generateCloseHtml() const {
+    string html = string("</h") + (char)('0' + _level) + string(">");
     return html;
 }
 

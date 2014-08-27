@@ -2,6 +2,8 @@
 
 ParseElemSetext::ParseElemSetext() :
     ParseElemHeader() {
-    setType(ParseElemType::ELEM_HEADER_SETEXT);
 }
 
+ParseElemType ParseElemSetext::type() const {
+    return ParseElemType::ELEM_HEADER_SETEXT;
+}

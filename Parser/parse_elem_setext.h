@@ -6,6 +6,7 @@
 class ParseElemSetext : public ParseElemHeader {
 public:
     ParseElemSetext();
+    virtual ParseElemType type() const override final;
 };
 
 #endif // PARSE_ELEM_SETEXT_H_INCLUDED

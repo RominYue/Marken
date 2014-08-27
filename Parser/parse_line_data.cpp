@@ -1,11 +1,52 @@
+#include "parse_elems.h"
 #include "parse_line_data.h"
 using namespace std;
 
 ParseLineData::ParseLineData() :
+    _prev(nullptr), _next(nullptr),
+    _future(),
     _elems(), _olds() {
 }
 
 ParseLineData::~ParseLineData() {
+}
+
+ParseLineData* ParseLineData::prev() const {
+    return _prev;
+}
+
+ParseLineData* ParseLineData::next() const {
+    return _next;
+}
+
+void ParseLineData::setNeighbor(ParseLineData *prevLine, ParseLineData *nextLine) {
+    _prev = prevLine;
+    _next = nextLine;
+    if (_prev != nullptr) {
+        _prev->_next = this;
+    }
+    if (_next != nullptr) {
+        _next->_prev = this;
+    }
+}
+
+void ParseLineData::removeFromList() {
+    if (_prev != nullptr) {
+        _prev->_next = _next;
+    }
+    if (_next != nullptr) {
+        _next->_prev = _prev;
+    }
+    _prev = nullptr;
+    _next = nullptr;
+}
+
+set<shared_ptr<ParseElem>>* ParseLineData::future() {
+    return &_future;
+}
+
+void ParseLineData::insertToFuture(shared_ptr<ParseElem> elem) {
+    _future.insert(elem);
 }
 
 vector<shared_ptr<ParseElem>>& ParseLineData::elems() {
@@ -16,13 +57,22 @@ shared_ptr<ParseElem> ParseLineData::operator [](const int index) const {
     if (0 <= index && index < (int)_elems.size()) {
         return _elems[index];
     }
-    return nullptr;
+    return shared_ptr<ParseElem>(nullptr);
 }
 
 string ParseLineData::generateHtml() const {
     string html;
     for (auto elem : _elems) {
-        html += elem->generateHtml();
+        if (elem->isBlockElement()) {
+            html += static_pointer_cast<ParseElemBlock>(elem)->generateOpenHtml();
+        } else {
+            html += static_pointer_cast<ParseElemSpan>(elem)->generateHtml();
+        }
+    }
+    for (auto it = _elems.rbegin(); it != _elems.rend(); ++it) {
+        if ((*it)->isBlockElement()) {
+            html += static_pointer_cast<ParseElemBlock>(*it)->generateCloseHtml();
+        }
     }
     return html;
 }

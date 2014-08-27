@@ -3,6 +3,8 @@
 
 enum class ParseElemType {
     ELEM_INVALID,
+    ELEM_TEXT,
+    ELEM_PARAGRAPH,
     ELEM_HTML_BLOCK,
     ELEM_HTML_INLINE,
     ELEM_HEADER_ATX,

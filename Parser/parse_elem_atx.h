@@ -6,6 +6,7 @@
 class ParseElemAtx : public ParseElemHeader {
 public:
     ParseElemAtx();
+    virtual ParseElemType type() const override final;
 };
 
 #endif // PARSE_ELEM_ATX_H_INCLUDED

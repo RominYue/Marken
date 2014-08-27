@@ -3,5 +3,8 @@ using namespace std;
 
 ParseElemAtx::ParseElemAtx() :
     ParseElemHeader() {
-    setType(ParseElemType::ELEM_HEADER_ATX);
+}
+
+ParseElemType ParseElemAtx::type() const {
+    return ParseElemType::ELEM_HEADER_ATX;
 }
