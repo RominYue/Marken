@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "parser.h"
+#include "parse_static.h"
 using namespace std;
 
 int main() {
@@ -12,7 +12,7 @@ int main() {
     fstream fcase;
     fcase.open("test/cases", ios::in);
     string testCaseName;
-    Parser parser;
+    StaticParser parser;
     int totalCaseNum = 0, totalPassedNum = 0;
     while (fcase >> testCaseName) {
         string buffer;
@@ -24,7 +24,7 @@ int main() {
         fstream fin;
         fin.open("test/" + testCaseName + ".in", ios::in | ios::binary);
         vector<string> in;
-        while (fin >> buffer) {
+        while (getline(fin, buffer)) {
             in.push_back(buffer);
         }
         fin.close();
@@ -32,7 +32,7 @@ int main() {
         fstream fout;
         fout.open("test/" + testCaseName + ".out", ios::in | ios::binary);
         vector<string> out;
-        while (fout >> buffer) {
+        while (getline(fout, buffer)) {
             out.push_back(buffer);
         }
         fout.close();
@@ -40,7 +40,7 @@ int main() {
         fstream ftest;
         ftest.open("test/" + testCaseName + ".test", ios::out | ios::binary);
         clock_t beginTime = clock();
-        vector<string> test = parser.parseToList(in);
+        vector<string> test = parser.parseToHtmlList(in);
         clock_t endTime = clock();
         for (auto line : test) {
             ftest << line << '\n';

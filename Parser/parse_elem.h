@@ -3,38 +3,25 @@
 
 #include <string>
 #include <memory>
-#include "parse_type.h"
+#include "parse_elem_type.h"
+using std::string;
+using std::shared_ptr;
 
-class ParseLineData;
+class ParseLine;
 
-class ParseElem {
+class ParseElement {
 public:
-    ParseElem();
-    virtual ~ParseElem();
-    ParseElem(const ParseElem&) = default;
-    ParseElem& operator=(const ParseElem&) = default;
+    ParseElement();
 
-    int indent() const;
-    void setIndent(const int val);
-    int length() const;
-    void setLength(const int val);
-    const std::string& text() const;
-    void setText(const std::string& val);
-    ParseLineData* parent() const;
-    void setParent(ParseLineData* val);
+    virtual ParseElementType type() const;
+    virtual bool isBlockElement() const;
+    virtual bool operator ==(shared_ptr<ParseElement> element) const;
 
-    virtual ParseElemType type() const;
-    virtual bool isBlockElement() const = 0;
-
-    virtual bool isEqual(const std::shared_ptr<ParseElem> elem) const;
-
-    virtual bool tryParse(std::string text, int offset, int &len);
-
-protected:
-    int _indent;
-    int _length;
-    std::string _text;
-    ParseLineData *_parent;
+    int offset;
+    int utf8Offset;
+    int utf8Length;
+    string text;
+    ParseLine* parent;
 };
 
 #endif // PARSE_ELEM_H_INCLUDED

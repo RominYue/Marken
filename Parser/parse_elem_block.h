@@ -1,15 +1,19 @@
-#ifndef PARSE_ELEM_BLOCK_H_INCLUDED
-#define PARSE_ELEM_BLOCK_H_INCLUDED
+#ifndef PARSE_ELEM_BLOCK_H
+#define PARSE_ELEM_BLOCK_H
 
 #include "parse_elem.h"
 
-class ParseElemBlock : public ParseElem {
+class ParseElementBlock : public ParseElement {
 public:
-    ParseElemBlock();
+    ParseElementBlock();
     virtual bool isBlockElement() const override final;
 
-    virtual std::string generateOpenHtml() const;
-    virtual std::string generateCloseHtml() const;
+    virtual bool tryParse(const string &line, int offset, int& length);
+
+    virtual string generateOpenHtml() const;
+    virtual string generateCloseHtml() const;
+
+    bool isInherited;
 };
 
-#endif // PARSE_ELEM_BLOCK_H_INCLUDED
+#endif // PARSE_ELEM_BLOCK_H

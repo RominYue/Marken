@@ -1,18 +1,26 @@
 #include "parse_elem_block.h"
 using namespace std;
 
-ParseElemBlock::ParseElemBlock() :
-    ParseElem() {
+#define UNUSED(x) (void)x;
+
+ParseElementBlock::ParseElementBlock() : ParseElement() {
 }
 
-bool ParseElemBlock::isBlockElement() const {
+bool ParseElementBlock::isBlockElement() const {
     return true;
 }
 
-string ParseElemBlock::generateOpenHtml() const {
+bool ParseElementBlock::tryParse(const string &line, int offset, int& length) {
+    UNUSED(line);
+    UNUSED(offset);
+    UNUSED(length);
+    return false;
+}
+
+string ParseElementBlock::generateOpenHtml() const {
     return "";
 }
 
-string ParseElemBlock::generateCloseHtml() const {
+string ParseElementBlock::generateCloseHtml() const {
     return "";
 }

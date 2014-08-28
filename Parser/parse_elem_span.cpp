@@ -1,14 +1,15 @@
 #include "parse_elem_span.h"
 using namespace std;
 
-ParseElemSpan::ParseElemSpan() :
-    ParseElem() {
+ParseElementSpan::ParseElementSpan() : ParseElement() {
+    this->activate = true;
 }
 
-bool ParseElemSpan::isBlockElement() const {
-    return true;
+bool ParseElementSpan::isBlockElement() const {
+    return false;
 }
 
-string ParseElemSpan::generateHtml() const {
+string ParseElementSpan::generateHtml() const {
     return "";
 }
+

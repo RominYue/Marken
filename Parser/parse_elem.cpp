@@ -1,57 +1,28 @@
+#include "parse_line.h"
 #include "parse_elem.h"
 using namespace std;
 
-ParseElem::ParseElem() :
-    _indent(0),
-    _length(),
-    _text(),
-    _parent(nullptr) {
+#define UNUSED(x) (void)(x)
+
+ParseElement::ParseElement() {
+    offset = 0;
+    utf8Offset = 0;
+    utf8Length = 0;
+    parent = nullptr;
 }
 
-ParseElem::~ParseElem() {
+ParseElementType ParseElement::type() const {
+    return ParseElementType::TYPE_INVALID;
 }
 
-int ParseElem::indent() const {
-    return _indent;
-}
-
-void ParseElem::setIndent(const int val) {
-    _indent = val;
-}
-
-int ParseElem::length() const {
-    return _length;
-}
-
-void ParseElem::setLength(const int val) {
-    _length = val;
-}
-
-const std::string& ParseElem::text() const {
-    return _text;
-}
-
-void ParseElem::setText(const std::string& val) {
-    _text = val;
-}
-
-ParseLineData* ParseElem::parent() const {
-    return _parent;
-}
-
-void ParseElem::setParent(ParseLineData* val) {
-    _parent = val;
-}
-
-ParseElemType ParseElem::type() const {
-    return ParseElemType::ELEM_INVALID;
-}
-
-bool ParseElem::isEqual(const shared_ptr<ParseElem> elem) const {
-    return type() == elem->type() && indent() == elem->indent();
-}
-
-bool ParseElem::tryParse(std::string text, int offset, int &len) {
-
+bool ParseElement::isBlockElement() const {
     return false;
 }
+
+bool ParseElement::operator ==(shared_ptr<ParseElement> element) const {
+    return this->type() == element->type() && this->offset == element->offset;
+}
+
+
+
+

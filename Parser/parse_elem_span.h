@@ -1,14 +1,16 @@
-#ifndef PARSE_ELEM_SPAN_H_INCLUDED
-#define PARSE_ELEM_SPAN_H_INCLUDED
+#ifndef PARSE_ELEM_SPAN_H
+#define PARSE_ELEM_SPAN_H
 
 #include "parse_elem.h"
 
-class ParseElemSpan : public ParseElem {
+class ParseElementSpan : public ParseElement {
 public:
-    ParseElemSpan();
+    ParseElementSpan();
     virtual bool isBlockElement() const override final;
 
-    virtual std::string generateHtml() const;
+    virtual string generateHtml() const;
+
+    bool activate;
 };
 
-#endif // PARSE_ELEM_SPAN_H_INCLUDED
+#endif // PARSE_ELEM_SPAN_H
