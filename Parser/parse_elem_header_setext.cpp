@@ -36,15 +36,17 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
                 level = 2;
             }
             this->_isLower = true;
-            int index = parent->getIndexAt(offset);
+            int index = parent->prev()->getIndexAt(offset);
             auto elem = parent->prev()->elements[index];
-            shared_ptr<ParseElementHeaderSetext> setext;
+			shared_ptr<ParseElementHeaderSetext> setext(new ParseElementHeaderSetext());
             setext->offset = elem->offset;
             setext->utf8Offset = elem->utf8Offset;
             setext->utf8Length = elem->utf8Length;
             setext->text = elem->text;
+            setext->level = level;
             setext->_isLower = false;
             parent->prev()->elements[index] = dynamic_pointer_cast<ParseElement>(setext);
+			length = lineLen - offset;
             return true;
         }
     }

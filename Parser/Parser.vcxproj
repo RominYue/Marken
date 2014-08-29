@@ -75,6 +75,7 @@
     <ClCompile Include="parse_elem_header_setext.cpp" />
     <ClCompile Include="parse_elem_horizontal.cpp" />
     <ClCompile Include="parse_elem_html_block.cpp" />
+    <ClCompile Include="parse_elem_list.cpp" />
     <ClCompile Include="parse_elem_list_ordered.cpp" />
     <ClCompile Include="parse_elem_list_unordered.cpp" />
     <ClCompile Include="parse_elem_paragraph.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="parse_elem_header_setext.h" />
     <ClInclude Include="parse_elem_horizontal.h" />
     <ClInclude Include="parse_elem_html_block.h" />
+    <ClInclude Include="parse_elem_list.h" />
     <ClInclude Include="parse_elem_list_ordered.h" />
     <ClInclude Include="parse_elem_list_unordered.h" />
     <ClInclude Include="parse_elem_paragraph.h" />

@@ -4,6 +4,10 @@
 #include "parse_elem_header_atx.h"
 #include "parse_elem_header_setext.h"
 #include "parse_elem_horizontal.h"
+#include "parse_elem_list_unordered.h"
+#include "parse_elem_list_ordered.h"
+#include "parse_elem_quote.h"
+#include "parse_elem_paragraph.h"
 #include "parse_elem_factory.h"
 using namespace std;
 
@@ -24,6 +28,18 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
         break;
     case ParseElementType::TYPE_HORIZON:
         newElement = new ParseElementHorizontal(*dynamic_pointer_cast<ParseElementHorizontal>(element));
+        break;
+    case ParseElementType::TYPE_LIST_UNORDERED:
+        newElement = new ParseElementListUnordered(*dynamic_pointer_cast<ParseElementListUnordered>(element));
+        break;
+    case ParseElementType::TYPE_LIST_ORDERED:
+        newElement = new ParseElementListOrdered(*dynamic_pointer_cast<ParseElementListOrdered>(element));
+        break;
+    case ParseElementType::TYPE_QUOTE:
+        newElement = new ParseElementQuote(*dynamic_pointer_cast<ParseElementQuote>(element));
+        break;
+    case ParseElementType::TYPE_PARAGRAPH:
+        newElement = new ParseElementParagraph(*dynamic_pointer_cast<ParseElementParagraph>(element));
         break;
     default:
         break;

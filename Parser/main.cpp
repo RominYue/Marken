@@ -14,6 +14,7 @@ int main() {
     string testCaseName;
     StaticParser parser;
     int totalCaseNum = 0, totalPassedNum = 0;
+    double totalTime = 0.0;
     while (fcase >> testCaseName) {
         string buffer;
         cout << testCaseName << endl;
@@ -60,6 +61,7 @@ int main() {
 
         ++totalCaseNum;
         double elapsedSecs = double(endTime - beginTime) / CLOCKS_PER_SEC;
+        totalTime += double(endTime - beginTime);
         if (passed) {
             ++totalPassedNum;
             cout << "Passed ";
@@ -86,5 +88,6 @@ int main() {
         cout << "Passed: " << totalPassedNum << endl;
         cout << "Failed: " << totalCaseNum - totalPassedNum << endl;
     }
+    cout << "Total Seconds: " << fixed << (totalTime / CLOCKS_PER_SEC) << endl;
     return 0;
 }

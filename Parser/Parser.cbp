@@ -100,6 +100,12 @@
 		<Unit filename="parse_elem_html_block.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
+		<Unit filename="parse_elem_list.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_list.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
 		<Unit filename="parse_elem_list_ordered.cpp">
 			<Option virtualFolder="Elements/" />
 		</Unit>

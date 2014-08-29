@@ -4,6 +4,10 @@
 #include "parse_elem_header_atx.h"
 #include "parse_elem_header_setext.h"
 #include "parse_elem_horizontal.h"
+#include "parse_elem_list_unordered.h"
+#include "parse_elem_list_ordered.h"
+#include "parse_elem_quote.h"
+#include "parse_elem_paragraph.h"
 #include "parse_elem_span.h"
 #include "parse_elem_factory.h"
 #include "parse_line.h"
@@ -17,6 +21,10 @@ DynamicParser::DynamicParser() {
     this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
     this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
     this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHorizontal()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
 }
 
 DynamicParser::~DynamicParser() {
@@ -52,11 +60,11 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                 element->utf8Length = wordCount[offset + length] - wordCount[offset];
                 data->elements.push_back(factory.copy(element));
                 offset += length;
-                continue;
+                break;
             }
         }
         if (length == -1) {
-            break;
+			++offset;
         }
     }
 }
