@@ -3,6 +3,7 @@
 #include "parse_elem_code_block.h"
 #include "parse_elem_header_atx.h"
 #include "parse_elem_header_setext.h"
+#include "parse_elem_horizontal.h"
 #include "parse_elem_factory.h"
 using namespace std;
 
@@ -20,6 +21,9 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
         break;
     case ParseElementType::TYPE_HEADER_SETEXT:
         newElement = new ParseElementHeaderSetext(*dynamic_pointer_cast<ParseElementHeaderSetext>(element));
+        break;
+    case ParseElementType::TYPE_HORIZON:
+        newElement = new ParseElementHorizontal(*dynamic_pointer_cast<ParseElementHorizontal>(element));
         break;
     default:
         break;

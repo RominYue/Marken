@@ -70,6 +70,7 @@
     <ClCompile Include="parse_elem_block.cpp" />
     <ClCompile Include="parse_elem_code_block.cpp" />
     <ClCompile Include="parse_elem_factory.cpp" />
+    <ClCompile Include="parse_elem_header.cpp" />
     <ClCompile Include="parse_elem_header_atx.cpp" />
     <ClCompile Include="parse_elem_header_setext.cpp" />
     <ClCompile Include="parse_elem_horizontal.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="parse_elem_block.h" />
     <ClInclude Include="parse_elem_code_block.h" />
     <ClInclude Include="parse_elem_factory.h" />
+    <ClInclude Include="parse_elem_header.h" />
     <ClInclude Include="parse_elem_header_atx.h" />
     <ClInclude Include="parse_elem_header_setext.h" />
     <ClInclude Include="parse_elem_horizontal.h" />
