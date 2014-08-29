@@ -21,13 +21,15 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
                 elem->offset = offset;
                 elem->utf8Offset = 0;
                 elem->utf8Length = 0;
+				elem->parent = this->parent;
                 this->parent->elements.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
             } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_UNORDERED) {
                 shared_ptr<ParseElementListUnordered> elem(new ParseElementListUnordered());
                 elem->isVirtual = true;
                 elem->offset = offset;
                 elem->utf8Offset = 0;
-                elem->utf8Length = 0;
+				elem->utf8Length = 0;
+				elem->parent = this->parent;
                 this->parent->elements.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
             }
         }
@@ -35,7 +37,16 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
 		if (elemLen == 0) {
 			this->offset = 0;
 		} else {
-			this->offset = (*parent->elements.rbegin())->offset + 1;
+			auto elem = *parent->elements.rbegin();
+			int elemOffset = elem->offset;
+			this->offset = offset;
+			if (parent->prev() != nullptr) {
+				if (parent->prev()->elements.size() == parent->elements.size() + 1) {
+					if (parent->prev()->getTypeAt(elemOffset) == elem->type()) {
+						this->offset = (*parent->prev()->elements.rbegin())->offset;
+					}
+				}
+			}
 		}
         length = line.length() - offset;
         return true;
@@ -113,7 +124,7 @@ string ParseElementParagraph::generateCloseHtml() const {
     }
     elemLen = parent->next()->elements.size();
     if (elemLen > 1) {
-        auto prevElem = parent->elements[elemLen - 2];
+		auto prevElem = parent->next()->elements[elemLen - 2];
         if (prevElem->isBlockElement()) {
             auto prevBlock = dynamic_pointer_cast<ParseElementBlock>(prevElem);
             if (!prevBlock->isVirtual) {
