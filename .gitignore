@@ -9,5 +9,14 @@ obj
 *.layout
 *.depend
 
+# Visual Studio files
+*.sdf
+*.opensdf
+*.filters
+*.user
+*.suo
+Debug
+Release
+
 # Test case output
 Parser/test/*.test

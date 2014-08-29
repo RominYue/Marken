@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 using std::string;
 using std::vector;
 using std::shared_ptr;

@@ -39,9 +39,7 @@
 			<Add option="-std=c++11" />
 			<Add directory="elements" />
 		</Compiler>
-		<Unit filename="main.cpp">
-			<Option target="Debug" />
-		</Unit>
+		<Unit filename="main.cpp" />
 		<Unit filename="parse_dynamic.cpp">
 			<Option virtualFolder="Parse/" />
 		</Unit>
@@ -60,10 +58,34 @@
 		<Unit filename="parse_elem_block.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
+		<Unit filename="parse_elem_code_block.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_code_block.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
 		<Unit filename="parse_elem_factory.cpp">
 			<Option virtualFolder="Elements/" />
 		</Unit>
 		<Unit filename="parse_elem_factory.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_header_atx.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_header_atx.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_header_setext.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_header_setext.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_horizontal.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_horizontal.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
 		<Unit filename="parse_elem_html_block.cpp">
@@ -72,10 +94,28 @@
 		<Unit filename="parse_elem_html_block.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
+		<Unit filename="parse_elem_list_ordered.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_list_ordered.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_list_unordered.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_list_unordered.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
 		<Unit filename="parse_elem_paragraph.cpp">
 			<Option virtualFolder="Elements/" />
 		</Unit>
 		<Unit filename="parse_elem_paragraph.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_quote.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_quote.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
 		<Unit filename="parse_elem_span.cpp">

@@ -14,6 +14,8 @@ public:
     virtual bool tryParse(const string &line, int offset, int& length) override;
     virtual string generateOpenHtml() const override final;
 
+    bool isVirtual;
+
 private:
     enum Status {
         STATUS_BEGIN,

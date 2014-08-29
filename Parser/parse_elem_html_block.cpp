@@ -26,6 +26,7 @@ void ParseElementHtmlBlock::setTag(const string& val) {
 
 bool ParseElementHtmlBlock::tryParse(const string &line, int offset, int& length) {
     int index = offset;
+    this->isVirtual = false;
     if (parent->prev() != nullptr) {
         if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_HTML_BLOCK) {
             auto elem = dynamic_pointer_cast<ParseElementHtmlBlock>(parent->prev()->getElementAt(offset));
@@ -43,6 +44,7 @@ bool ParseElementHtmlBlock::tryParse(const string &line, int offset, int& length
                 // Inherit from last line.
                 this->setTag(elem->tag());
                 length = line.size() - offset;
+                return true;
             }
         }
     }
@@ -53,6 +55,7 @@ bool ParseElementHtmlBlock::tryParse(const string &line, int offset, int& length
             return true;
         }
     }
+    return false;
 }
 
 string ParseElementHtmlBlock::generateOpenHtml() const {
@@ -134,6 +137,7 @@ bool ParseElementHtmlBlock::matchToEnd(const string &line, int &index) {
     Status status = STATUS_TAG;
     int lineLength = line.length();
     int tagStart = index, tagEnd = index;
+    bool first = true;
     while (index < lineLength) {
         char ch = line[index];
         switch (status) {
@@ -142,10 +146,16 @@ bool ParseElementHtmlBlock::matchToEnd(const string &line, int &index) {
                 status = STATUS_TAG;
             } else if (ch == ' ' || ch == '\t') {
                 status = STATUS_SPACE_SUF;
-                tagEnd = offset;
+                if (first) {
+                    tagEnd = index;
+                    first = false;
+                }
             } else if (ch == '>') {
                 status = STATUS_GT;
-                tagEnd = offset;
+                if (first) {
+                    tagEnd = index;
+                    first = false;
+                }
             } else {
                 return false;
             }
@@ -171,5 +181,6 @@ bool ParseElementHtmlBlock::matchToEnd(const string &line, int &index) {
         }
         ++index;
     }
-    return false;
+    this->setTag(line.substr(tagStart, tagEnd - tagStart));
+    return true;
 }

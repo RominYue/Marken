@@ -13,7 +13,7 @@ public:
     virtual string generateOpenHtml() const;
     virtual string generateCloseHtml() const;
 
-    bool isInherited;
+    bool isVirtual;
 };
 
 #endif // PARSE_ELEM_BLOCK_H

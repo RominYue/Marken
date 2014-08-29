@@ -1,0 +1,7 @@
+<pre><code>#include &lt;cstdio&gt;
+
+int main() {
+    int a;
+    scanf("%d", &amp;a);
+    return 0;
+}</code></pre>

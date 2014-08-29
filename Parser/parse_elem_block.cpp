@@ -4,6 +4,7 @@ using namespace std;
 #define UNUSED(x) (void)x;
 
 ParseElementBlock::ParseElementBlock() : ParseElement() {
+    this->isVirtual = false;
 }
 
 bool ParseElementBlock::isBlockElement() const {
