@@ -70,6 +70,12 @@
 		<Unit filename="parse_elem_factory.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
+		<Unit filename="parse_elem_header.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_header.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
 		<Unit filename="parse_elem_header_atx.cpp">
 			<Option virtualFolder="Elements/" />
 		</Unit>

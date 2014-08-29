@@ -26,8 +26,9 @@ public:
 
     string generateHtml() const;
 
-    shared_ptr<ParseElement> getElementAt(const int offset);
-    ParseElementType getTypeAt(const int offset);
+    shared_ptr<ParseElement> getElementAt(const int offset) const;
+    ParseElementType getTypeAt(const int offset) const;
+    int getIndexAt(const int offset) const;
 
     vector<shared_ptr<ParseElement>> elements;
 

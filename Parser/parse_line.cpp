@@ -80,7 +80,7 @@ string ParseLine::generateHtml() const {
     return html;
 }
 
-shared_ptr<ParseElement> ParseLine::getElementAt(const int offset) {
+shared_ptr<ParseElement> ParseLine::getElementAt(const int offset) const {
     for (auto element : this->elements) {
         if (element->offset == offset) {
             return element;
@@ -91,10 +91,22 @@ shared_ptr<ParseElement> ParseLine::getElementAt(const int offset) {
     return nullptr;
 }
 
-ParseElementType ParseLine::getTypeAt(const int offset) {
+ParseElementType ParseLine::getTypeAt(const int offset) const {
     auto element = getElementAt(offset);
     if (element == nullptr) {
         return ParseElementType::TYPE_INVALID;
     }
     return element->type();
+}
+
+int ParseLine::getIndexAt(const int offset) const {
+    int len = this->elements.size();
+    for (int i = 0; i < len; ++i) {
+        if (elements[i]->offset == offset) {
+            return i;
+        } else if (elements[i]->offset > offset) {
+            break;
+        }
+    }
+    return -1;
 }

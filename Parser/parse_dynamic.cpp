@@ -1,6 +1,8 @@
 #include "parse_elem_block.h"
 #include "parse_elem_html_block.h"
 #include "parse_elem_code_block.h"
+#include "parse_elem_header_atx.h"
+#include "parse_elem_header_setext.h"
 #include "parse_elem_span.h"
 #include "parse_elem_factory.h"
 #include "parse_line.h"
@@ -11,6 +13,8 @@ DynamicParser::DynamicParser() {
     this->_reparseEvent = nullptr;
     this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
     this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
+    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
 }
 
 DynamicParser::~DynamicParser() {

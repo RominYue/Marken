@@ -53,23 +53,7 @@ string ParseElementCodeBlock::generateOpenHtml() const {
         }
     }
     int len = text.length();
-    for (; index < len; ++index) {
-        char ch = this->text[index];
-        switch (ch) {
-        case '<':
-            html += "&lt;";
-            break;
-        case '>':
-            html += "&gt;";
-            break;
-        case '&':
-            html += "&amp;";
-            break;
-        default:
-            html += ch;
-            break;
-        }
-    }
+    html += this->translateAmp(text.substr(index, len - index));
     return html;
 }
 

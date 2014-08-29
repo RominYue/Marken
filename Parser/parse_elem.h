@@ -22,6 +22,9 @@ public:
     int utf8Length;
     string text;
     ParseLine* parent;
+
+protected:
+    string translateAmp(const string& text) const;
 };
 
 #endif // PARSE_ELEM_H_INCLUDED
