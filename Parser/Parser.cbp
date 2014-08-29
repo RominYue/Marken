@@ -64,6 +64,12 @@
 		<Unit filename="parse_elem_code_block.h">
 			<Option virtualFolder="Elements/" />
 		</Unit>
+		<Unit filename="parse_elem_empty.cpp">
+			<Option virtualFolder="Elements/" />
+		</Unit>
+		<Unit filename="parse_elem_empty.h">
+			<Option virtualFolder="Elements/" />
+		</Unit>
 		<Unit filename="parse_elem_factory.cpp">
 			<Option virtualFolder="Elements/" />
 		</Unit>

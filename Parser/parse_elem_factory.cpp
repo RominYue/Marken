@@ -1,4 +1,5 @@
 #include "parse_elem.h"
+#include "parse_elem_block.h"
 #include "parse_elem_html_block.h"
 #include "parse_elem_code_block.h"
 #include "parse_elem_header_atx.h"
@@ -9,6 +10,7 @@
 #include "parse_elem_quote.h"
 #include "parse_elem_paragraph.h"
 #include "parse_elem_factory.h"
+#include "parse_elem_span.h"
 using namespace std;
 
 shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement> element) const {
@@ -46,3 +48,8 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
     }
     return shared_ptr<ParseElement>(newElement);
 }
+
+shared_ptr<ParseElementBlock> ParseElementFactory::copy(const shared_ptr<ParseElementBlock> element) const {
+	return dynamic_pointer_cast<ParseElementBlock>(copy(dynamic_pointer_cast<ParseElement>(element)));
+}
+

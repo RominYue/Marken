@@ -12,6 +12,7 @@ public:
     void setTag(const string& val);
 
     virtual bool tryParse(const string &line, int offset, int& length) override;
+	virtual bool inheritable() const override final;
     virtual string generateOpenHtml() const override final;
 
     bool isVirtual;

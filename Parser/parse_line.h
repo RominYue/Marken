@@ -10,6 +10,7 @@ using std::string;
 using std::shared_ptr;
 
 class ParseElement;
+class ParseElementBlock;
 
 class ParseLine {
 public:
@@ -30,12 +31,12 @@ public:
     ParseElementType getTypeAt(const int offset) const;
     int getIndexAt(const int offset) const;
 
-    vector<shared_ptr<ParseElement>> elements;
+    vector<shared_ptr<ParseElementBlock>> blocks;
 
 private:
     ParseLine* _prev;
     ParseLine* _next;
-    vector<shared_ptr<ParseElement>> _oldElements;
+    vector<shared_ptr<ParseElementBlock>> _oldBlocks;
 };
 
 #endif // PARSE_LINE_H_INCLUDED

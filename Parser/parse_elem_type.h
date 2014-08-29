@@ -3,6 +3,7 @@
 
 enum class ParseElementType {
     TYPE_INVALID,
+	TYPE_EMPTY,
 
     TYPE_HTML_BLOCK,
     TYPE_CODE_BLOCK,

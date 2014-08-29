@@ -32,6 +32,10 @@ bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
 	return false;
 }
 
+bool ParseElementQuote::inheritable() const {
+	return true;
+}
+
 string ParseElementQuote::generateOpenHtml() const {
     if (parent->prev() == nullptr) {
         return "<blockquote>";

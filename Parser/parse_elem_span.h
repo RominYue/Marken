@@ -3,9 +3,9 @@
 
 #include "parse_elem.h"
 
-class ParseElementSpan : public ParseElement {
+class Parseblockspan : public ParseElement {
 public:
-    ParseElementSpan();
+    Parseblockspan();
     virtual bool isBlockElement() const override final;
 
     virtual string generateHtml() const;

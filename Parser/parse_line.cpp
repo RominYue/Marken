@@ -45,16 +45,16 @@ void ParseLine::removeFromList() {
 }
 
 void ParseLine::saveLineStatus() {
-    this->_oldElements = this->elements;
+    this->_oldBlocks = this->blocks;
 }
 
 bool ParseLine::isLineStatusChanged() const {
-    if (this->_oldElements.size() != this->elements.size()) {
+    if (this->_oldBlocks.size() != this->blocks.size()) {
         return true;
     }
-    int len = this->elements.size();
+    int len = this->blocks.size();
     for (int i = 0; i < len; ++i) {
-        if (!(this->_oldElements[i] == this->elements[i])) {
+        if (!(this->_oldBlocks[i] == this->blocks[i])) {
             return true;
         }
     }
@@ -63,15 +63,15 @@ bool ParseLine::isLineStatusChanged() const {
 
 string ParseLine::generateHtml() const {
     string html;
-    for (auto it = elements.begin(); it != elements.end(); ++it) {
+    for (auto it = blocks.begin(); it != blocks.end(); ++it) {
         shared_ptr<ParseElement> element(*it);
         if (element->isBlockElement()) {
             html += dynamic_pointer_cast<ParseElementBlock>(element)->generateOpenHtml();
         } else {
-            html += dynamic_pointer_cast<ParseElementSpan>(element)->generateHtml();
+            html += dynamic_pointer_cast<Parseblockspan>(element)->generateHtml();
         }
     }
-    for (auto it = elements.rbegin(); it != elements.rend(); ++it) {
+    for (auto it = blocks.rbegin(); it != blocks.rend(); ++it) {
         shared_ptr<ParseElement> element(*it);
         if (element->isBlockElement()) {
             html += dynamic_pointer_cast<ParseElementBlock>(element)->generateCloseHtml();
@@ -81,7 +81,7 @@ string ParseLine::generateHtml() const {
 }
 
 shared_ptr<ParseElement> ParseLine::getElementAt(const int offset) const {
-    for (auto element : this->elements) {
+    for (auto element : this->blocks) {
         if (element->offset == offset) {
             return element;
         } else if (element->offset > offset) {
@@ -100,11 +100,11 @@ ParseElementType ParseLine::getTypeAt(const int offset) const {
 }
 
 int ParseLine::getIndexAt(const int offset) const {
-    int len = this->elements.size();
+    int len = this->blocks.size();
     for (int i = 0; i < len; ++i) {
-        if (elements[i]->offset == offset) {
+        if (blocks[i]->offset == offset) {
             return i;
-        } else if (elements[i]->offset > offset) {
+        } else if (blocks[i]->offset > offset) {
             break;
         }
     }

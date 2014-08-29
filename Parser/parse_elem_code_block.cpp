@@ -12,8 +12,8 @@ ParseElementType ParseElementCodeBlock::type() const {
 bool ParseElementCodeBlock::tryParse(const string &line, int offset, int& length) {
     int lastOffset = 0;
     if (parent->prev() != nullptr) {
-        if (parent->prev()->elements.size() > 0) {
-            lastOffset = (*parent->prev()->elements.rbegin())->offset;
+        if (parent->prev()->blocks.size() > 0) {
+            lastOffset = (*parent->prev()->blocks.rbegin())->offset;
         }
     }
     if (offset == lastOffset) {

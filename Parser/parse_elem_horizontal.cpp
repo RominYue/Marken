@@ -10,10 +10,10 @@ ParseElementType ParseElementHorizontal::type() const {
 }
 
 bool ParseElementHorizontal::tryParse(const string &line, int offset, int& length) {
-    int elemLen = parent->elements.size();
+    int elemLen = parent->blocks.size();
     for (int i = 0; i < elemLen; ++i) {
-        if (parent->elements[i]->type() != ParseElementType::TYPE_QUOTE) {
-            auto elem = parent->elements[i];
+        if (parent->blocks[i]->type() != ParseElementType::TYPE_QUOTE) {
+            auto elem = parent->blocks[i];
             return false;
         }
     }

@@ -37,7 +37,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
             }
             this->_isLower = true;
             int index = parent->prev()->getIndexAt(offset);
-            auto elem = parent->prev()->elements[index];
+            auto elem = parent->prev()->blocks[index];
 			shared_ptr<ParseElementHeaderSetext> setext(new ParseElementHeaderSetext());
             setext->offset = elem->offset;
             setext->utf8Offset = elem->utf8Offset;
@@ -45,7 +45,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
             setext->text = elem->text;
             setext->level = level;
             setext->_isLower = false;
-            parent->prev()->elements[index] = dynamic_pointer_cast<ParseElement>(setext);
+            parent->prev()->blocks[index] = dynamic_pointer_cast<ParseElementBlock>(setext);
 			length = lineLen - offset;
             return true;
         }

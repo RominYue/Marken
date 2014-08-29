@@ -1,6 +1,7 @@
 #include "parse_line.h"
 #include "parse_elem_list_ordered.h"
 #include "parse_elem_list_unordered.h"
+#include "parse_elem_quote.h"
 #include "parse_elem_paragraph.h"
 using namespace std;
 
@@ -15,14 +16,16 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
     this->isVirtual = false;
     if (line[offset] != ' ' && line[offset] != '\t') {
         if (parent->prev() != nullptr) {
-            if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_ORDERED) {
+			auto lastElem = (*parent->prev()->blocks.rbegin());
+			if (lastElem->type() == ParseElementType::TYPE_EMPTY) {
+			} else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_ORDERED) {
                 shared_ptr<ParseElementListOrdered> elem(new ParseElementListOrdered());
                 elem->isVirtual = true;
                 elem->offset = offset;
                 elem->utf8Offset = 0;
                 elem->utf8Length = 0;
 				elem->parent = this->parent;
-                this->parent->elements.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+                this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
             } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_UNORDERED) {
                 shared_ptr<ParseElementListUnordered> elem(new ParseElementListUnordered());
                 elem->isVirtual = true;
@@ -30,20 +33,29 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
                 elem->utf8Offset = 0;
 				elem->utf8Length = 0;
 				elem->parent = this->parent;
-                this->parent->elements.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
-            }
+                this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+			} else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_QUOTE) {
+				shared_ptr<ParseElementQuote> elem(new ParseElementQuote());
+				elem->isVirtual = true;
+				elem->offset = offset;
+				elem->utf8Offset = 0;
+				elem->utf8Length = 0;
+				elem->parent = parent;
+				elem->parent = this->parent;
+				this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+			}
         }
-		int elemLen = parent->elements.size();
+		int elemLen = parent->blocks.size();
 		if (elemLen == 0) {
 			this->offset = 0;
 		} else {
-			auto elem = *parent->elements.rbegin();
+			auto elem = *parent->blocks.rbegin();
 			int elemOffset = elem->offset;
 			this->offset = offset;
 			if (parent->prev() != nullptr) {
-				if (parent->prev()->elements.size() == parent->elements.size() + 1) {
+				if (parent->prev()->blocks.size() == parent->blocks.size() + 1) {
 					if (parent->prev()->getTypeAt(elemOffset) == elem->type()) {
-						this->offset = (*parent->prev()->elements.rbegin())->offset;
+						this->offset = (*parent->prev()->blocks.rbegin())->offset;
 					}
 				}
 			}
@@ -55,9 +67,9 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
 }
 
 string ParseElementParagraph::generateOpenHtml() const {
-    int elemLen = parent->elements.size();
+    int elemLen = parent->blocks.size();
     if (elemLen > 1) {
-        auto prevElem = parent->elements[elemLen - 2];
+        auto prevElem = parent->blocks[elemLen - 2];
         if (prevElem->isBlockElement()) {
             auto prevBlock = dynamic_pointer_cast<ParseElementBlock>(prevElem);
             if (!prevBlock->isVirtual) {
@@ -91,9 +103,9 @@ string ParseElementParagraph::generateOpenHtml() const {
 }
 
 string ParseElementParagraph::generateCloseHtml() const {
-	int elemLen = parent->elements.size();
+	int elemLen = parent->blocks.size();
 	if (elemLen > 1) {
-		auto prevElem = parent->elements[elemLen - 2];
+		auto prevElem = parent->blocks[elemLen - 2];
 		if (prevElem->isBlockElement()) {
 			auto prevBlock = dynamic_pointer_cast<ParseElementBlock>(prevElem);
 			if (!prevBlock->isVirtual) {
@@ -122,9 +134,9 @@ string ParseElementParagraph::generateCloseHtml() const {
     if (parent->next()->getTypeAt(offset) != ParseElementType::TYPE_PARAGRAPH) {
         return "</p>";
     }
-    elemLen = parent->next()->elements.size();
+    elemLen = parent->next()->blocks.size();
     if (elemLen > 1) {
-		auto prevElem = parent->next()->elements[elemLen - 2];
+		auto prevElem = parent->next()->blocks[elemLen - 2];
         if (prevElem->isBlockElement()) {
             auto prevBlock = dynamic_pointer_cast<ParseElementBlock>(prevElem);
             if (!prevBlock->isVirtual) {

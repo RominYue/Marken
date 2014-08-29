@@ -1,4 +1,5 @@
 #include "parse_elem_block.h"
+#include "parse_elem_empty.h"
 #include "parse_elem_html_block.h"
 #include "parse_elem_code_block.h"
 #include "parse_elem_header_atx.h"
@@ -16,15 +17,15 @@ using namespace std;
 
 DynamicParser::DynamicParser() {
     this->_reparseEvent = nullptr;
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementHorizontal()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
-    this->_blockElements.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHorizontal()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
+    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
 }
 
 DynamicParser::~DynamicParser() {
@@ -51,14 +52,14 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     ParseElementFactory factory;
     while (offset < lineLength) {
         int length = -1;
-        for (auto element : this->_blockElements) {
+        for (auto element : this->_blockblocks) {
             element->parent = data;
             element->offset = offset;
             if (element->tryParse(line, offset, length)) {
                 element->text = line.substr(offset, length);
                 element->utf8Offset = wordCount[offset];
                 element->utf8Length = wordCount[offset + length] - wordCount[offset];
-                data->elements.push_back(factory.copy(element));
+                data->blocks.push_back(factory.copy(element));
                 offset += length;
                 break;
             }
@@ -67,6 +68,41 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
 			++offset;
         }
     }
+	if (data->prev() != nullptr) {
+		int elemLen = data->blocks.size();
+		int prevLen = data->prev()->blocks.size();
+		if (elemLen < prevLen) {
+			bool same = true;
+			for (int i = 0; i < elemLen; ++i) {
+				if (data->blocks[i]->type() != data->prev()->blocks[i]->type() ||
+					data->blocks[i]->offset != data->prev()->blocks[i]->offset) {
+					same = false;
+					break;
+				}
+			}
+			if (same) {
+				for (int i = elemLen; i < prevLen; ++i) {
+					if (data->prev()->blocks[i]->type() != ParseElementType::TYPE_PARAGRAPH) {
+						if (data->prev()->blocks[i]->inheritable()) {
+							auto elem = factory.copy(data->prev()->blocks[i]);
+							elem->parent = data;
+							elem->utf8Length = 0;
+							dynamic_pointer_cast<ParseElementBlock>(elem)->isVirtual = true;
+							data->blocks.push_back(elem);
+						}
+					} else {
+						shared_ptr<ParseElementEmpty> elem(new ParseElementEmpty());
+						elem->parent = data;
+						elem->offset = data->prev()->blocks[i]->offset;
+						elem->utf8Offset = 0;
+						elem->utf8Length = 0;
+						elem->isVirtual = true;
+						data->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+					}
+				}
+			}
+		}
+	}
 }
 
 void DynamicParser::setReparseEvent(function<void(vector<ParseLine>&)> event) {

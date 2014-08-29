@@ -12,7 +12,7 @@ using std::function;
 
 class ParseLine;
 class ParseElementBlock;
-class ParseElementSpan;
+class Parseblockspan;
 
 class DynamicParser {
 public:
@@ -22,8 +22,8 @@ public:
     void setReparseEvent(function<void(vector<ParseLine>&)> event);
 private:
     function<void(vector<ParseLine>&)> _reparseEvent;
-    vector<shared_ptr<ParseElementBlock>> _blockElements;
-    vector<shared_ptr<ParseElementSpan>> _spanElements;
+    vector<shared_ptr<ParseElementBlock>> _blockblocks;
+    vector<shared_ptr<Parseblockspan>> _spanblocks;
 };
 
 #endif // PARSE_DYNAMIC_H

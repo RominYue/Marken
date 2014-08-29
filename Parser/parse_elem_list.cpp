@@ -5,6 +5,10 @@ using namespace std;
 ParseElementList::ParseElementList() : ParseElementBlock() {
 }
 
+bool ParseElementList::inheritable() const {
+	return true;
+}
+
 string ParseElementList::generateOpenHtml() const {
     if (parent->prev() == nullptr) {
         return this->getListOpenTag() + "<li>";
