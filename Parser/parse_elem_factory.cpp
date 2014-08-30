@@ -17,10 +17,10 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
     ParseElement* newElement = nullptr;
     switch (element->type()) {
     case ParseElementType::TYPE_HTML_BLOCK:
-		newElement = new ParseElementHtmlBlock(*dynamic_pointer_cast<ParseElementHtmlBlock>(element));
+        newElement = new ParseElementHtmlBlock(*dynamic_pointer_cast<ParseElementHtmlBlock>(element));
         break;
     case ParseElementType::TYPE_CODE_BLOCK:
-		newElement = new ParseElementCodeBlock(*dynamic_pointer_cast<ParseElementCodeBlock>(element));
+        newElement = new ParseElementCodeBlock(*dynamic_pointer_cast<ParseElementCodeBlock>(element));
         break;
     case ParseElementType::TYPE_HEADER_ATX:
         newElement = new ParseElementHeaderAtx(*dynamic_pointer_cast<ParseElementHeaderAtx>(element));
@@ -50,6 +50,6 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
 }
 
 shared_ptr<ParseElementBlock> ParseElementFactory::copy(const shared_ptr<ParseElementBlock> element) const {
-	return dynamic_pointer_cast<ParseElementBlock>(copy(dynamic_pointer_cast<ParseElement>(element)));
+    return dynamic_pointer_cast<ParseElementBlock>(copy(dynamic_pointer_cast<ParseElement>(element)));
 }
 

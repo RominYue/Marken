@@ -68,7 +68,7 @@ string ParseLine::generateHtml() const {
         if (element->isBlockElement()) {
             html += dynamic_pointer_cast<ParseElementBlock>(element)->generateOpenHtml();
         } else {
-            html += dynamic_pointer_cast<Parseblockspan>(element)->generateHtml();
+            html += dynamic_pointer_cast<ParseElementSpan>(element)->generateHtml();
         }
     }
     for (auto it = blocks.rbegin(); it != blocks.rend(); ++it) {

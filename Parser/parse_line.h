@@ -11,6 +11,7 @@ using std::shared_ptr;
 
 class ParseElement;
 class ParseElementBlock;
+class ParseElementSpan;
 
 class ParseLine {
 public:
@@ -32,6 +33,7 @@ public:
     int getIndexAt(const int offset) const;
 
     vector<shared_ptr<ParseElementBlock>> blocks;
+    vector<shared_ptr<ParseElementSpan>> spans;
 
 private:
     ParseLine* _prev;

@@ -37,7 +37,7 @@ static int isUtf8CharacterBegin(char ch) {
 
 void DynamicParser::parseLine(ParseLine* data, string line) {
     vector<int> wordCount;
-	wordCount.push_back(0);
+    wordCount.push_back(0);
     for (auto ch : line) {
         int last = 0;
         if (wordCount.size() > 0) {
@@ -65,44 +65,44 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             }
         }
         if (length == -1) {
-			++offset;
+            ++offset;
         }
     }
-	if (data->prev() != nullptr) {
-		int elemLen = data->blocks.size();
-		int prevLen = data->prev()->blocks.size();
-		if (elemLen < prevLen) {
-			bool same = true;
-			for (int i = 0; i < elemLen; ++i) {
-				if (data->blocks[i]->type() != data->prev()->blocks[i]->type() ||
-					data->blocks[i]->offset != data->prev()->blocks[i]->offset) {
-					same = false;
-					break;
-				}
-			}
-			if (same) {
-				for (int i = elemLen; i < prevLen; ++i) {
-					if (data->prev()->blocks[i]->type() != ParseElementType::TYPE_PARAGRAPH) {
-						if (data->prev()->blocks[i]->inheritable()) {
-							auto elem = factory.copy(data->prev()->blocks[i]);
-							elem->parent = data;
-							elem->utf8Length = 0;
-							dynamic_pointer_cast<ParseElementBlock>(elem)->isVirtual = true;
-							data->blocks.push_back(elem);
-						}
-					} else {
-						shared_ptr<ParseElementEmpty> elem(new ParseElementEmpty());
-						elem->parent = data;
-						elem->offset = data->prev()->blocks[i]->offset;
-						elem->utf8Offset = 0;
-						elem->utf8Length = 0;
-						elem->isVirtual = true;
-						data->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
-					}
-				}
-			}
-		}
-	}
+    if (data->prev() != nullptr) {
+        int elemLen = data->blocks.size();
+        int prevLen = data->prev()->blocks.size();
+        if (elemLen < prevLen) {
+            bool same = true;
+            for (int i = 0; i < elemLen; ++i) {
+                if (data->blocks[i]->type() != data->prev()->blocks[i]->type() ||
+                    data->blocks[i]->offset != data->prev()->blocks[i]->offset) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same) {
+                for (int i = elemLen; i < prevLen; ++i) {
+                    if (data->prev()->blocks[i]->type() != ParseElementType::TYPE_PARAGRAPH) {
+                        if (data->prev()->blocks[i]->inheritable()) {
+                            auto elem = factory.copy(data->prev()->blocks[i]);
+                            elem->parent = data;
+                            elem->utf8Length = 0;
+                            dynamic_pointer_cast<ParseElementBlock>(elem)->isVirtual = true;
+                            data->blocks.push_back(elem);
+                        }
+                    } else {
+                        shared_ptr<ParseElementEmpty> elem(new ParseElementEmpty());
+                        elem->parent = data;
+                        elem->offset = data->prev()->blocks[i]->offset;
+                        elem->utf8Offset = 0;
+                        elem->utf8Length = 0;
+                        elem->isVirtual = true;
+                        data->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+                    }
+                }
+            }
+        }
+    }
 }
 
 void DynamicParser::setReparseEvent(function<void(vector<ParseLine>&)> event) {

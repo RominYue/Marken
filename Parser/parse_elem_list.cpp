@@ -6,7 +6,7 @@ ParseElementList::ParseElementList() : ParseElementBlock() {
 }
 
 bool ParseElementList::inheritable() const {
-	return true;
+    return true;
 }
 
 string ParseElementList::generateOpenHtml() const {

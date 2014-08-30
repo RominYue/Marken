@@ -10,7 +10,7 @@ public:
 
     virtual bool tryParse(const string &line, int offset, int& length);
 
-	virtual bool inheritable() const;
+    virtual bool inheritable() const;
     virtual string generateOpenHtml() const;
     virtual string generateCloseHtml() const;
 

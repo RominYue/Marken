@@ -19,7 +19,7 @@ bool ParseElementBlock::tryParse(const string &line, int offset, int& length) {
 }
 
 bool ParseElementBlock::inheritable() const {
-	return false;
+    return false;
 }
 
 string ParseElementBlock::generateOpenHtml() const {

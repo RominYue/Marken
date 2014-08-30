@@ -11,6 +11,11 @@ public:
     virtual bool tryParse(const string &line, int offset, int& length) override;
     virtual string generateOpenHtml() const override final;
     virtual string generateCloseHtml() const override final;
+
+    bool isParagraphBegin() const;
+    bool isParagraphEnd() const;
+private:
+    bool isListSingleLine() const;
 };
 
 #endif // PARSE_ELEM_PARAGRAPH_H

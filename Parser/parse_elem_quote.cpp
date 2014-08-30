@@ -11,7 +11,7 @@ ParseElementType ParseElementQuote::type() const {
 
 bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
     int lineLen = line.length();
-	if (lineLen > offset) {
+    if (lineLen > offset) {
         if (line[offset] == ' ' || line[offset] == '\t') {
             if (parent->prev() == nullptr) {
                 return false;
@@ -28,12 +28,12 @@ bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
                 return true;
             }
         }
-	}
-	return false;
+    }
+    return false;
 }
 
 bool ParseElementQuote::inheritable() const {
-	return true;
+    return true;
 }
 
 string ParseElementQuote::generateOpenHtml() const {

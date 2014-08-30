@@ -10,8 +10,8 @@ ParseElementType ParseElementListOrdered::type() const {
 }
 
 bool ParseElementListOrdered::tryParse(const string &line, int offset, int& length) {
-	int lineLen = line.length();
-	if (lineLen > offset) {
+    int lineLen = line.length();
+    if (lineLen > offset) {
         if (line[offset] == ' ' || line[offset] == '\t') {
             if (parent->prev() == nullptr) {
                 return false;
@@ -37,8 +37,8 @@ bool ParseElementListOrdered::tryParse(const string &line, int offset, int& leng
                 return true;
             }
         }
-	}
-	return false;
+    }
+    return false;
 }
 
 string ParseElementListOrdered::getListOpenTag() const {

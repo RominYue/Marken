@@ -3,14 +3,12 @@
 
 #include "parse_elem.h"
 
-class Parseblockspan : public ParseElement {
+class ParseElementSpan : public ParseElement {
 public:
-    Parseblockspan();
+    ParseElementSpan();
     virtual bool isBlockElement() const override final;
 
     virtual string generateHtml() const;
-
-    bool activate;
 };
 
 #endif // PARSE_ELEM_SPAN_H
