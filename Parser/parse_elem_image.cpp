@@ -1,11 +1,5 @@
 #include "parse_elem_image.h"
+using namespace std;
 
-parse_elem_image::parse_elem_image()
-{
-    //ctor
-}
-
-parse_elem_image::~parse_elem_image()
-{
-    //dtor
+ParseElementImage::ParseElementImage() : ParseElementSpan() {
 }

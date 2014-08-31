@@ -3,7 +3,8 @@
 ParseElementEscape::ParseElementEscape() : ParseElementSpan() {
 }
 
-int ParseElementEscape::tryParse(const string& text, int offset, int length) {
+int ParseElementEscape::tryParse(const string& text, int offset) {
+    int length = text.length();
     if (text[offset] == '\\') {
         if (offset + 1 < length) {
             switch (text[offset + 1]) {

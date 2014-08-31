@@ -65,10 +65,10 @@
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_block.cpp">
-			<Option virtualFolder="Elements/Basic/" />
+			<Option virtualFolder="Elements/Block/" />
 		</Unit>
 		<Unit filename="parse_elem_block.h">
-			<Option virtualFolder="Elements/Basic/" />
+			<Option virtualFolder="Elements/Block/" />
 		</Unit>
 		<Unit filename="parse_elem_code_block.cpp">
 			<Option virtualFolder="Elements/Block/" />
@@ -148,6 +148,12 @@
 		<Unit filename="parse_elem_image.h">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
+		<Unit filename="parse_elem_link.cpp">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_link.h">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
 		<Unit filename="parse_elem_link_inline.cpp">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
@@ -164,12 +170,6 @@
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_link_reference.h">
-			<Option virtualFolder="Elements/Span/" />
-		</Unit>
-		<Unit filename="parse_elem_links.cpp">
-			<Option virtualFolder="Elements/Span/" />
-		</Unit>
-		<Unit filename="parse_elem_links.h">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_list.cpp">
@@ -196,12 +196,6 @@
 		<Unit filename="parse_elem_paragraph.h">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
-		<Unit filename="parse_elem_plain.cpp">
-			<Option virtualFolder="Elements/Span/" />
-		</Unit>
-		<Unit filename="parse_elem_plain.h">
-			<Option virtualFolder="Elements/Span/" />
-		</Unit>
 		<Unit filename="parse_elem_quote.cpp">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
@@ -209,10 +203,10 @@
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
 		<Unit filename="parse_elem_span.cpp">
-			<Option virtualFolder="Elements/Basic/" />
+			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_span.h">
-			<Option virtualFolder="Elements/Basic/" />
+			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_strong.cpp">
 			<Option virtualFolder="Elements/Span/" />

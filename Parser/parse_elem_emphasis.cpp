@@ -1,11 +1,5 @@
 #include "parse_elem_emphasis.h"
+using namespace std;
 
-parse_elem_emphasis::parse_elem_emphasis()
-{
-    //ctor
-}
-
-parse_elem_emphasis::~parse_elem_emphasis()
-{
-    //dtor
+ParseElementEmphasis::ParseElementEmphasis() : ParseElementSpan() {
 }

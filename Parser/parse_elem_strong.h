@@ -1,14 +1,11 @@
 #ifndef PARSE_ELEM_STRONG_H
 #define PARSE_ELEM_STRONG_H
 
+#include "parse_elem_span.h"
 
-class parse_elem_strong
-{
-    public:
-        parse_elem_strong();
-        virtual ~parse_elem_strong();
-    protected:
-    private:
+class ParseElementStrong : public ParseElementSpan {
+public:
+    ParseElementStrong();
 };
 
 #endif // PARSE_ELEM_STRONG_H

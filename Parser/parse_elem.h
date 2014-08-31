@@ -19,6 +19,7 @@ public:
     virtual bool operator ==(shared_ptr<ParseElement> element) const;
 
     int offset;
+    int inlineOffset;
     int utf8Offset;
     int utf8Length;
     string text;

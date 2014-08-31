@@ -8,10 +8,9 @@ bool ParseElementSpan::isBlockElement() const {
     return false;
 }
 
-int ParseElementSpan::tryParse(const string& text, int offset, int length) {
+int ParseElementSpan::tryParse(const string& text, int offset) {
     UNUSED(text);
     UNUSED(offset);
-    UNUSED(length);
     return 0;
 }
 

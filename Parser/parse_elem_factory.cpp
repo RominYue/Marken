@@ -11,6 +11,16 @@
 #include "parse_elem_paragraph.h"
 #include "parse_elem_factory.h"
 #include "parse_elem_span.h"
+#include "parse_elem_escape.h"
+#include "parse_elem_amp.h"
+#include "parse_elem_code_inline.h"
+#include "parse_elem_emphasis.h"
+#include "parse_elem_strong.h"
+#include "parse_elem_html_inline.h"
+#include "parse_elem_link_inline.h"
+#include "parse_elem_link_label.h"
+#include "parse_elem_link_reference.h"
+#include "parse_elem_image.h"
 using namespace std;
 
 shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement> element) const {
@@ -43,6 +53,33 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
     case ParseElementType::TYPE_PARAGRAPH:
         newElement = new ParseElementParagraph(*dynamic_pointer_cast<ParseElementParagraph>(element));
         break;
+    case ParseElementType::TYPE_ESCAPE:
+        newElement = new ParseElementEscape(*dynamic_pointer_cast<ParseElementEscape>(element));
+        break;
+    case ParseElementType::TYPE_CODE_INLINE:
+        newElement = new ParseElementCodeInline(*dynamic_pointer_cast<ParseElementCodeInline>(element));
+        break;
+    case ParseElementType::TYPE_EMPHASIS:
+        newElement = new ParseElementEmphasis(*dynamic_pointer_cast<ParseElementEmphasis>(element));
+        break;
+    case ParseElementType::TYPE_STRONG:
+        newElement = new ParseElementStrong(*dynamic_pointer_cast<ParseElementStrong>(element));
+        break;
+    case ParseElementType::TYPE_HTML_INLINE:
+        newElement = new ParseElementHtmlInline(*dynamic_pointer_cast<ParseElementHtmlInline>(element));
+        break;
+    case ParseElementType::TYPE_LINK_INLINE:
+        newElement = new ParseElementLinkInline(*dynamic_pointer_cast<ParseElementLinkInline>(element));
+        break;
+    case ParseElementType::TYPE_LINK_LABEL:
+        newElement = new ParseElementLinkLabel(*dynamic_pointer_cast<ParseElementLinkLabel>(element));
+        break;
+    case ParseElementType::TYPE_LINK_REFERENCE:
+        newElement = new ParseElementLinkReference(*dynamic_pointer_cast<ParseElementLinkReference>(element));
+        break;
+    case ParseElementType::TYPE_IMAGE:
+        newElement = new ParseElementImage(*dynamic_pointer_cast<ParseElementImage>(element));
+        break;
     default:
         break;
     }
@@ -53,3 +90,6 @@ shared_ptr<ParseElementBlock> ParseElementFactory::copy(const shared_ptr<ParseEl
     return dynamic_pointer_cast<ParseElementBlock>(copy(dynamic_pointer_cast<ParseElement>(element)));
 }
 
+shared_ptr<ParseElementSpan> ParseElementFactory::copy(const shared_ptr<ParseElementSpan> element) const {
+    return dynamic_pointer_cast<ParseElementSpan>(copy(dynamic_pointer_cast<ParseElement>(element)));
+}

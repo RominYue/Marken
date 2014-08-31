@@ -1,14 +1,11 @@
 #ifndef PARSE_ELEM_LINK_REFERENCE_H
 #define PARSE_ELEM_LINK_REFERENCE_H
 
+#include "parse_elem_link.h"
 
-class parse_elem_link_reference
-{
-    public:
-        parse_elem_link_reference();
-        virtual ~parse_elem_link_reference();
-    protected:
-    private:
+class ParseElementLinkReference : public ParseElementLink {
+public:
+    ParseElementLinkReference();
 };
 
 #endif // PARSE_ELEM_LINK_REFERENCE_H

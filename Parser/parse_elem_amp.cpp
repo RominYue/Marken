@@ -1,11 +1,5 @@
 #include "parse_elem_amp.h"
+using namespace std;
 
-parse_elem_amp::parse_elem_amp()
-{
-    //ctor
-}
-
-parse_elem_amp::~parse_elem_amp()
-{
-    //dtor
+ParseElementAmp::ParseElementAmp() : ParseElementSpan() {
 }

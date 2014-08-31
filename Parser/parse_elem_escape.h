@@ -6,7 +6,7 @@
 class ParseElementEscape : public ParseElementSpan {
 public:
     ParseElementEscape();
-    virtual int tryParse(const string& text, int offset, int length) override final;
+    virtual int tryParse(const string& text, int offset) override final;
     virtual string generateHtml() const override final;
 };
 

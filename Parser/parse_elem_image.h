@@ -1,14 +1,11 @@
 #ifndef PARSE_ELEM_IMAGE_H
 #define PARSE_ELEM_IMAGE_H
 
+#include "parse_elem_span.h"
 
-class parse_elem_image
-{
-    public:
-        parse_elem_image();
-        virtual ~parse_elem_image();
-    protected:
-    private:
+class ParseElementImage : public ParseElementSpan {
+public:
+    ParseElementImage();
 };
 
 #endif // PARSE_ELEM_IMAGE_H

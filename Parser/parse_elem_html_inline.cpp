@@ -1,11 +1,5 @@
 #include "parse_elem_html_inline.h"
+using namespace std;
 
-parse_elem_html_inline::parse_elem_html_inline()
-{
-    //ctor
-}
-
-parse_elem_html_inline::~parse_elem_html_inline()
-{
-    //dtor
+ParseElementHtmlInline::ParseElementHtmlInline() : ParseElementSpan() {
 }

@@ -1,11 +1,5 @@
 #include "parse_elem_strong.h"
+using namespace std;
 
-parse_elem_strong::parse_elem_strong()
-{
-    //ctor
-}
-
-parse_elem_strong::~parse_elem_strong()
-{
-    //dtor
+ParseElementStrong::ParseElementStrong() : ParseElementSpan() {
 }

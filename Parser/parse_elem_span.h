@@ -8,8 +8,10 @@ public:
     ParseElementSpan();
     virtual bool isBlockElement() const override final;
 
-    virtual int tryParse(const string& text, int offset, int length);
+    virtual int tryParse(const string& text, int offset);
     virtual string generateHtml() const;
+
+    int length;
 };
 
 #endif // PARSE_ELEM_SPAN_H

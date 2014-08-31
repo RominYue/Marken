@@ -1,11 +1,5 @@
 #include "parse_elem_code_inline.h"
+using namespace std;
 
-parse_elem_code_inline::parse_elem_code_inline()
-{
-    //ctor
-}
-
-parse_elem_code_inline::~parse_elem_code_inline()
-{
-    //dtor
+ParseElementCodeInline::ParseElementCodeInline() : ParseElementSpan() {
 }

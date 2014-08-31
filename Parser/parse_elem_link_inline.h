@@ -1,14 +1,11 @@
 #ifndef PARSE_ELEM_LINK_INLINE_H
 #define PARSE_ELEM_LINK_INLINE_H
 
+#include "parse_elem_link.h"
 
-class parse_elem_link_inline
-{
-    public:
-        parse_elem_link_inline();
-        virtual ~parse_elem_link_inline();
-    protected:
-    private:
+class ParseElementLinkInline : public ParseElementLink {
+public:
+    ParseElementLinkInline();
 };
 
 #endif // PARSE_ELEM_LINK_INLINE_H

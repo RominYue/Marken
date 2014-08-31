@@ -1,14 +1,11 @@
 #ifndef PARSE_ELEM_CODE_INLINE_H
 #define PARSE_ELEM_CODE_INLINE_H
 
+#include "parse_elem_span.h"
 
-class parse_elem_code_inline
-{
-    public:
-        parse_elem_code_inline();
-        virtual ~parse_elem_code_inline();
-    protected:
-    private:
+class ParseElementCodeInline : public ParseElementSpan {
+public:
+    ParseElementCodeInline();
 };
 
 #endif // PARSE_ELEM_CODE_INLINE_H
