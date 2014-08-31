@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include "parse.h"
 using std::string;
 using std::vector;
 using std::shared_ptr;
@@ -14,7 +15,7 @@ class ParseLine;
 class ParseElementBlock;
 class Parseblockspan;
 
-class DynamicParser {
+class DynamicParser : public Parser {
 public:
     DynamicParser();
     virtual ~DynamicParser();
@@ -22,8 +23,7 @@ public:
     void setReparseEvent(function<void(vector<ParseLine>&)> event);
 private:
     function<void(vector<ParseLine>&)> _reparseEvent;
-    vector<shared_ptr<ParseElementBlock>> _blockblocks;
-    vector<shared_ptr<Parseblockspan>> _spanblocks;
+    vector<shared_ptr<ParseElementBlock>> _blocks;
 };
 
 #endif // PARSE_DYNAMIC_H

@@ -1,6 +1,8 @@
 #ifndef PARSE_ELEM_TYPE_H_INCLUDED
 #define PARSE_ELEM_TYPE_H_INCLUDED
 
+#define UNUSED(x) (void)(x)
+
 enum class ParseElementType {
     TYPE_INVALID,
     TYPE_EMPTY,

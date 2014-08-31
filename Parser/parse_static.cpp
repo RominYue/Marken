@@ -4,6 +4,9 @@
 #include "parse_line.h"
 using namespace std;
 
+StaticParser::StaticParser() : Parser() {
+}
+
 vector<string> StaticParser::parseToHtmlList(const vector<string>& document) const {
     vector<string> htmlList;
     vector<shared_ptr<ParseLine>> dataList;

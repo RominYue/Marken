@@ -15,6 +15,7 @@ public:
 
     virtual ParseElementType type() const;
     virtual bool isBlockElement() const;
+    virtual string inlineText() const;
     virtual bool operator ==(shared_ptr<ParseElement> element) const;
 
     int offset;

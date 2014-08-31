@@ -1,8 +1,6 @@
 #include "parse_elem_block.h"
 using namespace std;
 
-#define UNUSED(x) (void)x;
-
 ParseElementBlock::ParseElementBlock() : ParseElement() {
     this->isVirtual = false;
 }

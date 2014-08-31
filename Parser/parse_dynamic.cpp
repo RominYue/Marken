@@ -15,44 +15,30 @@
 #include "parse_dynamic.h"
 using namespace std;
 
-DynamicParser::DynamicParser() {
+DynamicParser::DynamicParser() : Parser() {
     this->_reparseEvent = nullptr;
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHorizontal()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
-    this->_blockblocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHorizontal()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
 }
 
 DynamicParser::~DynamicParser() {
 }
 
-static int isUtf8CharacterBegin(char ch) {
-    return ((ch & 0x80) == 0) || ((ch & 0xC0) == 0xC0);
-}
-
 void DynamicParser::parseLine(ParseLine* data, string line) {
-    vector<int> wordCount;
-    wordCount.push_back(0);
-    for (auto ch : line) {
-        int last = 0;
-        if (wordCount.size() > 0) {
-            last = *wordCount.rbegin();
-        }
-        if (isUtf8CharacterBegin(ch)) {
-            wordCount.push_back(last + 1);
-        }
-    }
+    auto wordCount = this->getUtf8CharacterCount(line);
     int offset = 0;
     int lineLength = line.size();
     ParseElementFactory factory;
     while (offset < lineLength) {
         int length = -1;
-        for (auto element : this->_blockblocks) {
+        for (auto element : this->_blocks) {
             element->parent = data;
             element->offset = offset;
             if (element->tryParse(line, offset, length)) {

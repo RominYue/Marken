@@ -3,13 +3,13 @@
 
 #include <string>
 #include <vector>
+#include "parse.h"
 using std::string;
 using std::vector;
 
-class StaticParser {
+class StaticParser : public Parser {
 public:
-    StaticParser() = default;
-    virtual ~StaticParser() = default;
+    StaticParser();
     vector<string> parseToHtmlList(const vector<string>& document) const;
     string parseToHtml(const vector<string>& document) const;
 };

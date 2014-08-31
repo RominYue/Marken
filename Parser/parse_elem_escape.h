@@ -1,14 +1,13 @@
 #ifndef PARSE_ELEM_ESCAPE_H
 #define PARSE_ELEM_ESCAPE_H
 
+#include "parse_elem_span.h"
 
-class parse_elem_escape
-{
-    public:
-        parse_elem_escape();
-        virtual ~parse_elem_escape();
-    protected:
-    private:
+class ParseElementEscape : public ParseElementSpan {
+public:
+    ParseElementEscape();
+    virtual int tryParse(const string& text, int offset, int length) override final;
+    virtual string generateHtml() const override final;
 };
 
 #endif // PARSE_ELEM_ESCAPE_H

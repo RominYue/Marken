@@ -2,8 +2,6 @@
 #include "parse_elem.h"
 using namespace std;
 
-#define UNUSED(x) (void)(x)
-
 ParseElement::ParseElement() {
     offset = 0;
     utf8Offset = 0;
@@ -17,6 +15,10 @@ ParseElementType ParseElement::type() const {
 
 bool ParseElement::isBlockElement() const {
     return false;
+}
+
+string ParseElement::inlineText() const {
+    return "";
 }
 
 bool ParseElement::operator ==(shared_ptr<ParseElement> element) const {

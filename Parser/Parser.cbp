@@ -40,6 +40,12 @@
 			<Add directory="elements" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="parse.cpp">
+			<Option virtualFolder="Parse/" />
+		</Unit>
+		<Unit filename="parse.h">
+			<Option virtualFolder="Parse/" />
+		</Unit>
 		<Unit filename="parse_dynamic.cpp">
 			<Option virtualFolder="Parse/" />
 		</Unit>
@@ -221,6 +227,12 @@
 			<Option virtualFolder="Parse/" />
 		</Unit>
 		<Unit filename="parse_line.h">
+			<Option virtualFolder="Parse/" />
+		</Unit>
+		<Unit filename="parse_span.cpp">
+			<Option virtualFolder="Parse/" />
+		</Unit>
+		<Unit filename="parse_span.h">
 			<Option virtualFolder="Parse/" />
 		</Unit>
 		<Unit filename="parse_static.cpp">
