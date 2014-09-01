@@ -67,7 +67,7 @@ string ParseLine::generateHtml() const {
     vector<OffsetElement> orders;
     for (auto span : spans) {
         OffsetElement order;
-        order.elem = dynamic_pointer_cast<ParseElement>(span);
+        order.elem = span;
         order.offset = span->utf8Offset;
         order.isOpen = true;
         orders.push_back(order);
@@ -82,10 +82,14 @@ string ParseLine::generateHtml() const {
     }
     for (auto order : orders) {
         if (order.isOpen) {
-            html += order.elem->generateOpenHtml();
+            if (order.elem->openActivate) {
+                html += order.elem->generateOpenHtml();
+            }
         }
         else {
-            html += order.elem->generateCloseHtml();
+            if (order.elem->closeActivate) {
+                html += order.elem->generateCloseHtml();
+            }
         }
     }
     for (auto it = blocks.rbegin(); it != blocks.rend(); ++it) {

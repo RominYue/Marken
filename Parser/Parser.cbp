@@ -130,6 +130,12 @@
 		<Unit filename="parse_elem_horizontal.h">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
+		<Unit filename="parse_elem_html.cpp">
+			<Option virtualFolder="Elements/Basic/" />
+		</Unit>
+		<Unit filename="parse_elem_html.h">
+			<Option virtualFolder="Elements/Basic/" />
+		</Unit>
 		<Unit filename="parse_elem_html_block.cpp">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>

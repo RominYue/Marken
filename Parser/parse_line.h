@@ -41,7 +41,7 @@ private:
     vector<shared_ptr<ParseElementBlock>> _oldBlocks;
 
     struct OffsetElement {
-        shared_ptr<ParseElement> elem;
+        shared_ptr<ParseElementSpan> elem;
         int offset;
         bool isOpen;
         bool operator <(const OffsetElement& element) const {

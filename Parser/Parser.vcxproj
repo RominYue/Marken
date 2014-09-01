@@ -80,6 +80,7 @@
     <ClCompile Include="parse_elem_header_atx.cpp" />
     <ClCompile Include="parse_elem_header_setext.cpp" />
     <ClCompile Include="parse_elem_horizontal.cpp" />
+    <ClCompile Include="parse_elem_html.cpp" />
     <ClCompile Include="parse_elem_html_block.cpp" />
     <ClCompile Include="parse_elem_html_inline.cpp" />
     <ClCompile Include="parse_elem_image.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="parse_elem_header_atx.h" />
     <ClInclude Include="parse_elem_header_setext.h" />
     <ClInclude Include="parse_elem_horizontal.h" />
+    <ClInclude Include="parse_elem_html.h" />
     <ClInclude Include="parse_elem_html_block.h" />
     <ClInclude Include="parse_elem_html_inline.h" />
     <ClInclude Include="parse_elem_image.h" />

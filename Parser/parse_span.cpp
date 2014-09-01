@@ -44,7 +44,12 @@ void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
 void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
     auto text = elem->getCleanedHeader();
     auto wordNum = this->getUtf8CharacterCount(text);
-    elem->parent->spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
+    auto spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
+    for (auto span : spans) {
+        span->openActivate = true;
+        span->closeActivate = true;
+    }
+    elem->parent->spans = spans;
 }
 
 void SpanParser::parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem) {
@@ -201,6 +206,7 @@ vector<vector<shared_ptr<ParseElementSpan>>> SpanParser::parseParagraph(const ve
                 span->utf8Offset = 0;
                 span->utf8Length = utf8Lengths[i] - utf8Lengths[i - 1];
                 if (span->type() == ParseElementType::TYPE_PLAIN) {
+                    span->openActivate = true;
                     span->text = text.substr(lengths[i - 1] - span->offset, lengths[i] - lengths[i - 1]);
                 }
                 spanVec[i - 1].push_back(this->_factory.copy(span));
@@ -210,6 +216,7 @@ vector<vector<shared_ptr<ParseElementSpan>>> SpanParser::parseParagraph(const ve
             span->utf8Offset = 0;
             span->utf8Length = span->utf8Offset + span->utf8Length - utf8Lengths[end - 1];
             if (span->type() == ParseElementType::TYPE_PLAIN) {
+                span->openActivate = true;
                 span->text = text.substr(lengths[end - 1] - span->offset, span->offset + text.length() - lengths[end - 1]);
             }
             spanVec[end - 1].push_back(this->_factory.copy(span));

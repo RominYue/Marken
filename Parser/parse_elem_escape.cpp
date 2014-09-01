@@ -36,8 +36,5 @@ int ParseElementEscape::tryParse(const string& text, int offset) {
 }
 
 string ParseElementEscape::generateOpenHtml() const {
-    if (this->openActivate) {
-        return this->text.substr(1, 1);
-    }
-    return "";
+    return this->text.substr(1, 1);
 }
