@@ -13,6 +13,8 @@ using std::shared_ptr;
 class ParseElement;
 class ParseElementSpan;
 class ParseElementParagraph;
+class ParseElementHeader;
+class ParseElementHeaderSetext;
 
 class SpanParser : public Parser {
 public:
@@ -22,7 +24,8 @@ public:
 private:
     ParseElementFactory _factory;
     vector<shared_ptr<ParseElementSpan>> _spans;
-    void parseInlineElement(shared_ptr<ParseElement> elem);
+    void parseHeader(shared_ptr<ParseElementHeader> elem);
+    void parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem);
     void parseParagraphElement(shared_ptr<ParseElementParagraph> elem);
     vector<shared_ptr<ParseElementSpan>> parseLine(const string& line, int utf8Offset);
     vector<vector<shared_ptr<ParseElementSpan>>> parseParagraph(const vector<string>& paragraph);

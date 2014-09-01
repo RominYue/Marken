@@ -90,8 +90,11 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
         }
     }
     if (data->blocks.size() > 0) {
-        if ((*data->blocks.rbegin())->type() == ParseElementType::TYPE_PARAGRAPH ||
-            (*data->blocks.rbegin())->type() == ParseElementType::TYPE_HEADER_SETEXT) {
+        auto type = (*data->blocks.rbegin())->type();
+        if (type == ParseElementType::TYPE_PARAGRAPH) {
+            this->_spanParser.parseElement(*data->blocks.rbegin());
+        } else if (type == ParseElementType::TYPE_HEADER_ATX ||
+                   type == ParseElementType::TYPE_HEADER_SETEXT) {
             this->_spanParser.parseElement(*data->blocks.rbegin());
         }
     }

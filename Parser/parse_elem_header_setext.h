@@ -13,6 +13,8 @@ public:
     virtual string generateOpenHtml() const override final;
     virtual string generateCloseHtml() const override final;
 
+    bool isLower() const;
+
 private:
     bool _isLower;
 };

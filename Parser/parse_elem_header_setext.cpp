@@ -39,6 +39,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
             int index = parent->prev()->getIndexAt(offset);
             auto elem = parent->prev()->blocks[index];
             shared_ptr<ParseElementHeaderSetext> setext(new ParseElementHeaderSetext());
+            setext->parent = elem->parent;
             setext->offset = elem->offset;
             setext->utf8Offset = elem->utf8Offset;
             setext->utf8Length = elem->utf8Length;
@@ -57,7 +58,7 @@ string ParseElementHeaderSetext::generateOpenHtml() const {
     if (this->_isLower) {
         return "<hr>";
     }
-    return this->generateOpenTag() + this->getCleanedHeader();
+    return this->generateOpenTag();
 }
 
 string ParseElementHeaderSetext::generateCloseHtml() const {
@@ -65,4 +66,8 @@ string ParseElementHeaderSetext::generateCloseHtml() const {
         return "";
     }
     return this->generateCloseTag();
+}
+
+bool ParseElementHeaderSetext::isLower() const {
+    return this->_isLower;
 }

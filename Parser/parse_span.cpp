@@ -1,4 +1,6 @@
 #include "parse_elem.h"
+#include "parse_elem_header_atx.h"
+#include "parse_elem_header_setext.h"
 #include "parse_elem_span.h"
 #include "parse_elem_paragraph.h"
 #include "parse_line.h"
@@ -32,27 +34,30 @@ SpanParser::SpanParser() : Parser() {
 void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
     if (elem->type() == ParseElementType::TYPE_PARAGRAPH) {
         this->parseParagraphElement(dynamic_pointer_cast<ParseElementParagraph>(elem));
+    } else if (elem->type() == ParseElementType::TYPE_HEADER_ATX) {
+        this->parseHeader(dynamic_pointer_cast<ParseElementHeader>(elem));
     } else if (elem->type() == ParseElementType::TYPE_HEADER_SETEXT) {
-        if (elem->parent->prev() != nullptr) {
-            if (elem->parent->prev()->blocks.size() > 0) {
-                if ((*elem->parent->prev()->blocks.rbegin())->type() == ParseElementType::TYPE_HEADER_SETEXT) {
-                    elem->parent->prev()->spans.clear();
-                }
-            }
-        }
-    } else {
-        this->parseInlineElement(elem);
+        this->parseHeaderSetext(dynamic_pointer_cast<ParseElementHeaderSetext>(elem));
     }
 }
 
-void SpanParser::parseInlineElement(shared_ptr<ParseElement> elem) {
-    auto text = elem->inlineText();
-    auto spans = this->parseLine(text, 0);
-    auto wordCount = this->getUtf8CharacterCount(text);
-    for (auto span : spans) {
-        span->utf8Offset += elem->utf8Offset;
+void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
+    auto text = elem->getCleanedHeader();
+    auto wordNum = this->getUtf8CharacterCount(text);
+    elem->parent->spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
+}
+
+void SpanParser::parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem) {
+    if (elem->isLower()) {
+        if (elem->parent->prev() != nullptr) {
+            if (elem->parent->prev()->blocks.size() > 0) {
+                auto last = *elem->parent->prev()->blocks.rbegin();
+                if (last->type() == ParseElementType::TYPE_HEADER_SETEXT) {
+                    this->parseHeader(dynamic_pointer_cast<ParseElementHeader>(last));
+                }
+            }
+        }
     }
-    // TODO
 }
 
 void SpanParser::parseParagraphElement(shared_ptr<ParseElementParagraph> elem) {
@@ -107,13 +112,6 @@ vector<shared_ptr<ParseElementSpan>> SpanParser::parseLine(const string& line, i
                 elem->utf8Length = wordCnt[offset + length] - wordCnt[offset];
                 elem->text = line.substr(offset, length);
                 spans.push_back(this->_factory.copy(elem));
-                auto text = elem->inlineText();
-                if (text.length() > 0) {
-                    auto elems = this->parseLine(text, utf8Offset + wordCnt[offset + elem->inlineOffset]);
-                    for (auto subElem : elems) {
-                        spans.push_back(subElem);
-                    }
-                }
                 offset += length;
                 last = offset;
                 break;

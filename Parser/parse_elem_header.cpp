@@ -4,9 +4,8 @@ using namespace std;
 ParseElementHeader::ParseElementHeader() : ParseElementBlock() {
 }
 
-string ParseElementHeader::getCleanedHeader() const {
+int ParseElementHeader::getCleanStartIndex() const {
     int start = 0;
-    int end = this->text.size();
     int len = this->text.size();
     for (int i = 0; i < len; ++i) {
         if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
@@ -14,20 +13,34 @@ string ParseElementHeader::getCleanedHeader() const {
             break;
         }
     }
+    return start;
+}
+
+int ParseElementHeader::getCleanEndIndex() const {
+    int end = this->text.size();
+    int len = this->text.size();
     for (int i = len - 1; i >= 0; --i) {
         if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
             if (i > 0 && text[i - 1] == '\\') {
                 if (i > 1 && text[i - 2] != '\\') {
                     end = i + 1;
-                } else {
+                }
+                else {
                     end = i + 2;
                 }
-            } else {
+            }
+            else {
                 end = i + 1;
             }
             break;
         }
     }
+    return end;
+}
+
+string ParseElementHeader::getCleanedHeader() const {
+    int start = this->getCleanStartIndex();
+    int end = this->getCleanEndIndex();
     if (start < end) {
         return this->translateAmp(text.substr(start, end - start));
     }

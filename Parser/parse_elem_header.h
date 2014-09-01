@@ -7,10 +7,13 @@ class ParseElementHeader : public ParseElementBlock {
 public:
     ParseElementHeader();
 
+    string getCleanedHeader() const;
+    int getCleanStartIndex() const;
+    int getCleanEndIndex() const;
+
     int level;
 
 protected:
-    string getCleanedHeader() const;
     string generateOpenTag() const;
     string generateCloseTag() const;
 };

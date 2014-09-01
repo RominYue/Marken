@@ -27,7 +27,7 @@ bool ParseElementHeaderAtx::tryParse(const string &line, int offset, int& length
 }
 
 string ParseElementHeaderAtx::generateOpenHtml() const {
-    return this->generateOpenTag() + this->getCleanedHeader();
+    return this->generateOpenTag();
 }
 
 string ParseElementHeaderAtx::generateCloseHtml() const {
