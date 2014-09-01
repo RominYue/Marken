@@ -71,7 +71,7 @@ string ParseLine::generateHtml() const {
         order.offset = span->utf8Offset;
         order.isOpen = true;
         orders.push_back(order);
-        order.offset = span->utf8Offset + span->utf8Length;
+        order.offset = span->utf8Offset + span->utf8Length - 1;
         order.isOpen = false;
         orders.push_back(order);
     }

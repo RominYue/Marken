@@ -21,6 +21,14 @@ bool ParseElement::operator ==(shared_ptr<ParseElement> element) const {
     return this->type() == element->type() && this->offset == element->offset;
 }
 
+string ParseElement::innerText() const {
+    return "";
+}
+
+int ParseElement::innerOffset() const {
+    return 0;
+}
+
 string ParseElement::translateAmp(const string& text) const {
     int len = text.length();
     string html;

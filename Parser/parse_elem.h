@@ -20,6 +20,9 @@ public:
     virtual string generateOpenHtml() const;
     virtual string generateCloseHtml() const;
 
+    virtual string innerText() const;
+    virtual int innerOffset() const;
+
     int offset;
     int utf8Offset;
     int utf8Length;

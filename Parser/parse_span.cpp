@@ -22,8 +22,8 @@ SpanParser::SpanParser() : Parser() {
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementEscape()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementAmp()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementCodeInline()));
-    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementEmphasis()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementStrong()));
+    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementEmphasis()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementHtmlInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkLabel()));
@@ -112,6 +112,13 @@ vector<shared_ptr<ParseElementSpan>> SpanParser::parseLine(const string& line, i
                 elem->utf8Length = wordCnt[offset + length] - wordCnt[offset];
                 elem->text = line.substr(offset, length);
                 spans.push_back(this->_factory.copy(elem));
+                string innerText = elem->innerText();
+                if (innerText.length() > 0) {
+                    auto innerElems = this->parseLine(innerText, elem->utf8Offset + elem->innerOffset());
+                    for (auto inner : innerElems) {
+                        spans.push_back(inner);
+                    }
+                }
                 offset += length;
                 last = offset;
                 break;
