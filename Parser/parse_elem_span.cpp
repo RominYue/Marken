@@ -2,6 +2,8 @@
 using namespace std;
 
 ParseElementSpan::ParseElementSpan() : ParseElement() {
+    openActivate = false;
+    closeActivate = false;
 }
 
 bool ParseElementSpan::isBlockElement() const {
@@ -13,8 +15,3 @@ int ParseElementSpan::tryParse(const string& text, int offset) {
     UNUSED(offset);
     return 0;
 }
-
-string ParseElementSpan::generateHtml() const {
-    return "";
-}
-

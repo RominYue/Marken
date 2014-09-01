@@ -6,8 +6,10 @@
 class ParseElementEscape : public ParseElementSpan {
 public:
     ParseElementEscape();
+    virtual ParseElementType type() const override final;
+
     virtual int tryParse(const string& text, int offset) override final;
-    virtual string generateHtml() const override final;
+    virtual string generateOpenHtml() const override final;
 };
 
 #endif // PARSE_ELEM_ESCAPE_H

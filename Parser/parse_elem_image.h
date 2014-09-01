@@ -6,6 +6,7 @@
 class ParseElementImage : public ParseElementSpan {
 public:
     ParseElementImage();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_IMAGE_H

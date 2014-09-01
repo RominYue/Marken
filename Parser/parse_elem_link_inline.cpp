@@ -3,3 +3,7 @@ using namespace std;
 
 ParseElementLinkInline::ParseElementLinkInline() : ParseElementLink() {
 }
+
+ParseElementType ParseElementLinkInline::type() const {
+    return ParseElementType::TYPE_LINK_INLINE;
+}

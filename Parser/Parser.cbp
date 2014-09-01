@@ -196,6 +196,12 @@
 		<Unit filename="parse_elem_paragraph.h">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
+		<Unit filename="parse_elem_plain.cpp">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_plain.h">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
 		<Unit filename="parse_elem_quote.cpp">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>

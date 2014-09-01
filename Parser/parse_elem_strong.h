@@ -6,6 +6,7 @@
 class ParseElementStrong : public ParseElementSpan {
 public:
     ParseElementStrong();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_STRONG_H

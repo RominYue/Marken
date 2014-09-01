@@ -6,6 +6,7 @@
 class ParseElementLinkLabel : public ParseElementLink {
 public:
     ParseElementLinkLabel();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_LINK_LABEL_H

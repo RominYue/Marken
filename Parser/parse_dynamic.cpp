@@ -89,6 +89,12 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             }
         }
     }
+    if (data->blocks.size() > 0) {
+        if ((*data->blocks.rbegin())->type() == ParseElementType::TYPE_PARAGRAPH ||
+            (*data->blocks.rbegin())->type() == ParseElementType::TYPE_HEADER_SETEXT) {
+            this->_spanParser.parseElement(*data->blocks.rbegin());
+        }
+    }
 }
 
 void DynamicParser::setReparseEvent(function<void(vector<ParseLine>&)> event) {

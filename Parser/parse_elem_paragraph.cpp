@@ -68,12 +68,12 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
 
 string ParseElementParagraph::generateOpenHtml() const {
     if (isListSingleLine()) {
-        return this->text;
+        return "";
     }
     if (this->isParagraphBegin()) {
-        return "<p>" + this->text;
+        return "<p>";
     }
-    return this->text;
+    return "";
 }
 
 string ParseElementParagraph::generateCloseHtml() const {

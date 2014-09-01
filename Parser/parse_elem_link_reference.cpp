@@ -3,3 +3,7 @@ using namespace std;
 
 ParseElementLinkReference::ParseElementLinkReference() : ParseElementLink() {
 }
+
+ParseElementType ParseElementLinkReference::type() const {
+    return ParseElementType::TYPE_LINK_REFERENCE;
+}

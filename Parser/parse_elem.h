@@ -18,6 +18,9 @@ public:
     virtual string inlineText() const;
     virtual bool operator ==(shared_ptr<ParseElement> element) const;
 
+    virtual string generateOpenHtml() const;
+    virtual string generateCloseHtml() const;
+
     int offset;
     int inlineOffset;
     int utf8Offset;

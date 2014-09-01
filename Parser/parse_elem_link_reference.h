@@ -6,6 +6,7 @@
 class ParseElementLinkReference : public ParseElementLink {
 public:
     ParseElementLinkReference();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_LINK_REFERENCE_H

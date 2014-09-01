@@ -1,6 +1,9 @@
 #ifndef PARSE_ELEM_FACTORY_H
 #define PARSE_ELEM_FACTORY_H
 
+#include <memory>
+using std::shared_ptr;
+
 class ParseElement;
 class ParseElementBlock;
 class ParseElementSpan;

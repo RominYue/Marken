@@ -48,5 +48,12 @@ string ParseElement::translateAmp(const string& text) const {
     return html;
 }
 
+string ParseElement::generateOpenHtml() const {
+    return "";
+}
+
+string ParseElement::generateCloseHtml() const {
+    return "";
+}
 
 

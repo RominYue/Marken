@@ -3,3 +3,7 @@ using namespace std;
 
 ParseElementAmp::ParseElementAmp() : ParseElementSpan() {
 }
+
+ParseElementType ParseElementAmp::type() const {
+    return ParseElementType::TYPE_AMP;
+}

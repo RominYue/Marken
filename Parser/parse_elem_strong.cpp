@@ -3,3 +3,7 @@ using namespace std;
 
 ParseElementStrong::ParseElementStrong() : ParseElementSpan() {
 }
+
+ParseElementType ParseElementStrong::type() const {
+    return ParseElementType::TYPE_STRONG;
+}

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "parse_elem.h"
 #include "parse_elem_block.h"
 #include "parse_elem_span.h"
@@ -63,19 +64,33 @@ bool ParseLine::isLineStatusChanged() const {
 
 string ParseLine::generateHtml() const {
     string html;
+    vector<OffsetElement> orders;
+    for (auto span : spans) {
+        OffsetElement order;
+        order.elem = dynamic_pointer_cast<ParseElement>(span);
+        order.offset = span->utf8Offset;
+        order.isOpen = true;
+        orders.push_back(order);
+        order.offset = span->utf8Offset + span->utf8Length;
+        order.isOpen = false;
+        orders.push_back(order);
+    }
+    sort(orders.begin(), orders.end());
     for (auto it = blocks.begin(); it != blocks.end(); ++it) {
         shared_ptr<ParseElement> element(*it);
-        if (element->isBlockElement()) {
-            html += dynamic_pointer_cast<ParseElementBlock>(element)->generateOpenHtml();
-        } else {
-            html += dynamic_pointer_cast<ParseElementSpan>(element)->generateHtml();
+        html += dynamic_pointer_cast<ParseElementBlock>(element)->generateOpenHtml();
+    }
+    for (auto order : orders) {
+        if (order.isOpen) {
+            html += order.elem->generateOpenHtml();
+        }
+        else {
+            html += order.elem->generateCloseHtml();
         }
     }
     for (auto it = blocks.rbegin(); it != blocks.rend(); ++it) {
         shared_ptr<ParseElement> element(*it);
-        if (element->isBlockElement()) {
-            html += dynamic_pointer_cast<ParseElementBlock>(element)->generateCloseHtml();
-        }
+        html += dynamic_pointer_cast<ParseElementBlock>(element)->generateCloseHtml();
     }
     return html;
 }

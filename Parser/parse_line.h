@@ -39,6 +39,18 @@ private:
     ParseLine* _prev;
     ParseLine* _next;
     vector<shared_ptr<ParseElementBlock>> _oldBlocks;
+
+    struct OffsetElement {
+        shared_ptr<ParseElement> elem;
+        int offset;
+        bool isOpen;
+        bool operator <(const OffsetElement& element) const {
+            if (offset == element.offset) {
+                return isOpen > element.isOpen;
+            }
+            return offset < element.offset;
+        }
+    };
 };
 
 #endif // PARSE_LINE_H_INCLUDED

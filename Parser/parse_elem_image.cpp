@@ -3,3 +3,7 @@ using namespace std;
 
 ParseElementImage::ParseElementImage() : ParseElementSpan() {
 }
+
+ParseElementType ParseElementImage::type() const {
+    return ParseElementType::TYPE_IMAGE;
+}

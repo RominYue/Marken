@@ -6,6 +6,7 @@
 class ParseElementLinkInline : public ParseElementLink {
 public:
     ParseElementLinkInline();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_LINK_INLINE_H

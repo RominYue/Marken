@@ -11,6 +11,7 @@
 #include "parse_elem_paragraph.h"
 #include "parse_elem_factory.h"
 #include "parse_elem_span.h"
+#include "parse_elem_plain.h"
 #include "parse_elem_escape.h"
 #include "parse_elem_amp.h"
 #include "parse_elem_code_inline.h"
@@ -52,6 +53,9 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
         break;
     case ParseElementType::TYPE_PARAGRAPH:
         newElement = new ParseElementParagraph(*dynamic_pointer_cast<ParseElementParagraph>(element));
+        break;
+    case ParseElementType::TYPE_PLAIN:
+        newElement = new ParseElementPlain(*dynamic_pointer_cast<ParseElementPlain>(element));
         break;
     case ParseElementType::TYPE_ESCAPE:
         newElement = new ParseElementEscape(*dynamic_pointer_cast<ParseElementEscape>(element));

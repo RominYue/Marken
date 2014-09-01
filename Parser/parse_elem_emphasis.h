@@ -6,6 +6,7 @@
 class ParseElementEmphasis : public ParseElementSpan {
 public:
     ParseElementEmphasis();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_EMPHASIS_H

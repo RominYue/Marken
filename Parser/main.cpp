@@ -16,7 +16,7 @@ int main() {
     int totalCaseNum = 0, totalPassedNum = 0;
     double totalTime = 0.0;
     while (fcase >> testCaseName) {
-        string buffer;
+        string buffer, str1, str2;
         cout << testCaseName << endl;
         for (string::size_type i = 0; i < testCaseName.length(); ++i) {
             cout << '-';
@@ -30,14 +30,6 @@ int main() {
         }
         fin.close();
 
-        fstream fout;
-        fout.open("test/" + testCaseName + ".out", ios::in | ios::binary);
-        vector<string> out;
-        while (getline(fout, buffer)) {
-            out.push_back(buffer);
-        }
-        fout.close();
-
         fstream ftest;
         ftest.open("test/" + testCaseName + ".test", ios::out | ios::binary);
         clock_t beginTime = clock();
@@ -48,13 +40,17 @@ int main() {
         }
         ftest.close();
 
+        fstream fout;
         bool passed = true;
-        for (vector<int>::size_type i = 0; i < test.size(); ++i) {
-            if (test[i] != out[i]) {
+        ftest.open("test/" + testCaseName + ".test", ios::in);
+        fout.open("test/" + testCaseName + ".out", ios::in);
+        while (ftest >> str1) {
+            fout >> str2;
+            if (str1 != str2) {
                 passed = false;
-                cout << "First error at " << i + 1 << ": " << endl;
-                cout << "\t" << "Output:  " << test[i] << endl;
-                cout << "\t" << "Correct: " << out[i] << endl;
+                cout << "First error: " << endl;
+                cout << "\t" << "Output:  " << str1 << endl;
+                cout << "\t" << "Correct: " << str2 << endl;
                 break;
             }
         }

@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="parse.cpp" />
     <ClCompile Include="parse_dynamic.cpp" />
     <ClCompile Include="parse_elem.cpp" />
     <ClCompile Include="parse_elem_amp.cpp" />
@@ -82,7 +83,7 @@
     <ClCompile Include="parse_elem_html_block.cpp" />
     <ClCompile Include="parse_elem_html_inline.cpp" />
     <ClCompile Include="parse_elem_image.cpp" />
-    <ClCompile Include="parse_elem_links.cpp" />
+    <ClCompile Include="parse_elem_link.cpp" />
     <ClCompile Include="parse_elem_link_inline.cpp" />
     <ClCompile Include="parse_elem_link_label.cpp" />
     <ClCompile Include="parse_elem_link_reference.cpp" />
@@ -95,9 +96,11 @@
     <ClCompile Include="parse_elem_span.cpp" />
     <ClCompile Include="parse_elem_strong.cpp" />
     <ClCompile Include="parse_line.cpp" />
+    <ClCompile Include="parse_span.cpp" />
     <ClCompile Include="parse_static.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="parse.h" />
     <ClInclude Include="parse_dynamic.h" />
     <ClInclude Include="parse_elem.h" />
     <ClInclude Include="parse_elem_amp.h" />
@@ -115,7 +118,7 @@
     <ClInclude Include="parse_elem_html_block.h" />
     <ClInclude Include="parse_elem_html_inline.h" />
     <ClInclude Include="parse_elem_image.h" />
-    <ClInclude Include="parse_elem_links.h" />
+    <ClInclude Include="parse_elem_link.h" />
     <ClInclude Include="parse_elem_link_inline.h" />
     <ClInclude Include="parse_elem_link_label.h" />
     <ClInclude Include="parse_elem_link_reference.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="parse_elem_strong.h" />
     <ClInclude Include="parse_elem_type.h" />
     <ClInclude Include="parse_line.h" />
+    <ClInclude Include="parse_span.h" />
     <ClInclude Include="parse_static.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

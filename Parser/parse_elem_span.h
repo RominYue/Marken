@@ -9,9 +9,9 @@ public:
     virtual bool isBlockElement() const override final;
 
     virtual int tryParse(const string& text, int offset);
-    virtual string generateHtml() const;
 
-    int length;
+    bool openActivate;
+    bool closeActivate;
 };
 
 #endif // PARSE_ELEM_SPAN_H

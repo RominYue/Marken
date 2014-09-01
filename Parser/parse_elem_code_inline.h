@@ -6,6 +6,7 @@
 class ParseElementCodeInline : public ParseElementSpan {
 public:
     ParseElementCodeInline();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_CODE_INLINE_H

@@ -6,6 +6,7 @@
 class ParseElementAmp : public ParseElementSpan {
 public:
     ParseElementAmp();
+    virtual ParseElementType type() const override final;
 };
 
 #endif // PARSE_ELEM_AMP_H

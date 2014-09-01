@@ -3,6 +3,10 @@
 ParseElementEscape::ParseElementEscape() : ParseElementSpan() {
 }
 
+ParseElementType ParseElementEscape::type() const {
+    return ParseElementType::TYPE_ESCAPE;
+}
+
 int ParseElementEscape::tryParse(const string& text, int offset) {
     int length = text.length();
     if (text[offset] == '\\') {
@@ -31,6 +35,9 @@ int ParseElementEscape::tryParse(const string& text, int offset) {
     return 0;
 }
 
-string ParseElementEscape::generateHtml() const {
-    return this->text.substr(1, 1);
+string ParseElementEscape::generateOpenHtml() const {
+    if (this->openActivate) {
+        return this->text.substr(1, 1);
+    }
+    return "";
 }
