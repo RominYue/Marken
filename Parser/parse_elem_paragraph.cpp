@@ -16,33 +16,35 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
     this->isVirtual = false;
     if (line[offset] != ' ' && line[offset] != '\t') {
         if (parent->prev() != nullptr) {
-            auto lastElem = (*parent->prev()->blocks.rbegin());
-            if (lastElem->type() == ParseElementType::TYPE_EMPTY) {
-            } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_ORDERED) {
-                shared_ptr<ParseElementListOrdered> elem(new ParseElementListOrdered());
-                elem->isVirtual = true;
-                elem->offset = offset;
-                elem->utf8Offset = 0;
-                elem->utf8Length = 0;
-                elem->parent = this->parent;
-                this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
-            } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_UNORDERED) {
-                shared_ptr<ParseElementListUnordered> elem(new ParseElementListUnordered());
-                elem->isVirtual = true;
-                elem->offset = offset;
-                elem->utf8Offset = 0;
-                elem->utf8Length = 0;
-                elem->parent = this->parent;
-                this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
-            } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_QUOTE) {
-                shared_ptr<ParseElementQuote> elem(new ParseElementQuote());
-                elem->isVirtual = true;
-                elem->offset = offset;
-                elem->utf8Offset = 0;
-                elem->utf8Length = 0;
-                elem->parent = parent;
-                elem->parent = this->parent;
-                this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+            if (parent->prev()->blocks.size() > 0) {
+                auto lastElem = (*parent->prev()->blocks.rbegin());
+                if (lastElem->type() == ParseElementType::TYPE_EMPTY) {
+                } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_ORDERED) {
+                    shared_ptr<ParseElementListOrdered> elem(new ParseElementListOrdered());
+                    elem->isVirtual = true;
+                    elem->offset = offset;
+                    elem->utf8Offset = 0;
+                    elem->utf8Length = 0;
+                    elem->parent = this->parent;
+                    this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+                } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_LIST_UNORDERED) {
+                    shared_ptr<ParseElementListUnordered> elem(new ParseElementListUnordered());
+                    elem->isVirtual = true;
+                    elem->offset = offset;
+                    elem->utf8Offset = 0;
+                    elem->utf8Length = 0;
+                    elem->parent = this->parent;
+                    this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+                } else if (parent->prev()->getTypeAt(offset) == ParseElementType::TYPE_QUOTE) {
+                    shared_ptr<ParseElementQuote> elem(new ParseElementQuote());
+                    elem->isVirtual = true;
+                    elem->offset = offset;
+                    elem->utf8Offset = 0;
+                    elem->utf8Length = 0;
+                    elem->parent = parent;
+                    elem->parent = this->parent;
+                    this->parent->blocks.push_back(dynamic_pointer_cast<ParseElementBlock>(elem));
+                }
             }
         }
         int elemLen = parent->blocks.size();
