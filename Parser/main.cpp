@@ -17,11 +17,7 @@ int main() {
     double totalTime = 0.0;
     while (fcase >> testCaseName) {
         string buffer, str1, str2;
-        cout << testCaseName << endl;
-        for (string::size_type i = 0; i < testCaseName.length(); ++i) {
-            cout << '-';
-        }
-        cout << endl;
+        cout << testCaseName << "\t\t";
         fstream fin;
         fin.open("test/" + testCaseName + ".in", ios::in | ios::binary);
         vector<string> in;
@@ -48,9 +44,6 @@ int main() {
             fout >> str2;
             if (str1 != str2) {
                 passed = false;
-                cout << "First error: " << endl;
-                cout << "\t" << "Output:  " << str1 << endl;
-                cout << "\t" << "Correct: " << str2 << endl;
                 break;
             }
         }
@@ -65,12 +58,6 @@ int main() {
             cout << "Failed ";
         }
         cout << fixed << elapsedSecs << endl;
-
-        for (string::size_type i = 0; i < testCaseName.length(); ++i) {
-            cout << '-';
-        }
-        cout << endl;
-        cout << endl;
     }
     fcase.close();
     for (int i = 0; i < 79; ++i) {

@@ -9,5 +9,24 @@ ParseElementType ParseElementPlain::type() const {
 }
 
 string ParseElementPlain::generateOpenHtml() const {
-    return this->text;
+    int len = text.length();
+    string html;
+    for (int i = 0; i < len; ++i) {
+        char ch = text[i];
+        switch (ch) {
+        case '<':
+            html += "&lt;";
+            break;
+        case '>':
+            html += "&gt;";
+            break;
+        case '&':
+            html += "&amp;";
+            break;
+        default:
+            html += ch;
+            break;
+        }
+    }
+    return html;
 }

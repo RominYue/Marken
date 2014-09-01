@@ -57,6 +57,9 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
     case ParseElementType::TYPE_PLAIN:
         newElement = new ParseElementPlain(*dynamic_pointer_cast<ParseElementPlain>(element));
         break;
+    case ParseElementType::TYPE_AMP:
+        newElement = new ParseElementAmp(*dynamic_pointer_cast<ParseElementAmp>(element));
+        break;
     case ParseElementType::TYPE_ESCAPE:
         newElement = new ParseElementEscape(*dynamic_pointer_cast<ParseElementEscape>(element));
         break;
