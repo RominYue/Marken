@@ -56,7 +56,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
 
 string ParseElementHeaderSetext::generateOpenHtml() const {
     if (this->_isLower) {
-        return "<hr>";
+        return "";
     }
     return this->generateOpenTag();
 }

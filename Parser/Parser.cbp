@@ -172,6 +172,12 @@
 		<Unit filename="parse_elem_link.h">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
+		<Unit filename="parse_elem_link_automatic.cpp">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_link_automatic.h">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
 		<Unit filename="parse_elem_link_inline.cpp">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>

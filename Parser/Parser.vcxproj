@@ -84,7 +84,10 @@
     <ClCompile Include="parse_elem_html_block.cpp" />
     <ClCompile Include="parse_elem_html_inline.cpp" />
     <ClCompile Include="parse_elem_image.cpp" />
+    <ClCompile Include="parse_elem_image_inline.cpp" />
+    <ClCompile Include="parse_elem_image_reference.cpp" />
     <ClCompile Include="parse_elem_link.cpp" />
+    <ClCompile Include="parse_elem_link_automatic.cpp" />
     <ClCompile Include="parse_elem_link_inline.cpp" />
     <ClCompile Include="parse_elem_link_label.cpp" />
     <ClCompile Include="parse_elem_link_reference.cpp" />
@@ -121,7 +124,10 @@
     <ClInclude Include="parse_elem_html_block.h" />
     <ClInclude Include="parse_elem_html_inline.h" />
     <ClInclude Include="parse_elem_image.h" />
+    <ClInclude Include="parse_elem_image_inline.h" />
+    <ClInclude Include="parse_elem_image_reference.h" />
     <ClInclude Include="parse_elem_link.h" />
+    <ClInclude Include="parse_elem_link_automatic.h" />
     <ClInclude Include="parse_elem_link_inline.h" />
     <ClInclude Include="parse_elem_link_label.h" />
     <ClInclude Include="parse_elem_link_reference.h" />

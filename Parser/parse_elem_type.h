@@ -29,6 +29,7 @@ enum class ParseElementType {
     TYPE_LINK_INLINE,
     TYPE_LINK_REFERENCE,
     TYPE_LINK_LABEL,
+    TYPE_LINK_AUTOMATIC,
 };
 
 #endif // PARSE_ELEM_TYPE_H_INCLUDED

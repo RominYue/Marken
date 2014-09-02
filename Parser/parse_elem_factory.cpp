@@ -23,6 +23,7 @@
 #include "parse_elem_link_reference.h"
 #include "parse_elem_image_inline.h"
 #include "parse_elem_image_reference.h"
+#include "parse_elem_link_automatic.h"
 using namespace std;
 
 shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement> element) const {
@@ -90,6 +91,9 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
         break;
     case ParseElementType::TYPE_IMAGE_REFERENCE:
         newElement = new ParseElementImageReference(*dynamic_pointer_cast<ParseElementImageReference>(element));
+        break;
+    case ParseElementType::TYPE_LINK_AUTOMATIC:
+        newElement = new ParseElementLinkAutomatic(*dynamic_pointer_cast<ParseElementLinkAutomatic>(element));
         break;
     default:
         break;
