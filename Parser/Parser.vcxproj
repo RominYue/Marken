@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{672CDD48-7699-4135-8A91-39F5967DAE88}</ProjectGuid>
+    <RootNamespace>Parser</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="parse.cpp" />
+    <ClCompile Include="parse_dynamic.cpp" />
+    <ClCompile Include="parse_elem.cpp" />
+    <ClCompile Include="parse_elem_amp.cpp" />
+    <ClCompile Include="parse_elem_block.cpp" />
+    <ClCompile Include="parse_elem_code_block.cpp" />
+    <ClCompile Include="parse_elem_code_inline.cpp" />
+    <ClCompile Include="parse_elem_emphasis.cpp" />
+    <ClCompile Include="parse_elem_empty.cpp" />
+    <ClCompile Include="parse_elem_escape.cpp" />
+    <ClCompile Include="parse_elem_factory.cpp" />
+    <ClCompile Include="parse_elem_header.cpp" />
+    <ClCompile Include="parse_elem_header_atx.cpp" />
+    <ClCompile Include="parse_elem_header_setext.cpp" />
+    <ClCompile Include="parse_elem_horizontal.cpp" />
+    <ClCompile Include="parse_elem_html.cpp" />
+    <ClCompile Include="parse_elem_html_block.cpp" />
+    <ClCompile Include="parse_elem_html_inline.cpp" />
+    <ClCompile Include="parse_elem_image.cpp" />
+    <ClCompile Include="parse_elem_image_inline.cpp" />
+    <ClCompile Include="parse_elem_image_reference.cpp" />
+    <ClCompile Include="parse_elem_link.cpp" />
+    <ClCompile Include="parse_elem_link_automatic.cpp" />
+    <ClCompile Include="parse_elem_link_inline.cpp" />
+    <ClCompile Include="parse_elem_link_label.cpp" />
+    <ClCompile Include="parse_elem_link_reference.cpp" />
+    <ClCompile Include="parse_elem_list.cpp" />
+    <ClCompile Include="parse_elem_list_ordered.cpp" />
+    <ClCompile Include="parse_elem_list_unordered.cpp" />
+    <ClCompile Include="parse_elem_paragraph.cpp" />
+    <ClCompile Include="parse_elem_plain.cpp" />
+    <ClCompile Include="parse_elem_quote.cpp" />
+    <ClCompile Include="parse_elem_span.cpp" />
+    <ClCompile Include="parse_elem_strong.cpp" />
+    <ClCompile Include="parse_label_set.cpp" />
+    <ClCompile Include="parse_line.cpp" />
+    <ClCompile Include="parse_span.cpp" />
+    <ClCompile Include="parse_static.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="parse.h" />
+    <ClInclude Include="parse_dynamic.h" />
+    <ClInclude Include="parse_elem.h" />
+    <ClInclude Include="parse_elem_amp.h" />
+    <ClInclude Include="parse_elem_block.h" />
+    <ClInclude Include="parse_elem_code_block.h" />
+    <ClInclude Include="parse_elem_code_inline.h" />
+    <ClInclude Include="parse_elem_emphasis.h" />
+    <ClInclude Include="parse_elem_empty.h" />
+    <ClInclude Include="parse_elem_escape.h" />
+    <ClInclude Include="parse_elem_factory.h" />
+    <ClInclude Include="parse_elem_header.h" />
+    <ClInclude Include="parse_elem_header_atx.h" />
+    <ClInclude Include="parse_elem_header_setext.h" />
+    <ClInclude Include="parse_elem_horizontal.h" />
+    <ClInclude Include="parse_elem_html.h" />
+    <ClInclude Include="parse_elem_html_block.h" />
+    <ClInclude Include="parse_elem_html_inline.h" />
+    <ClInclude Include="parse_elem_image.h" />
+    <ClInclude Include="parse_elem_image_inline.h" />
+    <ClInclude Include="parse_elem_image_reference.h" />
+    <ClInclude Include="parse_elem_link.h" />
+    <ClInclude Include="parse_elem_link_automatic.h" />
+    <ClInclude Include="parse_elem_link_inline.h" />
+    <ClInclude Include="parse_elem_link_label.h" />
+    <ClInclude Include="parse_elem_link_reference.h" />
+    <ClInclude Include="parse_elem_list.h" />
+    <ClInclude Include="parse_elem_list_ordered.h" />
+    <ClInclude Include="parse_elem_list_unordered.h" />
+    <ClInclude Include="parse_elem_paragraph.h" />
+    <ClInclude Include="parse_elem_plain.h" />
+    <ClInclude Include="parse_elem_quote.h" />
+    <ClInclude Include="parse_elem_span.h" />
+    <ClInclude Include="parse_elem_strong.h" />
+    <ClInclude Include="parse_elem_type.h" />
+    <ClInclude Include="parse_label_set.h" />
+    <ClInclude Include="parse_line.h" />
+    <ClInclude Include="parse_span.h" />
+    <ClInclude Include="parse_static.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
