@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QPalette>
-#include "Setting.h"
 #include "MarkdownEditor.h"
 
 MarkdownEditor::MarkdownEditor(QWidget *parent) :
@@ -18,7 +17,6 @@ MarkdownEditor::MarkdownEditor(QWidget *parent) :
     this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
 
-    this->_highlighter = new MarkdownHighlighter(this->document());
     this->updateColorScheme();
     this->highlightCurrentLine();
 }
@@ -71,31 +69,15 @@ void MarkdownEditor::saveAs(const QString &path) {
 }
 
 void MarkdownEditor::saveAsHtml(const QString &path) {
-    MarkdownParser parse;
-    QString html = parse.generateHtml(this->document());
-    QFile file(path);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        out << html;
-        out.flush();
-        file.close();
-    }
+    // TODO
 }
 
 void MarkdownEditor::updateColorScheme() {
-    ColorSchemeSetting& scheme = Setting::instance()->colorScheme;
-    ColorSchemeNode& node = scheme.scheme().color();
-    this->setFont(scheme.font());
-    QPalette palette = this->palette();
-    palette.setColor(QPalette::Base, node.background());
-    palette.setColor(QPalette::Text, node.foreground());
-    this->setPalette(palette);
+     // TODO
 }
 
 void MarkdownEditor::rehighlight() {
-    this->_highlighter->rehighlight();
-    this->highlightCurrentLine();
+     // TODO
 }
 
 int MarkdownEditor::lineNumberAreaWidth() {

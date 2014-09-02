@@ -10,10 +10,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QSettings>
-#include "MarkdownDebug.h"
-#include "ColorSchemeWidget.h"
 #include "MarkdownEditor.h"
-#include "Setting.h"
 #include "Previewer.h"
 #include "Marken.h"
 #include "ui_Marken.h"
@@ -370,16 +367,7 @@ void Marken::on_actionSelect_All_triggered() {
 }
 
 void Marken::on_actionPreference_triggered() {
-    QDialog dialog(this);
-    dialog.setLayout(new QHBoxLayout());
-    dialog.layout()->addWidget(new ColorSchemeWidget());
-    dialog.exec();
-    Setting::instance()->colorScheme.save();
-    for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
-        editor->updateColorScheme();
-        editor->rehighlight();
-    }
+     // TODO
 }
 
 void Marken::on_actionAtx_Header_1_triggered() {

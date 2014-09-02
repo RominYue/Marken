@@ -3,8 +3,6 @@
 
 #include <QKeyEvent>
 #include <QPlainTextEdit>
-#include "MarkdownParser.h"
-#include "MarkdownHighlighter.h"
 
 class MarkdownEditor : public QPlainTextEdit {
     Q_OBJECT
@@ -54,12 +52,8 @@ protected:
 private:
     QWidget *_lineNumberArea;
 
-    MarkdownHighlighter *_highlighter;
-
     QString _name;
     QString _path;
-
-    MarkdownParser _parser;
 
 protected:
     void resizeEvent(QResizeEvent *event);
