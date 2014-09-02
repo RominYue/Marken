@@ -7,7 +7,14 @@
 class ParseElementImage : public ParseElementSpan, public ParseElementLink {
 public:
     ParseElementImage();
-    virtual ParseElementType type() const override final;
+
+protected:
+    string _alt;
+    string _help;
+    string _link;
+    string _title;
+
+    string generateOpenImageHtml(const string& link, const string& alt, const string& title) const;
 };
 
 #endif // PARSE_ELEM_IMAGE_H

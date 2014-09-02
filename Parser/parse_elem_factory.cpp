@@ -21,7 +21,8 @@
 #include "parse_elem_link_inline.h"
 #include "parse_elem_link_label.h"
 #include "parse_elem_link_reference.h"
-#include "parse_elem_image.h"
+#include "parse_elem_image_inline.h"
+#include "parse_elem_image_reference.h"
 using namespace std;
 
 shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement> element) const {
@@ -84,8 +85,11 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
     case ParseElementType::TYPE_LINK_REFERENCE:
         newElement = new ParseElementLinkReference(*dynamic_pointer_cast<ParseElementLinkReference>(element));
         break;
-    case ParseElementType::TYPE_IMAGE:
-        newElement = new ParseElementImage(*dynamic_pointer_cast<ParseElementImage>(element));
+    case ParseElementType::TYPE_IMAGE_INLINE:
+        newElement = new ParseElementImageInline(*dynamic_pointer_cast<ParseElementImageInline>(element));
+        break;
+    case ParseElementType::TYPE_IMAGE_REFERENCE:
+        newElement = new ParseElementImageReference(*dynamic_pointer_cast<ParseElementImageReference>(element));
         break;
     default:
         break;

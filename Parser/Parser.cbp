@@ -154,6 +154,18 @@
 		<Unit filename="parse_elem_image.h">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
+		<Unit filename="parse_elem_image_inline.cpp">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_image_inline.h">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_image_reference.cpp">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
+		<Unit filename="parse_elem_image_reference.h">
+			<Option virtualFolder="Elements/Span/" />
+		</Unit>
 		<Unit filename="parse_elem_link.cpp">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>

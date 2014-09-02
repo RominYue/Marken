@@ -4,6 +4,11 @@ using namespace std;
 ParseElementImage::ParseElementImage() : ParseElementSpan(), ParseElementLink() {
 }
 
-ParseElementType ParseElementImage::type() const {
-    return ParseElementType::TYPE_IMAGE;
+string ParseElementImage::generateOpenImageHtml(const string& link, const string& alt, const string& title) const {
+    string html = string("<img src=\"") + link + "\" alt=\"" + alt + "\"";
+    if (title.length() > 0) {
+        html += string(" title=\"") + title + "\"";
+    }
+    html += ">";
+    return html;
 }

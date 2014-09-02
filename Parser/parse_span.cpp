@@ -14,7 +14,8 @@
 #include "parse_elem_link_inline.h"
 #include "parse_elem_link_label.h"
 #include "parse_elem_link_reference.h"
-#include "parse_elem_image.h"
+#include "parse_elem_image_inline.h"
+#include "parse_elem_image_reference.h"
 #include "parse_span.h"
 using namespace std;
 
@@ -27,7 +28,8 @@ SpanParser::SpanParser() : Parser() {
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementHtmlInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkReference()));
-    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImage()));
+    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImageInline()));
+    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImageReference()));
 }
 
 void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
