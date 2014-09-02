@@ -60,7 +60,8 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                         if (element->parent->prev()->blocks.size() > data->blocks.size()) {
                             int index = data->blocks.size();
                             if (element->type() != data->prev()->blocks[index]->type() ||
-                                element->offset != data->prev()->blocks[index]->offset) {
+                                element->offset != data->prev()->blocks[index]->offset ||
+                                element->isVirtual != data->prev()->blocks[index]->isVirtual) {
                                 stopInherit = true;
                             }
                         }
@@ -77,10 +78,6 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                     }
                 }
                 data->blocks.push_back(factory.copy(element));
-                if (element->type() == ParseElementType::TYPE_LIST_ORDERED ||
-                    element->type() == ParseElementType::TYPE_LIST_UNORDERED) {
-                    stopInherit = true;
-                }
                 offset += length;
                 break;
             }

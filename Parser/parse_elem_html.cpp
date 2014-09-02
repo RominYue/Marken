@@ -99,9 +99,7 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
         char ch = line[index];
         switch (status) {
         case STATUS_TAG:
-            if (isalpha(ch)) {
-                status = STATUS_TAG;
-            } else if (ch == ' ' || ch == '\t') {
+            if (ch == ' ' || ch == '\t') {
                 status = STATUS_SPACE_SUF;
                 if (first) {
                     tagEnd = index;
@@ -109,15 +107,15 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
                     this->setTag(line.substr(tagStart, tagEnd - tagStart));
                 }
             } else if (ch == '>') {
-                ++index;
                 status = STATUS_GT;
                 if (first) {
                     tagEnd = index;
                     first = false;
                     this->setTag(line.substr(tagStart, tagEnd - tagStart));
                 }
+                ++index;
                 return true;
-            } else {
+            } else if (ch < 0) {
                 return false;
             }
             break;
@@ -128,9 +126,30 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
                 status = STATUS_GT;
                 ++index;
                 return true;
+            } else if (ch == '"') {
+                status = STATUS_STRING;
             } else {
-                return false;
+                status = STATUS_ATTRIBUTE;
             }
+            break;
+        case STATUS_ATTRIBUTE:
+            if (ch == '"') {
+                status = STATUS_STRING;
+            } else if (ch == '>') {
+                status = STATUS_GT;
+                ++index;
+                return true;
+            }
+            break;
+        case STATUS_STRING:
+            if (ch == '"') {
+                status = STATUS_ATTRIBUTE;
+            } else if (ch == '\\') {
+                status = STATUS_ESCAPE;
+            }
+            break;
+        case STATUS_ESCAPE:
+            status = STATUS_STRING;
             break;
         case STATUS_GT:
             break;

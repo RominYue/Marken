@@ -18,6 +18,9 @@ protected:
         STATUS_SLASH,
         STATUS_TAG,
         STATUS_SPACE_SUF,
+        STATUS_ATTRIBUTE,
+        STATUS_STRING,
+        STATUS_ESCAPE,
         STATUS_GT
     };
     string _tag;

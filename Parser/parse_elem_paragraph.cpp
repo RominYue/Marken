@@ -57,7 +57,10 @@ bool ParseElementParagraph::tryParse(const string &line, int offset, int& length
             if (parent->prev() != nullptr) {
                 if (parent->prev()->blocks.size() == parent->blocks.size() + 1) {
                     if (parent->prev()->getTypeAt(elemOffset) == elem->type()) {
-                        this->offset = (*parent->prev()->blocks.rbegin())->offset;
+                        auto prevElem = (*parent->prev()->blocks.rbegin());
+                        if (prevElem->type() == ParseElementType::TYPE_PARAGRAPH) {
+                            this->offset = prevElem->offset;
+                        }
                     }
                 }
             }
@@ -152,21 +155,36 @@ bool ParseElementParagraph::isListSingleLine() const {
             if (!prevBlock->isVirtual) {
                 if (prevBlock->type() == ParseElementType::TYPE_LIST_ORDERED ||
                     prevBlock->type() == ParseElementType::TYPE_LIST_UNORDERED) {
-                    if (parent->next() == nullptr) {
-                        return true;
-                    }
-                    if (parent->next()->blocks.size() != parent->blocks.size()) {
-                        return true;
-                    }
-                    if (parent->next()->getTypeAt(prevElem->offset) != prevElem->type()) {
-                        return true;
-                    }
-                    auto nextElem = parent->next()->getElementAt(prevElem->offset);
-                    if (nextElem->isBlockElement()) {
-                        auto nextBlock = dynamic_pointer_cast<ParseElementBlock>(nextElem);
-                        if (!nextBlock->isVirtual) {
+                    ParseLine* line = this->parent;
+                    while (true) {
+                        ParseLine* next = line->next();
+                        if (next == nullptr) {
                             return true;
                         }
+                        if (next->blocks.size() != line->blocks.size()) {
+                            return true;
+                        }
+                        int blockLen = next->blocks.size();
+                        for (int i = 0; i < blockLen - 1; ++i) {
+                            if (next->blocks[i]->type() != line->blocks[i]->type()) {
+                                return true;
+                            }
+                            if (next->blocks[i]->offset != line->blocks[i]->offset) {
+                                return true;
+                            }
+                            if (i < blockLen - 2) {
+                                if (next->blocks[i]->isVirtual != line->blocks[i]->isVirtual) {
+                                    return true;
+                                }
+                            }
+                        }
+                        if (next->blocks[blockLen - 2]->isVirtual == false) {
+                            return true;
+                        }
+                        if (next->blocks[blockLen - 1]->type() == ParseElementType::TYPE_PARAGRAPH) {
+                            return false;
+                        }
+                        line = next;
                     }
                 }
             }

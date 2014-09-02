@@ -1,6 +1,8 @@
 #ifndef PARSE_ELEM_HTML_BLOCK_H
 #define PARSE_ELEM_HTML_BLOCK_H
 
+#include <set>
+using std::set;
 #include "parse_elem_html.h"
 #include "parse_elem_block.h"
 
@@ -12,8 +14,6 @@ public:
     virtual bool tryParse(const string &line, int offset, int& length) override;
     virtual bool inheritable() const override final;
     virtual string generateOpenHtml() const override final;
-
-    bool isVirtual;
 };
 
 #endif // PARSE_ELEM_HTML_BLOCK_H

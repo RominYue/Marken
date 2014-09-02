@@ -26,12 +26,12 @@ SpanParser::SpanParser() : Parser() {
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementCodeInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementStrong()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementEmphasis()));
+    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkAutomatic()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementHtmlInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkReference()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImageInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImageReference()));
-    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkAutomatic()));
 }
 
 void SpanParser::parseElement(shared_ptr<ParseElement> elem) {

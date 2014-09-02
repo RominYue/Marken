@@ -27,11 +27,11 @@ ParseLine* ParseLine::next() const {
 void ParseLine::setNeighbor(ParseLine* prevLine, ParseLine* nextLine) {
     this->_prev = prevLine;
     this->_next = nextLine;
-    if (this->_prev != nullptr) {
-        this->_prev->_next = this;
+    if (prevLine != nullptr) {
+        prevLine->_next = this;
     }
-    if (this->_next != nullptr) {
-        this->_next->_prev = this;
+    if (nextLine != nullptr) {
+        nextLine->_prev = this;
     }
 }
 
