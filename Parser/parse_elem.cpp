@@ -63,4 +63,10 @@ string ParseElement::generateCloseHtml() const {
     return "";
 }
 
+bool ParseElement::isdigit(char ch) const {
+    return '0' <= ch && ch <= '9';
+}
 
+bool ParseElement::isalpha(char ch) const {
+    return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
+}

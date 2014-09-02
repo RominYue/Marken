@@ -32,6 +32,8 @@ public:
     ParseLine* parent;
 
 protected:
+    bool isdigit(char ch) const;
+    bool isalpha(char ch) const;
     string translateAmp(const string& text) const;
 };
 

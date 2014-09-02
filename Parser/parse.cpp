@@ -21,6 +21,8 @@ vector<int> Parser::getUtf8CharacterCount(const string& text) {
         }
         if (this->isUtf8CharacterBegin(ch)) {
             wordCount.push_back(last + 1);
+        } else {
+            wordCount.push_back(last);
         }
     }
     return wordCount;
