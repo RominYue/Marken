@@ -20,7 +20,7 @@ bool ParseElementHorizontal::tryParse(const string &line, int offset, int& lengt
     int lineLen = line.length();
     if (lineLen > offset) {
         char ch = line[offset];
-        if (ch == '=' || ch == '-' || ch == '_') {
+        if (ch == '*' || ch == '-' || ch == '_') {
             int num = 1;
             for (int index = offset + 1; index < lineLen; ++index) {
                 if (line[index] == ch) {

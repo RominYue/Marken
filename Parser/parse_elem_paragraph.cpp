@@ -155,6 +155,9 @@ bool ParseElementParagraph::isListSingleLine() const {
                     if (parent->next() == nullptr) {
                         return true;
                     }
+                    if (parent->next()->blocks.size() != parent->blocks.size()) {
+                        return true;
+                    }
                     if (parent->next()->getTypeAt(prevElem->offset) != prevElem->type()) {
                         return true;
                     }

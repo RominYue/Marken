@@ -40,16 +40,47 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     ParseElementFactory factory;
     data->labelSet = &this->_linkLabelSet;
     data->removeCurrentBlocks();
+    bool stopInherit = false;
     while (offset < lineLength) {
         int length = -1;
         for (auto element : this->_blocks) {
             element->parent = data;
             element->offset = offset;
             if (element->tryParse(line, offset, length)) {
+                if (stopInherit) {
+                    if (element->isVirtual) {
+                        continue;
+                    }
+                }
                 element->text = line.substr(offset, length);
                 element->utf8Offset = wordCount[offset];
                 element->utf8Length = wordCount[offset + length] - wordCount[offset];
+                if (element->parent->prev() != nullptr) {
+                    if (element->parent->prev()->blocks.size() > 0) {
+                        if (element->parent->prev()->blocks.size() > data->blocks.size()) {
+                            int index = data->blocks.size();
+                            if (element->type() != data->prev()->blocks[index]->type() ||
+                                element->offset != data->prev()->blocks[index]->offset) {
+                                stopInherit = true;
+                            }
+                        }
+                    }
+                }
+                if (stopInherit) {
+                    if (element->type() == ParseElementType::TYPE_PARAGRAPH) {
+                        if (data->blocks.size() > 0) {
+                            if ((*data->blocks.rbegin())->offset == offset &&
+                                (*data->blocks.rbegin())->isVirtual) {
+                                data->blocks.pop_back();
+                            }
+                        }
+                    }
+                }
                 data->blocks.push_back(factory.copy(element));
+                if (element->type() == ParseElementType::TYPE_LIST_ORDERED ||
+                    element->type() == ParseElementType::TYPE_LIST_UNORDERED) {
+                    stopInherit = true;
+                }
                 offset += length;
                 break;
             }
@@ -62,15 +93,7 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
         int elemLen = data->blocks.size();
         int prevLen = data->prev()->blocks.size();
         if (elemLen < prevLen) {
-            bool same = true;
-            for (int i = 0; i < elemLen; ++i) {
-                if (data->blocks[i]->type() != data->prev()->blocks[i]->type() ||
-                    data->blocks[i]->offset != data->prev()->blocks[i]->offset) {
-                    same = false;
-                    break;
-                }
-            }
-            if (same) {
+            if (!stopInherit) {
                 for (int i = elemLen; i < prevLen; ++i) {
                     if (data->prev()->blocks[i]->type() != ParseElementType::TYPE_PARAGRAPH) {
                         if (data->prev()->blocks[i]->inheritable()) {
