@@ -15,6 +15,7 @@ class ParseElementSpan;
 class ParseElementParagraph;
 class ParseElementHeader;
 class ParseElementHeaderSetext;
+class ParseLine;
 
 class SpanParser : public Parser {
 public:
@@ -29,6 +30,8 @@ private:
     void parseParagraphElement(shared_ptr<ParseElementParagraph> elem);
     vector<shared_ptr<ParseElementSpan>> parseLine(const string& line, int utf8Offset);
     vector<vector<shared_ptr<ParseElementSpan>>> parseParagraph(const vector<string>& paragraph);
+
+    void initSpanParent(ParseLine* parent);
 };
 
 #endif // PARSE_SPAN_H

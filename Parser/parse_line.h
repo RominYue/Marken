@@ -12,6 +12,7 @@ using std::shared_ptr;
 class ParseElement;
 class ParseElementBlock;
 class ParseElementSpan;
+class ParseLabelSet;
 
 class ParseLine {
 public:
@@ -23,6 +24,9 @@ public:
     void setNeighbor(ParseLine* prevLine, ParseLine* nextLine);
     void removeFromList();
 
+    void removeCurrentElements();
+    void removeCurrentBlocks();
+    void removeCurrentSpans();
     void saveLineStatus();
     bool isLineStatusChanged() const;
 
@@ -32,6 +36,7 @@ public:
     ParseElementType getTypeAt(const int offset) const;
     int getIndexAt(const int offset) const;
 
+    ParseLabelSet* labelSet;
     vector<shared_ptr<ParseElementBlock>> blocks;
     vector<shared_ptr<ParseElementSpan>> spans;
 
@@ -39,6 +44,7 @@ private:
     ParseLine* _prev;
     ParseLine* _next;
     vector<shared_ptr<ParseElementBlock>> _oldBlocks;
+    vector<shared_ptr<ParseElementBlock>> _oldSpans;
 
     struct OffsetElement {
         shared_ptr<ParseElementSpan> elem;

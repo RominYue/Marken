@@ -1,7 +1,7 @@
 #include "parse_elem_link_inline.h"
 using namespace std;
 
-ParseElementLinkInline::ParseElementLinkInline() : ParseElementLink() {
+ParseElementLinkInline::ParseElementLinkInline() : ParseElementSpan(), ParseElementLink() {
 }
 
 ParseElementType ParseElementLinkInline::type() const {
@@ -20,7 +20,7 @@ int ParseElementLinkInline::tryParse(const string& text, int offset) {
                     break;
                 }
             }
-            this->_link = this->_help.substr(0, space);
+            this->_link = this->getCleanedLink(this->_help.substr(0, space));
             if (space != length) {
                 this->_title = this->getCleanedTitle(this->_help.substr(space, this->_help.length() - space));
             } else {
@@ -33,10 +33,7 @@ int ParseElementLinkInline::tryParse(const string& text, int offset) {
 }
 
 string ParseElementLinkInline::generateOpenHtml() const {
-    if (this->_title.length() > 0) {
-        return string("<a href=\"") + this->_link + string("\" title=\"") + this->_title + string("\">");
-    }
-    return string("<a href=\"") + this->_link + string("\">");
+    return this->generateOpenLinkHtml(this->_link, this->_title);
 }
 
 string ParseElementLinkInline::generateCloseHtml() const {

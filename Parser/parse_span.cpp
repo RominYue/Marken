@@ -26,7 +26,6 @@ SpanParser::SpanParser() : Parser() {
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementEmphasis()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementHtmlInline()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkInline()));
-    this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkLabel()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementLinkReference()));
     this->_spans.push_back(shared_ptr<ParseElementSpan>(new ParseElementImage()));
 }
@@ -42,6 +41,7 @@ void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
 }
 
 void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
+    this->initSpanParent(elem->parent);
     auto text = elem->getCleanedHeader();
     auto wordNum = this->getUtf8CharacterCount(text);
     auto spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
@@ -49,6 +49,7 @@ void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
         span->openActivate = true;
         span->closeActivate = true;
     }
+    elem->parent->removeCurrentSpans();
     elem->parent->spans = spans;
 }
 
@@ -66,6 +67,7 @@ void SpanParser::parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem) {
 }
 
 void SpanParser::parseParagraphElement(shared_ptr<ParseElementParagraph> elem) {
+    this->initSpanParent(elem->parent);
     auto begin = elem;
     while (!begin->isParagraphBegin()) {
         begin = dynamic_pointer_cast<ParseElementParagraph>(*(begin->parent->prev()->blocks.rbegin()));
@@ -74,9 +76,11 @@ void SpanParser::parseParagraphElement(shared_ptr<ParseElementParagraph> elem) {
     auto end = begin;
     while (!end->isParagraphEnd()) {
         paragraph.push_back(end->text);
+        end->parent->removeCurrentSpans();
         end = dynamic_pointer_cast<ParseElementParagraph>(*(end->parent->next()->blocks.rbegin()));
     }
     paragraph.push_back(end->text);
+    end->parent->removeCurrentSpans();
     auto spanVec = this->parseParagraph(paragraph);
     end = begin;
     int index = 0;
@@ -223,4 +227,10 @@ vector<vector<shared_ptr<ParseElementSpan>>> SpanParser::parseParagraph(const ve
         }
     }
     return spanVec;
+}
+
+void SpanParser::initSpanParent(ParseLine* parent) {
+    for (auto span : this->_spans) {
+        span->parent = parent;
+    }
 }

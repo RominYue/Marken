@@ -96,6 +96,7 @@
     <ClCompile Include="parse_elem_quote.cpp" />
     <ClCompile Include="parse_elem_span.cpp" />
     <ClCompile Include="parse_elem_strong.cpp" />
+    <ClCompile Include="parse_label_set.cpp" />
     <ClCompile Include="parse_line.cpp" />
     <ClCompile Include="parse_span.cpp" />
     <ClCompile Include="parse_static.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="parse_elem_span.h" />
     <ClInclude Include="parse_elem_strong.h" />
     <ClInclude Include="parse_elem_type.h" />
+    <ClInclude Include="parse_label_set.h" />
     <ClInclude Include="parse_line.h" />
     <ClInclude Include="parse_span.h" />
     <ClInclude Include="parse_static.h" />

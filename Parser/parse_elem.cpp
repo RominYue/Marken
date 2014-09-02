@@ -29,6 +29,9 @@ int ParseElement::innerOffset() const {
     return 0;
 }
 
+void ParseElement::remove() {
+}
+
 string ParseElement::translateAmp(const string& text) const {
     int len = text.length();
     string html;

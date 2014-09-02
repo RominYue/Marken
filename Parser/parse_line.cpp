@@ -9,6 +9,7 @@ using namespace std;
 ParseLine::ParseLine() {
     this->_prev = nullptr;
     this->_next = nullptr;
+    this->labelSet = nullptr;
 }
 
 ParseLine::~ParseLine() {
@@ -43,6 +44,25 @@ void ParseLine::removeFromList() {
     }
     this->_prev = nullptr;
     this->_next = nullptr;
+}
+
+void ParseLine::removeCurrentElements() {
+    this->removeCurrentBlocks();
+    this->removeCurrentSpans();
+}
+
+void ParseLine::removeCurrentBlocks() {
+    for (auto block : this->blocks) {
+        block->remove();
+    }
+    this->blocks.clear();
+}
+
+void ParseLine::removeCurrentSpans() {
+    for (auto span : this->spans) {
+        span->remove();
+    }
+    this->spans.clear();
 }
 
 void ParseLine::saveLineStatus() {

@@ -9,6 +9,7 @@
 #include "parse_elem_list_ordered.h"
 #include "parse_elem_quote.h"
 #include "parse_elem_paragraph.h"
+#include "parse_elem_link_label.h"
 #include "parse_elem_span.h"
 #include "parse_elem_factory.h"
 #include "parse_line.h"
@@ -25,6 +26,7 @@ DynamicParser::DynamicParser() : Parser() {
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListUnordered()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementListOrdered()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementQuote()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementLinkLabel()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementParagraph()));
 }
 
@@ -36,6 +38,8 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     int offset = 0;
     int lineLength = line.size();
     ParseElementFactory factory;
+    data->labelSet = &this->_linkLabelSet;
+    data->removeCurrentBlocks();
     while (offset < lineLength) {
         int length = -1;
         for (auto element : this->_blocks) {
@@ -90,12 +94,13 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
         }
     }
     if (data->blocks.size() > 0) {
+        auto elem = *data->blocks.rbegin();
         auto type = (*data->blocks.rbegin())->type();
         if (type == ParseElementType::TYPE_PARAGRAPH) {
-            this->_spanParser.parseElement(*data->blocks.rbegin());
+            this->_spanParser.parseElement(elem);
         } else if (type == ParseElementType::TYPE_HEADER_ATX ||
                    type == ParseElementType::TYPE_HEADER_SETEXT) {
-            this->_spanParser.parseElement(*data->blocks.rbegin());
+            this->_spanParser.parseElement(elem);
         }
     }
 }

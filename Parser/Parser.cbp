@@ -167,10 +167,10 @@
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_link_label.cpp">
-			<Option virtualFolder="Elements/Span/" />
+			<Option virtualFolder="Elements/Block/" />
 		</Unit>
 		<Unit filename="parse_elem_link_label.h">
-			<Option virtualFolder="Elements/Span/" />
+			<Option virtualFolder="Elements/Block/" />
 		</Unit>
 		<Unit filename="parse_elem_link_reference.cpp">
 			<Option virtualFolder="Elements/Span/" />
@@ -227,6 +227,12 @@
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>
 		<Unit filename="parse_elem_type.h">
+			<Option virtualFolder="Elements/Basic/" />
+		</Unit>
+		<Unit filename="parse_label_set.cpp">
+			<Option virtualFolder="Elements/Basic/" />
+		</Unit>
+		<Unit filename="parse_label_set.h">
 			<Option virtualFolder="Elements/Basic/" />
 		</Unit>
 		<Unit filename="parse_line.cpp">

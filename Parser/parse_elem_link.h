@@ -1,9 +1,10 @@
 #ifndef PARSE_ELEM_LINKS_H
 #define PARSE_ELEM_LINKS_H
 
-#include "parse_elem_span.h"
+#include <string>
+using std::string;
 
-class ParseElementLink : public ParseElementSpan {
+class ParseElementLink {
 public:
     ParseElementLink();
 
@@ -19,7 +20,11 @@ protected:
     bool parseBrackets(const string& text, int& index, string& inner);
     bool parseParentheses(const string& text, int& index, string& inner);
 
+    string getCleanedLink(const string& link) const;
     string getCleanedTitle(const string& title) const;
+    string getCleanedLabel(const string& label) const;
+
+    string generateOpenLinkHtml(const string& href, const string& title) const;
 };
 
 #endif // PARSE_ELEM_LINKS_H

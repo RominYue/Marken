@@ -23,6 +23,8 @@ public:
     virtual string innerText() const;
     virtual int innerOffset() const;
 
+    virtual void remove();
+
     int offset;
     int utf8Offset;
     int utf8Length;
