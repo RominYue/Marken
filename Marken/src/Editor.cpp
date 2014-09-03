@@ -4,9 +4,11 @@
 #include <QFile>
 #include <QTextStream>
 #include <QPalette>
-#include "MarkdownEditor.h"
+#include "LineNumberArea.h"
+#include "Highlighter.h"
+#include "Editor.h"
 
-MarkdownEditor::MarkdownEditor(QWidget *parent) :
+Editor::Editor(QWidget *parent) :
     QPlainTextEdit(parent) {
     this->_name = tr("New File");
     this->_path = "";
@@ -17,30 +19,37 @@ MarkdownEditor::MarkdownEditor(QWidget *parent) :
     this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
 
+    this->_parser = QSharedPointer<DynamicParser>(new DynamicParser());
+    this->_highlighter = new Highlighter(this->document());
+    this->_highlighter->setParser(this->_parser);
     this->updateColorScheme();
     this->highlightCurrentLine();
 }
 
-QString MarkdownEditor::name() const {
+QString Editor::name() const {
     return this->_name;
 }
 
-QString MarkdownEditor::path() const {
+QString Editor::path() const {
     return this->_path;
 }
 
-void MarkdownEditor::setPath(const QString &path) {
+QSharedPointer<DynamicParser> Editor::parser() const {
+    return this->_parser;
+}
+
+void Editor::setPath(const QString &path) {
     QFileInfo info(path);
     this->_path = info.absoluteFilePath();
     this->_name = info.fileName();
 }
 
-void MarkdownEditor::open(const QString &path) {
+void Editor::open(const QString &path) {
     this->setPath(path);
     this->loadText();
 }
 
-void MarkdownEditor::loadText() {
+void Editor::loadText() {
     QFile file(this->_path);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
@@ -51,7 +60,7 @@ void MarkdownEditor::loadText() {
     }
 }
 
-void MarkdownEditor::save() {
+void Editor::save() {
     QFile file(this->_path);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
@@ -63,24 +72,29 @@ void MarkdownEditor::save() {
     }
 }
 
-void MarkdownEditor::saveAs(const QString &path) {
+void Editor::saveAs(const QString &path) {
     this->setPath(path);
     this->save();
 }
 
-void MarkdownEditor::saveAsHtml(const QString &path) {
+void Editor::saveAsHtml(const QString &path) {
+    Q_UNUSED(path);
     // TODO
 }
 
-void MarkdownEditor::updateColorScheme() {
+void Editor::updateColorScheme() {
      // TODO
 }
 
-void MarkdownEditor::rehighlight() {
-     // TODO
+void Editor::rehighlight() {
+     this->_highlighter->rehighlight();
 }
 
-int MarkdownEditor::lineNumberAreaWidth() {
+int Editor::firstVisibleLineNum() const {
+    return this->firstVisibleBlock().blockNumber();
+}
+
+int Editor::lineNumberAreaWidth() {
     int cnt = 0;
     int temp = this->blockCount() > 0 ? this->blockCount() : 1;
     while (temp) {
@@ -94,7 +108,7 @@ int MarkdownEditor::lineNumberAreaWidth() {
     return width;
 }
 
-void MarkdownEditor::keyPressEvent(QKeyEvent *e) {
+void Editor::keyPressEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Tab) {
         QTextCursor cursor = this->textCursor();
         if (cursor.hasSelection()) {
@@ -115,14 +129,14 @@ void MarkdownEditor::keyPressEvent(QKeyEvent *e) {
     QPlainTextEdit::keyPressEvent(e);
 }
 
-void MarkdownEditor::spaceIndent() {
+void Editor::spaceIndent() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     cursor.insertText("    ");
     cursor.endEditBlock();
 }
 
-void MarkdownEditor::multilineIndent(bool increase) {
+void Editor::multilineIndent(bool increase) {
     QTextCursor cursor = this->textCursor();
     int spos = cursor.anchor();
     int epos = cursor.position();
@@ -164,7 +178,7 @@ void MarkdownEditor::multilineIndent(bool increase) {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::autoIndent() {
+void Editor::autoIndent() {
     QTextCursor cursor = this->textCursor();
     QString text = cursor.block().text();
     QString indent;
@@ -222,7 +236,7 @@ void MarkdownEditor::autoIndent() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addAtxHeader(int num) {
+void Editor::addAtxHeader(int num) {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -236,7 +250,7 @@ void MarkdownEditor::addAtxHeader(int num) {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addSetextHeader(int num) {
+void Editor::addSetextHeader(int num) {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -255,7 +269,7 @@ void MarkdownEditor::addSetextHeader(int num) {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addHorizonLine() {
+void Editor::addHorizonLine() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -268,7 +282,7 @@ void MarkdownEditor::addHorizonLine() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addInlineLink() {
+void Editor::addInlineLink() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -279,7 +293,7 @@ void MarkdownEditor::addInlineLink() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addInlineCode() {
+void Editor::addInlineCode() {
     QTextCursor cursor = this->textCursor();
     QString content;
     cursor.beginEditBlock();
@@ -292,7 +306,7 @@ void MarkdownEditor::addInlineCode() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addInlineImage() {
+void Editor::addInlineImage() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -303,7 +317,7 @@ void MarkdownEditor::addInlineImage() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addReferenceLink() {
+void Editor::addReferenceLink() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -314,15 +328,15 @@ void MarkdownEditor::addReferenceLink() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addOrderedList() {
+void Editor::addOrderedList() {
     this->multilineList(true);
 }
 
-void MarkdownEditor::addUnorderedList() {
+void Editor::addUnorderedList() {
     this->multilineList(false);
 }
 
-void MarkdownEditor::multilineList(bool ordered) {
+void Editor::multilineList(bool ordered) {
     QTextCursor cursor = this->textCursor();
     int spos = cursor.anchor();
     int epos = cursor.position();
@@ -356,15 +370,15 @@ void MarkdownEditor::multilineList(bool ordered) {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addQuote() {
+void Editor::addQuote() {
     this->multilineQuote(true);
 }
 
-void MarkdownEditor::addUnquote() {
+void Editor::addUnquote() {
     this->multilineQuote(false);
 }
 
-void MarkdownEditor::multilineQuote(bool increase) {
+void Editor::multilineQuote(bool increase) {
     QTextCursor cursor = this->textCursor();
     int spos = cursor.anchor();
     int epos = cursor.position();
@@ -406,7 +420,7 @@ void MarkdownEditor::multilineQuote(bool increase) {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addLinkLabel() {
+void Editor::addLinkLabel() {
     QTextCursor cursor = this->textCursor();
     cursor.beginEditBlock();
     if (cursor.hasSelection()) {
@@ -417,7 +431,7 @@ void MarkdownEditor::addLinkLabel() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addEmphasis() {
+void Editor::addEmphasis() {
     QTextCursor cursor = this->textCursor();
     QString content;
     cursor.beginEditBlock();
@@ -443,7 +457,7 @@ void MarkdownEditor::addEmphasis() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::addBold() {
+void Editor::addBold() {
     QTextCursor cursor = this->textCursor();
     QString content;
     cursor.beginEditBlock();
@@ -469,11 +483,11 @@ void MarkdownEditor::addBold() {
     this->setTextCursor(cursor);
 }
 
-void MarkdownEditor::updateLineNumberAreaWidth(int) {
+void Editor::updateLineNumberAreaWidth(int) {
     this->setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void MarkdownEditor::updateLineNumberArea(const QRect &rect, int dy) {
+void Editor::updateLineNumberArea(const QRect &rect, int dy) {
     if (dy) {
         this->_lineNumberArea->scroll(0, dy);
     } else {
@@ -484,7 +498,7 @@ void MarkdownEditor::updateLineNumberArea(const QRect &rect, int dy) {
     }
 }
 
-void MarkdownEditor::highlightCurrentLine() {
+void Editor::highlightCurrentLine() {
     QList<QTextEdit::ExtraSelection> extraSelections;
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
@@ -503,13 +517,13 @@ void MarkdownEditor::highlightCurrentLine() {
     setExtraSelections(extraSelections);
 }
 
-void MarkdownEditor::resizeEvent(QResizeEvent *e) {
+void Editor::resizeEvent(QResizeEvent *e) {
     QPlainTextEdit::resizeEvent(e);
     QRect cr = contentsRect();
     this->_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
-void MarkdownEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
+void Editor::lineNumberAreaPaintEvent(QPaintEvent *event) {
     QPainter painter(this->_lineNumberArea);
     painter.fillRect(event->rect(), Qt::lightGray);
     QTextBlock block = this->firstVisibleBlock();

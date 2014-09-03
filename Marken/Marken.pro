@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core gui xml webkit webkitwidgets
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
@@ -24,10 +24,7 @@ INCLUDEPATH += "../Parser"
 
 SOURCES += src/main.cpp\
     src/Marken.cpp \
-    src/Previewer.cpp \
     src/ColorWidget.cpp \
-    src/MarkdownEditor.cpp \
-    src/MarkdownTabWidget.cpp \
     ../Parser/parse.cpp \
     ../Parser/parse_dynamic.cpp \
     ../Parser/parse_elem.cpp \
@@ -65,13 +62,16 @@ SOURCES += src/main.cpp\
     ../Parser/parse_label_set.cpp \
     ../Parser/parse_line.cpp \
     ../Parser/parse_span.cpp \
-    ../Parser/parse_static.cpp
+    ../Parser/parse_static.cpp \
+    src/Preview.cpp \
+    src/LineNumberArea.cpp \
+    src/BlockData.cpp \
+    src/Editor.cpp \
+    src/Highlighter.cpp \
+    src/TabWidget.cpp
 
 HEADERS  += include/Marken.h \
-    include/Previewer.h \
     include/ColorWidget.h \
-    include/MarkdownEditor.h \
-    include/MarkdownTabWidget.h \
     ../Parser/parse.h \
     ../Parser/parse_dynamic.h \
     ../Parser/parse_elem.h \
@@ -110,11 +110,16 @@ HEADERS  += include/Marken.h \
     ../Parser/parse_label_set.h \
     ../Parser/parse_line.h \
     ../Parser/parse_span.h \
-    ../Parser/parse_static.h
+    ../Parser/parse_static.h \
+    include/Preview.h \
+    include/LineNumberArea.h \
+    include/BlockData.h \
+    include/Editor.h \
+    include/Highlighter.h \
+    include/TabWidget.h
 
 FORMS    += form/Marken.ui \
-    form/Previewer.ui \
-    form/ColorSchemeWidget.ui
+    form/Preview.ui
 
 RESOURCES += \
     icons.qrc

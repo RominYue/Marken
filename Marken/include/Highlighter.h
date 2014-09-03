@@ -1,0 +1,20 @@
+#ifndef MARKDOWNHIGHLIGHTER_H
+#define MARKDOWNHIGHLIGHTER_H
+
+#include <QSharedPointer>
+#include <QSyntaxHighlighter>
+#include "parse_dynamic.h"
+
+class Highlighter : public QSyntaxHighlighter {
+    Q_OBJECT
+public:
+    Highlighter(QTextDocument *parent);
+    void setParser(QSharedPointer<DynamicParser> parser);
+
+    void highlightBlock(const QString& text);
+
+private:
+    QSharedPointer<DynamicParser> _parser;
+};
+
+#endif // MARKDOWNHIGHLIGHTER_H
