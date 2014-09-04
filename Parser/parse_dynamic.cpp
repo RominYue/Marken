@@ -123,8 +123,11 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             this->_spanParser.parseElement(elem);
         }
     }
+    if (this->_reparseEvent != nullptr) {
+        this->_reparseEvent(this->_spanParser.firstParseLine(), this->_spanParser.lastParseLine());
+    }
 }
 
-void DynamicParser::setReparseEvent(function<void(vector<ParseLine>&)> event) {
+void DynamicParser::setReparseEvent(function<void(ParseLine* first, ParseLine* last)> event) {
     this->_reparseEvent = event;
 }

@@ -22,7 +22,13 @@ public:
     SpanParser();
     void parseElement(shared_ptr<ParseElement> elem);
 
+    ParseLine* firstParseLine();
+    ParseLine* lastParseLine();
+
 private:
+    ParseLine* _firstParseLine;
+    ParseLine* _lastParseLine;
+
     ParseElementFactory _factory;
     vector<shared_ptr<ParseElementSpan>> _spans;
     void parseHeader(shared_ptr<ParseElementHeader> elem);

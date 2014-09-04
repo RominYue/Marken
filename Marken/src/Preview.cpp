@@ -21,7 +21,7 @@ Preview::~Preview() {
 void Preview::scrollToLine(int lineNum) {
     char buffer[16];
     sprintf(buffer, "__line__%d__", lineNum);
-    this->ui->webView->page()->currentFrame()->scrollToAnchor(QString::fromUtf8(buffer));
+    //this->ui->webView->page()->currentFrame()->scrollToAnchor(QString::fromUtf8(buffer));
 }
 
 void Preview::showPreview(Editor *editor) {

@@ -44,10 +44,19 @@ void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
     }
 }
 
+ParseLine* SpanParser::firstParseLine() {
+    return this->_firstParseLine;
+}
+
+ParseLine* SpanParser::lastParseLine() {
+    return this->_lastParseLine;
+}
+
 void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
+    this->_firstParseLine = elem->parent;
+    this->_lastParseLine = this->_firstParseLine->next();
     this->initSpanParent(elem->parent);
     auto text = elem->getCleanedHeader();
-    auto wordNum = this->getUtf8CharacterCount(text);
     auto spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
     for (auto span : spans) {
         span->openActivate = true;
@@ -85,6 +94,8 @@ void SpanParser::parseParagraphElement(shared_ptr<ParseElementParagraph> elem) {
     }
     paragraph.push_back(end->text);
     end->parent->removeCurrentSpans();
+    this->_firstParseLine = begin->parent;
+    this->_lastParseLine = end->parent->next();
     auto spanVec = this->parseParagraph(paragraph);
     end = begin;
     int index = 0;

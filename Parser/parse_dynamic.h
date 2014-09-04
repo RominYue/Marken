@@ -23,11 +23,11 @@ public:
     DynamicParser();
     virtual ~DynamicParser();
     void parseLine(ParseLine* data, string line);
-    void setReparseEvent(function<void(vector<ParseLine>&)> event);
+    void setReparseEvent(function<void(ParseLine* first, ParseLine* last)> event);
 
 private:
     SpanParser _spanParser;
-    function<void(vector<ParseLine>&)> _reparseEvent;
+    function<void(ParseLine* first, ParseLine* last)> _reparseEvent;
     vector<shared_ptr<ParseElementBlock>> _blocks;
     ParseLabelSet _linkLabelSet;
 };
