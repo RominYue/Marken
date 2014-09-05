@@ -71,7 +71,7 @@ void ColorScheme::load(const QString& path) {
          nodeElement = nodeElement.nextSiblingElement()) {
         auto type = this->_type[nodeElement.attribute("name")];
         this->setForeground(type, QColor(nodeElement.attribute("foreground")));
-        this->setBackground(type, QColor(nodeElement.attribute("backgrond")));
+        this->setBackground(type, QColor(nodeElement.attribute("background")));
         this->setBold(type, nodeElement.attribute("bold").toInt());
         this->setItalic(type, nodeElement.attribute("italic").toInt());
         this->setUnderline(type, nodeElement.attribute("underline").toInt());

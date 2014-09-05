@@ -1,23 +1,23 @@
 <scheme size="12" family="Consolas">
-  <node foreground="#48c641" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="HTML Block"/>
-  <node foreground="#b1bfde" strikeout="0" underline="0" bold="0" italic="0" background="#484848" name="Code Block"/>
-  <node foreground="#4998ff" strikeout="0" underline="0" bold="1" italic="0" background="#1b1b1b" name="Header Atx"/>
-  <node foreground="#4998ff" strikeout="0" underline="0" bold="1" italic="0" background="#1b1b1b" name="Header Setext"/>
-  <node foreground="#e6e6ac" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="Horizontal Rule"/>
-  <node foreground="#efe8f4" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="Block Quote"/>
-  <node foreground="#c6941f" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="List Unordered"/>
-  <node foreground="#c6941f" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="List Ordered"/>
-  <node foreground="#ffffff" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="Default"/>
-  <node foreground="#979ada" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="Escape"/>
-  <node foreground="#24d341" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="HTML Amp"/>
-  <node foreground="#4bc24b" strikeout="0" underline="0" bold="0" italic="0" background="#1b1b1b" name="HTML Inline"/>
-  <node foreground="#dadc57" strikeout="0" underline="0" bold="0" italic="0" background="#2c2c2c" name="Code Inline"/>
-  <node foreground="#ffffff" strikeout="0" underline="0" bold="0" italic="1" background="#1b1b1b" name="Emphasis"/>
-  <node foreground="#ffffff" strikeout="0" underline="0" bold="1" italic="0" background="#1b1b1b" name="Strong"/>
-  <node foreground="#ff75aa" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Image Inline"/>
-  <node foreground="#ff75aa" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Image Reference"/>
-  <node foreground="#31b7ff" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Link Inline"/>
-  <node foreground="#31b7ff" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Link Reference"/>
-  <node foreground="#31b7ff" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Link Label"/>
-  <node foreground="#31b7ff" strikeout="0" underline="1" bold="0" italic="0" background="#1b1b1b" name="Link Automatic"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#48c641" name="HTML Block"/>
+  <node background="#484848" strikeout="0" bold="0" italic="0" underline="0" foreground="#b1bfde" name="Code Block"/>
+  <node background="#1b1b1b" strikeout="0" bold="1" italic="0" underline="0" foreground="#4998ff" name="Header Atx"/>
+  <node background="#1b1b1b" strikeout="0" bold="1" italic="0" underline="0" foreground="#4998ff" name="Header Setext"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#e6e6ac" name="Horizontal Rule"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#efe8f4" name="Block Quote"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#c6941f" name="List Unordered"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#c6941f" name="List Ordered"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#ffffff" name="Default"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#979ada" name="Escape"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#24d341" name="HTML Amp"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="0" foreground="#4bc24b" name="HTML Inline"/>
+  <node background="#2c2c2c" strikeout="0" bold="0" italic="0" underline="0" foreground="#dadc57" name="Code Inline"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="1" underline="0" foreground="#ffffff" name="Emphasis"/>
+  <node background="#1b1b1b" strikeout="0" bold="1" italic="0" underline="0" foreground="#ffffff" name="Strong"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#ff75aa" name="Image Inline"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#ff75aa" name="Image Reference"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#31b7ff" name="Link Inline"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#31b7ff" name="Link Reference"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#31b7ff" name="Link Label"/>
+  <node background="#1b1b1b" strikeout="0" bold="0" italic="0" underline="1" foreground="#31b7ff" name="Link Automatic"/>
 </scheme>

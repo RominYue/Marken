@@ -112,22 +112,25 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             }
         }
     }
+    this->_prevLineNum = 0;
+    this->_nextLineNum = 0;
     if (data->blocks.size() > 0) {
         auto elem = *data->blocks.rbegin();
         auto type = (*data->blocks.rbegin())->type();
-        if (type == ParseElementType::TYPE_PARAGRAPH) {
+        if (type == ParseElementType::TYPE_PARAGRAPH ||
+            type == ParseElementType::TYPE_HEADER_ATX ||
+            type == ParseElementType::TYPE_HEADER_SETEXT) {
             this->_spanParser.parseElement(elem);
-        } else if (type == ParseElementType::TYPE_HEADER_ATX ||
-                   type == ParseElementType::TYPE_HEADER_SETEXT) {
-            this->_spanParser.parseElement(elem);
+            this->_prevLineNum = this->_spanParser.prevLineNum();
+            this->_nextLineNum = this->_spanParser.nextLineNum();
         }
     }
 }
 
 int DynamicParser::prevLineNum() const {
-    return this->_spanParser.prevLineNum();
+    return this->_prevLineNum;
 }
 
 int DynamicParser::nextLineNum() const {
-    return this->_spanParser.nextLineNum();
+    return this->_nextLineNum;
 }

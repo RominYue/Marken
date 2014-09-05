@@ -64,6 +64,10 @@ void Highlighter::highlight(QTextBlock block) {
         ParseLine* line = data->data();
         QTextCursor cursor(block);
         for (auto block : line->blocks) {
+            if (block->type() == ParseElementType::TYPE_EMPTY ||
+                block->type() == ParseElementType::TYPE_INVALID) {
+                continue;
+            }
             int utf8Offset = block->utf8Offset;
             int utf8Length = block->utf8Length;
             cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
@@ -73,9 +77,14 @@ void Highlighter::highlight(QTextBlock block) {
             for (int i = 0; i < utf8Length; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             }
-            cursor.setBlockCharFormat(scheme.format(block->type()));
+            cursor.mergeCharFormat(scheme.format(block->type()));
         }
         for (auto span : line->spans) {
+            if (span->type() == ParseElementType::TYPE_EMPTY ||
+                span->type() == ParseElementType::TYPE_INVALID ||
+                span->type() == ParseElementType::TYPE_PLAIN) {
+                continue;
+            }
             int utf8Offset = span->utf8Offset;
             int utf8Length = span->utf8Length;
             cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
@@ -85,7 +94,7 @@ void Highlighter::highlight(QTextBlock block) {
             for (int i = 0; i < utf8Length; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             }
-            cursor.setBlockCharFormat(scheme.format(span->type()));
+            cursor.mergeCharFormat(scheme.format(span->type()));
         }
     }
 }

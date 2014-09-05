@@ -31,6 +31,9 @@ private:
     SpanParser _spanParser;
     vector<shared_ptr<ParseElementBlock>> _blocks;
     ParseLabelSet _linkLabelSet;
+
+    int _prevLineNum;
+    int _nextLineNum;
 };
 
 #endif // PARSE_DYNAMIC_H
