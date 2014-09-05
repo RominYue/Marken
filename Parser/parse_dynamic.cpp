@@ -17,7 +17,6 @@
 using namespace std;
 
 DynamicParser::DynamicParser() : Parser() {
-    this->_reparseEvent = nullptr;
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
@@ -123,11 +122,12 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             this->_spanParser.parseElement(elem);
         }
     }
-    if (this->_reparseEvent != nullptr) {
-        this->_reparseEvent(this->_spanParser.firstParseLine(), this->_spanParser.lastParseLine());
-    }
 }
 
-void DynamicParser::setReparseEvent(function<void(ParseLine* first, ParseLine* last)> event) {
-    this->_reparseEvent = event;
+ParseLine* DynamicParser::firstParseLine() {
+    return this->_spanParser.firstParseLine();
+}
+
+ParseLine* DynamicParser::lastParseLine() {
+    return this->_spanParser.lastParseLine();
 }

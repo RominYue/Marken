@@ -25,7 +25,6 @@ public:
     void saveAs(const QString &path);
     void saveAsHtml(const QString &path);
 
-    void updateColorScheme();
     void rehighlight();
     int firstVisibleLineNum() const;
 

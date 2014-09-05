@@ -68,7 +68,11 @@ SOURCES += src/main.cpp\
     src/BlockData.cpp \
     src/Editor.cpp \
     src/Highlighter.cpp \
-    src/TabWidget.cpp
+    src/TabWidget.cpp \
+    src/ColorSchemeForm.cpp \
+    src/ColorScheme.cpp \
+    src/ColorSchemeSetting.cpp \
+    src/Setting.cpp
 
 HEADERS  += include/Marken.h \
     include/ColorWidget.h \
@@ -116,10 +120,15 @@ HEADERS  += include/Marken.h \
     include/BlockData.h \
     include/Editor.h \
     include/Highlighter.h \
-    include/TabWidget.h
+    include/TabWidget.h \
+    include/ColorSchemeForm.h \
+    include/ColorScheme.h \
+    include/ColorSchemeSetting.h \
+    include/Setting.h
 
 FORMS    += form/Marken.ui \
-    form/Preview.ui
+    form/Preview.ui \
+    form/ColorSchemeForm.ui
 
 RESOURCES += \
     icons.qrc

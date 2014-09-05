@@ -22,7 +22,6 @@ Editor::Editor(QWidget *parent) :
     this->_parser = QSharedPointer<DynamicParser>(new DynamicParser());
     this->_highlighter = new Highlighter(this->document());
     this->_highlighter->setParser(this->_parser);
-    this->updateColorScheme();
     this->highlightCurrentLine();
 }
 
@@ -80,10 +79,6 @@ void Editor::saveAs(const QString &path) {
 void Editor::saveAsHtml(const QString &path) {
     Q_UNUSED(path);
     // TODO
-}
-
-void Editor::updateColorScheme() {
-     // TODO
 }
 
 void Editor::rehighlight() {

@@ -12,6 +12,8 @@
 #include <QSettings>
 #include "Editor.h"
 #include "Preview.h"
+#include "Setting.h"
+#include "ColorSchemeForm.h"
 #include "Marken.h"
 #include "ui_Marken.h"
 
@@ -377,7 +379,14 @@ void Marken::on_actionSelect_All_triggered() {
 }
 
 void Marken::on_actionPreference_triggered() {
-     // TODO
+     QDialog dialog(this);
+     dialog.setLayout(new QHBoxLayout());
+     dialog.layout()->addWidget(new ColorSchemeForm());
+     dialog.exec();
+     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
+         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
+         editor->rehighlight();
+     }
 }
 
 void Marken::on_actionAtx_Header_1_triggered() {
