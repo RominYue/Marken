@@ -22,12 +22,12 @@ public:
     SpanParser();
     void parseElement(shared_ptr<ParseElement> elem);
 
-    ParseLine* firstParseLine();
-    ParseLine* lastParseLine();
+    int prevLineNum() const;
+    int nextLineNum() const;
 
 private:
-    ParseLine* _firstParseLine;
-    ParseLine* _lastParseLine;
+    int _prevLineNum;
+    int _nextLineNum;
 
     ParseElementFactory _factory;
     vector<shared_ptr<ParseElementSpan>> _spans;

@@ -385,6 +385,7 @@ void Marken::on_actionPreference_triggered() {
      dialog.exec();
      for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
          Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
+         editor->updateColorScheme();
          editor->rehighlight();
      }
 }

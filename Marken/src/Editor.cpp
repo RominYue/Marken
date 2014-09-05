@@ -6,6 +6,7 @@
 #include <QPalette>
 #include "LineNumberArea.h"
 #include "Highlighter.h"
+#include "Setting.h"
 #include "Editor.h"
 
 Editor::Editor(QWidget *parent) :
@@ -19,6 +20,7 @@ Editor::Editor(QWidget *parent) :
     this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
 
+    this->updateColorScheme();
     this->_parser = QSharedPointer<DynamicParser>(new DynamicParser());
     this->_highlighter = new Highlighter(this->document());
     this->_highlighter->setParser(this->_parser);
@@ -83,6 +85,23 @@ void Editor::saveAsHtml(const QString &path) {
 
 void Editor::rehighlight() {
      this->_highlighter->rehighlight();
+}
+
+void Editor::updateColorScheme() {
+    ColorSchemeSetting& setting = Setting::instance()->colorSetting;
+    ColorScheme& scheme = setting.colorScheme();
+    QFont font;
+    font.setFamily(scheme.fontFamily());
+    font.setPointSize(scheme.fontSize());
+    font.setBold(scheme.bold(ParseElementType::TYPE_PARAGRAPH));
+    font.setItalic(scheme.italic(ParseElementType::TYPE_PARAGRAPH));
+    font.setUnderline(scheme.underline(ParseElementType::TYPE_PARAGRAPH));
+    font.setStrikeOut(scheme.strikeout(ParseElementType::TYPE_PARAGRAPH));
+    this->setFont(font);
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Base, scheme.background(ParseElementType::TYPE_PARAGRAPH));
+    palette.setColor(QPalette::Text, scheme.foreground(ParseElementType::TYPE_PARAGRAPH));
+    this->setPalette(palette);
 }
 
 int Editor::firstVisibleLineNum() const {

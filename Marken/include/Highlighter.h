@@ -15,6 +15,8 @@ public:
 
 private:
     QSharedPointer<DynamicParser> _parser;
+
+    void highlight(QTextBlock block);
 };
 
 #endif // MARKDOWNHIGHLIGHTER_H

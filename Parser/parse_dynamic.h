@@ -24,8 +24,8 @@ public:
     virtual ~DynamicParser();
     void parseLine(ParseLine* data, string line);
 
-    ParseLine* firstParseLine();
-    ParseLine* lastParseLine();
+    int prevLineNum() const;
+    int nextLineNum() const;
 
 private:
     SpanParser _spanParser;

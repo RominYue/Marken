@@ -26,6 +26,7 @@ public:
     void saveAsHtml(const QString &path);
 
     void rehighlight();
+    void updateColorScheme();
     int firstVisibleLineNum() const;
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);

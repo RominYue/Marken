@@ -44,17 +44,17 @@ void SpanParser::parseElement(shared_ptr<ParseElement> elem) {
     }
 }
 
-ParseLine* SpanParser::firstParseLine() {
-    return this->_firstParseLine;
+int SpanParser::prevLineNum() const {
+    return this->_prevLineNum;
 }
 
-ParseLine* SpanParser::lastParseLine() {
-    return this->_lastParseLine;
+int SpanParser::nextLineNum() const {
+    return this->_nextLineNum;
 }
 
 void SpanParser::parseHeader(shared_ptr<ParseElementHeader> elem) {
-    this->_firstParseLine = elem->parent;
-    this->_lastParseLine = this->_firstParseLine->next();
+    this->_prevLineNum = 0;
+    this->_nextLineNum = 0;
     this->initSpanParent(elem->parent);
     auto text = elem->getCleanedHeader();
     auto spans = this->parseLine(text, elem->utf8Offset + elem->getCleanStartIndex());
@@ -80,22 +80,25 @@ void SpanParser::parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem) {
 }
 
 void SpanParser::parseParagraphElement(shared_ptr<ParseElementParagraph> elem) {
+    this->_prevLineNum = 0;
+    this->_nextLineNum = 0;
     this->initSpanParent(elem->parent);
     auto begin = elem;
     while (!begin->isParagraphBegin()) {
+        ++this->_prevLineNum;
         begin = dynamic_pointer_cast<ParseElementParagraph>(*(begin->parent->prev()->blocks.rbegin()));
     }
     vector<string> paragraph;
     auto end = begin;
     while (!end->isParagraphEnd()) {
+        ++this->_nextLineNum;
         paragraph.push_back(end->text);
         end->parent->removeCurrentSpans();
         end = dynamic_pointer_cast<ParseElementParagraph>(*(end->parent->next()->blocks.rbegin()));
     }
+    this->_nextLineNum -= this->_prevLineNum;
     paragraph.push_back(end->text);
     end->parent->removeCurrentSpans();
-    this->_firstParseLine = begin->parent;
-    this->_lastParseLine = end->parent->next();
     auto spanVec = this->parseParagraph(paragraph);
     end = begin;
     int index = 0;

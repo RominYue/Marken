@@ -124,10 +124,10 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     }
 }
 
-ParseLine* DynamicParser::firstParseLine() {
-    return this->_spanParser.firstParseLine();
+int DynamicParser::prevLineNum() const {
+    return this->_spanParser.prevLineNum();
 }
 
-ParseLine* DynamicParser::lastParseLine() {
-    return this->_spanParser.lastParseLine();
+int DynamicParser::nextLineNum() const {
+    return this->_spanParser.nextLineNum();
 }
