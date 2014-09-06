@@ -27,8 +27,6 @@ Marken::Marken(QWidget *parent) :
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
     this->connect(this->ui->tabWidget, SIGNAL(openFile(QString)), this, SLOT(tryOpen(QString)));
-    this->_watcher = new QFileSystemWatcher(this);
-    this->connect(this->_watcher, SIGNAL(fileChanged(QString)), this, SLOT(fileChanged(QString)));
 }
 
 Marken::~Marken() {
@@ -105,7 +103,6 @@ bool Marken::tryOpen(QString path) {
         this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modificationChanged(bool)));
         this->ui->preview->showPreview(editor);
     }
-    this->_watcher->addPath(path);
     return true;
 }
 
@@ -139,7 +136,6 @@ bool Marken::trySave() {
             return false;
         }
         editor->setPath(path);
-        this->_watcher->addPath(path);
     }
     editor->save();
     this->ui->preview->showPreview(editor);
@@ -168,9 +164,7 @@ void Marken::on_actionSave_As_triggered() {
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
         if (!path.isEmpty()) {
-            this->_watcher->removePath(editor->path());
             editor->saveAs(path);
-            this->_watcher->addPath(path);
         }
         this->modificationChanged(true);
     }
@@ -189,11 +183,9 @@ void Marken::on_actionClose_triggered() {
             switch (result) {
             case QMessageBox::Yes:
                 editor->save();
-                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::No:
-                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::Cancel:
@@ -202,7 +194,6 @@ void Marken::on_actionClose_triggered() {
                 break;
             }
         } else {
-            this->_watcher->removePath(editor->path());
             this->ui->tabWidget->removeTab(index);
         }
     }

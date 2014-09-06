@@ -4,7 +4,6 @@
 #include <QSet>
 #include <QMainWindow>
 #include <QCloseEvent>
-#include <QFileSystemWatcher>
 
 namespace Ui {
 class Marken;
@@ -25,7 +24,6 @@ protected:
 private:
     Ui::Marken *ui;
 
-    QFileSystemWatcher *_watcher;
     QSet<QString> _changeList;
 
     void initToolbar();
