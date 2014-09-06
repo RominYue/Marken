@@ -22,13 +22,19 @@ public:
     SpanParser();
     void parseElement(shared_ptr<ParseElement> elem);
 
+    int prevLineNum() const;
+    int nextLineNum() const;
+
 private:
+    int _prevLineNum;
+    int _nextLineNum;
+
     ParseElementFactory _factory;
     vector<shared_ptr<ParseElementSpan>> _spans;
     void parseHeader(shared_ptr<ParseElementHeader> elem);
     void parseHeaderSetext(shared_ptr<ParseElementHeaderSetext> elem);
     void parseParagraphElement(shared_ptr<ParseElementParagraph> elem);
-    vector<shared_ptr<ParseElementSpan>> parseLine(const string& line, int utf8Offset);
+    vector<shared_ptr<ParseElementSpan>> parseLine(const string& line, int offset, int utf8Offset);
     vector<vector<shared_ptr<ParseElementSpan>>> parseParagraph(const vector<string>& paragraph);
 
     void initSpanParent(ParseLine* parent);

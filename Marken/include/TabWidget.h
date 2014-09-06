@@ -5,10 +5,10 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
-class MarkdownTabWidget : public QTabWidget {
+class TabWidget : public QTabWidget {
     Q_OBJECT
 public:
-    explicit MarkdownTabWidget(QWidget *parent = 0);
+    explicit TabWidget(QWidget *parent = 0);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

@@ -10,6 +10,9 @@ public:
 
     virtual int tryParse(const string& text, int offset) override final;
     virtual string generateOpenHtml() const override final;
+
+private:
+    char _escaped;
 };
 
 #endif // PARSE_ELEM_ESCAPE_H

@@ -1,9 +1,9 @@
 #include "Setting.h"
 
-
 Setting* Setting::_instance = nullptr;
 
 Setting::Setting() {
+    this->colorSetting.load();
 }
 
 Setting* Setting::instance() {

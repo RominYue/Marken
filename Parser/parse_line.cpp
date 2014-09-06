@@ -75,7 +75,8 @@ bool ParseLine::isLineStatusChanged() const {
     }
     int len = this->blocks.size();
     for (int i = 0; i < len; ++i) {
-        if (!(this->_oldBlocks[i] == this->blocks[i])) {
+        if (this->_oldBlocks[i]->type() != this->blocks[i]->type() ||
+            this->_oldBlocks[i]->offset != this->blocks[i]->offset) {
             return true;
         }
     }

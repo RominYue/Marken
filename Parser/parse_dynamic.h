@@ -23,13 +23,18 @@ public:
     DynamicParser();
     virtual ~DynamicParser();
     void parseLine(ParseLine* data, string line);
-    void setReparseEvent(function<void(vector<ParseLine>&)> event);
+    void parseSpan(ParseLine* data);
+
+    int prevLineNum() const;
+    int nextLineNum() const;
 
 private:
     SpanParser _spanParser;
-    function<void(vector<ParseLine>&)> _reparseEvent;
     vector<shared_ptr<ParseElementBlock>> _blocks;
     ParseLabelSet _linkLabelSet;
+
+    int _prevLineNum;
+    int _nextLineNum;
 };
 
 #endif // PARSE_DYNAMIC_H

@@ -1,3 +1,4 @@
+#include <fstream>
 #include <memory>
 #include "parse_dynamic.h"
 #include "parse_static.h"
@@ -34,4 +35,40 @@ string StaticParser::parseToHtml(const vector<string>& document) const {
         html += line + "\n";
     }
     return html;
+}
+
+vector<string> StaticParser::parseToHtmlList(const string& filePath) const {
+    vector<string> document;
+    this->readDocument(filePath, document);
+    return this->parseToHtmlList(document);
+}
+
+string StaticParser::parseToHtml(const string& filePath) const {
+    vector<string> document;
+    this->readDocument(filePath, document);
+    return this->parseToHtml(document);
+}
+
+void StaticParser::parseToFile(const string& srcPath, const string& tarPath) const {
+    auto document = parseToHtmlList(srcPath);
+    this->saveDocument(tarPath, document);
+}
+
+void StaticParser::readDocument(const string& filePath, vector<string>& document) const {
+    fstream fin;
+    fin.open(filePath, ios::in | ios::binary);
+    string buffer;
+    while (getline(fin, buffer)) {
+        document.push_back(buffer);
+    }
+    fin.close();
+}
+
+void StaticParser::saveDocument(const string& filePath, vector<string>& document) const {
+    fstream fout;
+    fout.open(filePath, ios::out | ios::binary);
+    for (auto line : document) {
+        fout << line << endl;
+    }
+    fout.close();
 }

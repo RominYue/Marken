@@ -1,35 +1,56 @@
 #ifndef COLORSCHEME_H
 #define COLORSCHEME_H
 
-#include <QMap>
-#include <QFont>
+#include <QList>
+#include <QColor>
 #include <QString>
-#include "ColorSchemeNode.h"
+#include <QTextCharFormat>
+#include "parse_elem_type.h"
 
 class ColorScheme {
 public:
     ColorScheme();
     virtual ~ColorScheme();
 
+    void save(const QString& path);
+    void load(const QString& path);
+
+    ParseElementType type(const QString& name) const;
+    const QString name(const ParseElementType type) const;
+    QList<ParseElementType> typeList() const;
+
     const QString& fontFamily() const;
     int fontSize() const;
-    QMap<QString, ColorSchemeNode>& colors();
-    ColorSchemeNode& color();
-    ColorSchemeNode& color(const QString &section);
+    const QColor& foreground(const ParseElementType type) const;
+    const QColor& background(const ParseElementType type) const;
+    bool bold(const ParseElementType type) const;
+    bool italic(const ParseElementType type) const;
+    bool underline(const ParseElementType type) const;
+    bool strikeout(const ParseElementType type) const;
+    QTextCharFormat format(const ParseElementType type) const;
 
     void setFontFamily(const QString &family);
-    void setFontSize(int size);
-    void setColor(const QString &section, const ColorSchemeNode &color);
+    void setFontSize(const int size);
 
-    void setForeground(const QString &section, const QColor &foreground);
-    void setBackground(const QString &section, const QColor &background);
-    void setBold(const QString &section, bool value);
-    void setItalic(const QString &section, bool value);
+    void setForeground(const ParseElementType type, const QColor &color);
+    void setBackground(const ParseElementType type, const QColor &color);
+    void setBold(const ParseElementType type, const bool val);
+    void setItalic(const ParseElementType type, const bool val);
+    void setUnderline(const ParseElementType type, const bool val);
+    void setStrikeout(const ParseElementType type, const bool val);
 
 private:
     QString _fontFamily;
     int _fontSize;
-    QMap<QString, ColorSchemeNode> _colors;
+    QMap<ParseElementType, QColor> _foreground;
+    QMap<ParseElementType, QColor> _background;
+    QMap<ParseElementType, bool> _bold;
+    QMap<ParseElementType, bool> _italic;
+    QMap<ParseElementType, bool> _underline;
+    QMap<ParseElementType, bool> _strikeout;
+    QMap<ParseElementType, QTextCharFormat> _format;
+
+    QMap<QString, ParseElementType> _type;
 };
 
 #endif // COLORSCHEME_H

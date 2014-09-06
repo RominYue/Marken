@@ -17,7 +17,6 @@
 using namespace std;
 
 DynamicParser::DynamicParser() : Parser() {
-    this->_reparseEvent = nullptr;
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
@@ -40,6 +39,7 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     ParseElementFactory factory;
     data->labelSet = &this->_linkLabelSet;
     data->removeCurrentBlocks();
+    bool stopNest = false;
     bool stopInherit = false;
     while (offset < lineLength) {
         int length = -1;
@@ -51,6 +51,16 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                     if (element->isVirtual) {
                         continue;
                     }
+                }
+                if (stopNest) {
+                    if (element->type() != ParseElementType::TYPE_PARAGRAPH) {
+                        if (!element->isVirtual) {
+                            continue;
+                        }
+                    }
+                }
+                if (!element->isVirtual && !element->nestable()) {
+                    stopNest = true;
                 }
                 element->text = line.substr(offset, length);
                 element->utf8Offset = wordCount[offset];
@@ -113,18 +123,31 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             }
         }
     }
+    this->parseSpan(data);
+}
+
+void DynamicParser::parseSpan(ParseLine* data) {
+    this->_prevLineNum = 0;
+    this->_nextLineNum = 0;
     if (data->blocks.size() > 0) {
         auto elem = *data->blocks.rbegin();
         auto type = (*data->blocks.rbegin())->type();
-        if (type == ParseElementType::TYPE_PARAGRAPH) {
+        if (type == ParseElementType::TYPE_PARAGRAPH ||
+            type == ParseElementType::TYPE_HEADER_ATX ||
+            type == ParseElementType::TYPE_HEADER_SETEXT) {
             this->_spanParser.parseElement(elem);
-        } else if (type == ParseElementType::TYPE_HEADER_ATX ||
-                   type == ParseElementType::TYPE_HEADER_SETEXT) {
-            this->_spanParser.parseElement(elem);
+            this->_prevLineNum = this->_spanParser.prevLineNum();
+            this->_nextLineNum = this->_spanParser.nextLineNum();
+        } else {
+            data->removeCurrentSpans();
         }
     }
 }
 
-void DynamicParser::setReparseEvent(function<void(vector<ParseLine>&)> event) {
-    this->_reparseEvent = event;
+int DynamicParser::prevLineNum() const {
+    return this->_prevLineNum;
+}
+
+int DynamicParser::nextLineNum() const {
+    return this->_nextLineNum;
 }

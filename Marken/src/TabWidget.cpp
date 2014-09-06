@@ -1,18 +1,18 @@
 #include <QUrl>
 #include <QMimeData>
-#include "MarkdownTabWidget.h"
+#include "TabWidget.h"
 
-MarkdownTabWidget::MarkdownTabWidget(QWidget *parent) :
+TabWidget::TabWidget(QWidget *parent) :
     QTabWidget(parent) {
 }
 
-void MarkdownTabWidget::dragEnterEvent(QDragEnterEvent *event) {
+void TabWidget::dragEnterEvent(QDragEnterEvent *event) {
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
 }
 
-void MarkdownTabWidget::dropEvent(QDropEvent *event) {
+void TabWidget::dropEvent(QDropEvent *event) {
     for (auto url : event->mimeData()->urls()) {
         emit openFile(url.toLocalFile());
     }

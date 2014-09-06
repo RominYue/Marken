@@ -10,11 +10,10 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QSettings>
-#include "MarkdownDebug.h"
-#include "ColorSchemeWidget.h"
-#include "MarkdownEditor.h"
+#include "Editor.h"
+#include "Preview.h"
 #include "Setting.h"
-#include "Previewer.h"
+#include "ColorSchemeForm.h"
 #include "Marken.h"
 #include "ui_Marken.h"
 
@@ -28,8 +27,6 @@ Marken::Marken(QWidget *parent) :
     restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
     restoreState(settings.value("mainWindowState").toByteArray());
     this->connect(this->ui->tabWidget, SIGNAL(openFile(QString)), this, SLOT(tryOpen(QString)));
-    this->_watcher = new QFileSystemWatcher(this);
-    this->connect(this->_watcher, SIGNAL(fileChanged(QString)), this, SLOT(fileChanged(QString)));
 }
 
 Marken::~Marken() {
@@ -52,14 +49,11 @@ void Marken::initToolbar() {
     toolBarEdit->addAction(this->ui->actionCopy);
     toolBarEdit->addAction(this->ui->actionPaste);
     toolBarEdit->addAction(this->ui->actionCut);
-    QToolBar *toolBarTool = addToolBar(tr("Tool"));
-    toolBarTool->setObjectName("toolBarTool");
-    toolBarTool->addAction(this->ui->actionPreview);
 }
 
-void Marken::updateTabTitle(bool) {
+void Marken::modificationChanged(bool) {
     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
         if (editor->document()->isModified()) {
             this->ui->tabWidget->setTabText(i, "*" + editor->name());
         } else {
@@ -72,11 +66,19 @@ void Marken::fileChanged(const QString &path) {
     this->_changeList.insert(path);
 }
 
+void Marken::scrollPreview(const QRect &, int) {
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
+    if (editor != nullptr) {
+        int lineNum = editor->firstVisibleLineNum();
+        this->ui->preview->scrollToLine(lineNum);
+    }
+}
+
 void Marken::on_actionNew_triggered() {
-    MarkdownEditor *editor = new MarkdownEditor();
+    Editor *editor = new Editor();
     this->ui->tabWidget->addTab(editor, editor->name());
     this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
-    this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(updateTabTitle(bool)));
+    this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modificationChanged(bool)));
 }
 
 bool Marken::tryOpen(QString path) {
@@ -84,20 +86,20 @@ bool Marken::tryOpen(QString path) {
     QString absolute = info.absoluteFilePath();
     bool flag = true;
     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
         if (editor->path() == absolute) {
             flag = false;
             break;
         }
     }
     if (flag) {
-        MarkdownEditor *editor = new MarkdownEditor();
+        Editor *editor = new Editor();
         editor->open(path);
         this->ui->tabWidget->addTab(editor, editor->name());
         this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
-        this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(updateTabTitle(bool)));
+        this->connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modificationChanged(bool)));
+        this->ui->preview->showPreview(editor);
     }
-    this->_watcher->addPath(path);
     return true;
 }
 
@@ -120,9 +122,9 @@ bool Marken::trySave() {
     if (index == -1) {
         return false;
     }
-    MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+    Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
     if (editor->path().isEmpty()) {
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
         QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
@@ -131,9 +133,9 @@ bool Marken::trySave() {
             return false;
         }
         editor->setPath(path);
-        this->_watcher->addPath(path);
     }
     editor->save();
+    this->ui->preview->showPreview(editor);
     return true;
 }
 
@@ -153,24 +155,22 @@ void Marken::on_actionSave_All_triggered() {
 void Marken::on_actionSave_As_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
         QString dir = "";
         QString filter = tr("Markdown file(*.md);;All files(*.*)");
         QString path = QFileDialog::getSaveFileName(this, caption, dir, filter);
         if (!path.isEmpty()) {
-            this->_watcher->removePath(editor->path());
             editor->saveAs(path);
-            this->_watcher->addPath(path);
         }
-        this->updateTabTitle(true);
+        this->modificationChanged(true);
     }
 }
 
 void Marken::on_actionClose_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         if (editor->document()->isModified()) {
             QString title = tr("Save File");
             QString text = tr("Save %1 before closed?").arg(editor->name());
@@ -180,11 +180,9 @@ void Marken::on_actionClose_triggered() {
             switch (result) {
             case QMessageBox::Yes:
                 editor->save();
-                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::No:
-                this->_watcher->removePath(editor->path());
                 this->ui->tabWidget->removeTab(index);
                 break;
             case QMessageBox::Cancel:
@@ -193,7 +191,6 @@ void Marken::on_actionClose_triggered() {
                 break;
             }
         } else {
-            this->_watcher->removePath(editor->path());
             this->ui->tabWidget->removeTab(index);
         }
     }
@@ -211,7 +208,7 @@ bool Marken::tryCloseAll() {
     bool ignoreAll = false;
     for (int i = this->ui->tabWidget->count() - 1; i >= 0; --i) {
         this->ui->tabWidget->setCurrentIndex(i);
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
         if (editor->document()->isModified()) {
             if (saveAll) {
                 if (!this->trySave()) {
@@ -269,7 +266,7 @@ bool Marken::event(QEvent *e) {
         this->_changeList.clear();
         for (auto path : temp) {
             for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
-                MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
+                Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
                 if (editor->path() == path) {
                     this->ui->tabWidget->setCurrentIndex(i);
                     QString title = tr("Reload File");
@@ -310,7 +307,7 @@ void Marken::on_actionUndo_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Z, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -319,7 +316,7 @@ void Marken::on_actionRedo_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -328,7 +325,7 @@ void Marken::on_actionCut_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -337,7 +334,7 @@ void Marken::on_actionCopy_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -346,7 +343,7 @@ void Marken::on_actionPaste_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -355,7 +352,7 @@ void Marken::on_actionDelete_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
@@ -364,143 +361,136 @@ void Marken::on_actionSelect_All_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
         QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, Qt::Key_A, Qt::ControlModifier);
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QCoreApplication::postEvent(editor, event);
     }
 }
 
 void Marken::on_actionPreference_triggered() {
-    QDialog dialog(this);
-    dialog.setLayout(new QHBoxLayout());
-    dialog.layout()->addWidget(new ColorSchemeWidget());
-    dialog.exec();
-    Setting::instance()->colorScheme.save();
-    for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
-        MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(i));
-        editor->updateColorScheme();
-        editor->rehighlight();
-    }
+     QDialog dialog(this);
+     dialog.setLayout(new QHBoxLayout());
+     dialog.layout()->addWidget(new ColorSchemeForm());
+     dialog.exec();
+     this->ui->preview->updateColorScheme();
+     for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
+         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
+         editor->updateColorScheme();
+         editor->rehighlight();
+     }
 }
 
 void Marken::on_actionAtx_Header_1_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(1);
 }
 
 void Marken::on_actionAtx_Header_2_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(2);
 }
 
 void Marken::on_actionAtx_Header_3_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(3);
 }
 
 void Marken::on_actionAtx_Header_4_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(4);
 }
 
 void Marken::on_actionAtx_Header_5_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(5);
 }
 
 void Marken::on_actionAtx_Header_6_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addAtxHeader(6);
 }
 
 void Marken::on_actionSetext_Header_1_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addSetextHeader(1);
 }
 
 void Marken::on_actionSetext_Header_2_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addSetextHeader(2);
 }
 
 void Marken::on_actionHorizon_Line_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addHorizonLine();
 }
 
 void Marken::on_actionInline_Link_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addInlineLink();
 }
 
 void Marken::on_actionInline_Code_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addInlineCode();
 }
 
 void Marken::on_actionImage_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addInlineImage();
 }
 
 void Marken::on_actionReference_Link_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addReferenceLink();
 }
 
 void Marken::on_actionOrdered_List_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addOrderedList();
 }
 
 void Marken::on_actionUnordered_List_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addUnorderedList();
 }
 
 void Marken::on_actionQuote_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addQuote();
 }
 
 void Marken::on_actionUnquote_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addUnquote();
 }
 
 void Marken::on_actionLink_Label_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addLinkLabel();
 }
 
 void Marken::on_actionEmphasis_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addEmphasis();
 }
 
 void Marken::on_actionBold_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
+    Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->currentWidget());
     editor->addBold();
-}
-
-void Marken::on_actionPreview_triggered() {
-    MarkdownEditor* editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->currentWidget());
-    this->ui->previewer->showPreview(editor);
 }
 
 void Marken::on_actionSyntax_Document_triggered() {
     this->tryOpen("doc/syntax.md");
-    this->on_actionPreview_triggered();
 }
 
 void Marken::on_actionAbout_Marken_triggered() {
     this->tryOpen("doc/about.md");
-    this->on_actionPreview_triggered();
 }
 
 void Marken::on_actionHTML_triggered() {
     int index = this->ui->tabWidget->currentIndex();
     if (index != -1) {
-        MarkdownEditor *editor = dynamic_cast<MarkdownEditor*>(this->ui->tabWidget->widget(index));
+        Editor *editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         QString caption = tr("Save File");
         QString dir = "";
         QString filter = tr("HTML file(*.html);;All files(*.*)");
@@ -508,5 +498,16 @@ void Marken::on_actionHTML_triggered() {
         if (!path.isEmpty()) {
             editor->saveAsHtml(path);
         }
+    }
+}
+
+void Marken::on_tabWidget_currentChanged(int index) {
+    this->disconnect(this, SLOT(scrollPreview(QRect, int)));
+    if (index != -1) {
+        Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
+        this->connect(editor, SIGNAL(updateRequest(QRect,int)), this, SLOT(scrollPreview(QRect,int)));
+        this->ui->preview->changePreview(editor);
+    } else {
+        this->ui->preview->changePreview(nullptr);
     }
 }

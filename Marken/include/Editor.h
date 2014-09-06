@@ -1,18 +1,22 @@
 #ifndef MARKDOWNEDITOR_H
 #define MARKDOWNEDITOR_H
 
+#include <QSharedPointer>
 #include <QKeyEvent>
 #include <QPlainTextEdit>
-#include "MarkdownParser.h"
-#include "MarkdownHighlighter.h"
+#include "parse_dynamic.h"
 
-class MarkdownEditor : public QPlainTextEdit {
+class LineNumberArea;
+class Highlighter;
+
+class Editor : public QPlainTextEdit {
     Q_OBJECT
 public:
-    explicit MarkdownEditor(QWidget *parent = 0);
+    explicit Editor(QWidget *parent = 0);
 
     QString name() const;
     QString path() const;
+    QSharedPointer<DynamicParser> parser() const;
 
     void setPath(const QString &path);
     void open(const QString &path);
@@ -21,8 +25,9 @@ public:
     void saveAs(const QString &path);
     void saveAsHtml(const QString &path);
 
-    void updateColorScheme();
     void rehighlight();
+    void updateColorScheme();
+    int firstVisibleLineNum() const;
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -50,43 +55,20 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *e);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     QWidget *_lineNumberArea;
 
-    MarkdownHighlighter *_highlighter;
-
     QString _name;
     QString _path;
 
-    MarkdownParser _parser;
-
-protected:
-    void resizeEvent(QResizeEvent *event);
+    QSharedPointer<DynamicParser> _parser;
+    Highlighter* _highlighter;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
-    void highlightCurrentLine();
-};
-
-class LineNumberArea : public QWidget {
-public:
-    LineNumberArea(MarkdownEditor *editor) : QWidget(editor) {
-        this->_markdownMarkdownEditor = editor;
-    }
-
-    QSize sizeHint() const {
-        return QSize(this->_markdownMarkdownEditor->lineNumberAreaWidth(), 0);
-    }
-
-protected:
-    void paintEvent(QPaintEvent *event) {
-        this->_markdownMarkdownEditor->lineNumberAreaPaintEvent(event);
-    }
-
-private:
-    MarkdownEditor *_markdownMarkdownEditor;
 };
 
 #endif // MARKDOWNEDITOR_H

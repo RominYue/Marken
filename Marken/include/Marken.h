@@ -4,7 +4,6 @@
 #include <QSet>
 #include <QMainWindow>
 #include <QCloseEvent>
-#include <QFileSystemWatcher>
 
 namespace Ui {
 class Marken;
@@ -23,7 +22,8 @@ protected:
     void closeEvent(QCloseEvent *event) override final;
 
 private:
-    QFileSystemWatcher *_watcher;
+    Ui::Marken *ui;
+
     QSet<QString> _changeList;
 
     void initToolbar();
@@ -33,8 +33,9 @@ private:
 
 private slots:
     bool tryOpen(QString path);
-    void updateTabTitle(bool);
+    void modificationChanged(bool);
     void fileChanged(const QString &path);
+    void scrollPreview(const QRect &, int);
 
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
@@ -77,13 +78,9 @@ private slots:
     void on_actionEmphasis_triggered();
     void on_actionBold_triggered();
 
-    void on_actionPreview_triggered();
-
     void on_actionSyntax_Document_triggered();
     void on_actionAbout_Marken_triggered();
-
-private:
-    Ui::Marken *ui;
+    void on_tabWidget_currentChanged(int index);
 };
 
 #endif // MARKEN_H

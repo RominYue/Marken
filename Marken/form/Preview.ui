@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Previewer</class>
- <widget class="QWidget" name="Previewer">
+ <class>Preview</class>
+ <widget class="QWidget" name="Preview">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -37,10 +37,32 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QTextBrowser" name="textBrowser"/>
+    <widget class="QWebView" name="webView">
+     <property name="font">
+      <font>
+       <family>Microsoft YaHei UI Light</family>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="url">
+      <url>
+       <string>about:blank</string>
+      </url>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

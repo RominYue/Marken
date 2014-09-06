@@ -25,6 +25,7 @@ int ParseElementEscape::tryParse(const string& text, int offset) {
             case '.':
             case '!':
             case '~':
+                this->_escaped = text[offset + 1];
                 return 2;
                 break;
             default:
@@ -36,5 +37,5 @@ int ParseElementEscape::tryParse(const string& text, int offset) {
 }
 
 string ParseElementEscape::generateOpenHtml() const {
-    return this->text.substr(1, 1);
+    return string() + this->_escaped;
 }

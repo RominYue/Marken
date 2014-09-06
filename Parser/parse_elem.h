@@ -15,7 +15,6 @@ public:
 
     virtual ParseElementType type() const;
     virtual bool isBlockElement() const;
-    virtual bool operator ==(shared_ptr<ParseElement> element) const;
 
     virtual string generateOpenHtml() const;
     virtual string generateCloseHtml() const;

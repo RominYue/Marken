@@ -17,10 +17,6 @@ bool ParseElement::isBlockElement() const {
     return false;
 }
 
-bool ParseElement::operator ==(shared_ptr<ParseElement> element) const {
-    return this->type() == element->type() && this->offset == element->offset;
-}
-
 string ParseElement::innerText() const {
     return "";
 }

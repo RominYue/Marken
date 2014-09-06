@@ -1,49 +1,34 @@
-#ifndef SETTINGEDITOR_H
-#define SETTINGEDITOR_H
+#ifndef COLORSCHEMESETTING_H
+#define COLORSCHEMESETTING_H
 
-#include <QTextCharFormat>
-#include "ColorScheme.h"
-#include "MarkdownDefine.h"
+#include <QList>
+
+class ColorScheme;
 
 class ColorSchemeSetting {
 public:
     ColorSchemeSetting();
     virtual ~ColorSchemeSetting();
 
-    const QString& fontFamily() const;
-    const QString& fontFamily(const QString &schemeName) const;
-    int fontSize() const;
-    int fontSize(const QString &schemeName) const;
-    ColorScheme& scheme();
-    ColorScheme &scheme(const QString &schemeName);
-
-    void setCurrentScheme(const QString &schemeName);
-    const QString& currentScheme() const;
-    QMap<QString, ColorScheme>& schemes();
-
-    void load();
     void save();
+    void load();
 
-    bool isSchemeExist(const QString &schemeName) const;
-    void cloneScheme(const QString &clone);
-    void deleteScheme(const QString &schemeName);
+    const QString& name() const;
+    const QList<QString>& nameList() const;
 
-    QFont font();
-    QFont font(const QString &colorName);
-    QTextCharFormat format();
-    QTextCharFormat format(const QString &colorName);
-    QTextCharFormat format(MarkdownDefine::SyntaxType type);
+    void selectScheme(const QString& name);
+    bool copyScheme(const QString& name);
+    bool deleteScheme(const QString& name);
+
+    ColorScheme& colorScheme();
 
 private:
-    QString _currentScheme;
-    QMap<QString, ColorScheme> _schemes;
+    ColorScheme _scheme;
+    QString _name;
+    QList<QString> _nameList;
 
-    int char2int(QChar c) const;
-    char int2char(int val) const;
-    int hex2int(QChar a, QChar b) const;
-    QString int2hex(int val) const;
-    QColor str2color(const QString &str) const;
-    QString color2str(const QColor &color) const;
+    void saveScheme();
+    void loadScheme();
 };
 
-#endif // SETTINGEDITOR_H
+#endif // COLORSCHEMESETTING_H

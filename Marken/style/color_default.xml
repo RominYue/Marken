@@ -1,0 +1,23 @@
+<scheme family="Consolas" size="12">
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="HTML Block" foreground="#48c641"/>
+  <node strikeout="0" underline="0" bold="0" background="#484848" italic="0" name="Code Block" foreground="#b1bfde"/>
+  <node strikeout="0" underline="0" bold="1" background="#1b1b1b" italic="0" name="Header Atx" foreground="#4998ff"/>
+  <node strikeout="0" underline="0" bold="1" background="#1b1b1b" italic="0" name="Header Setext" foreground="#4998ff"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="Horizontal Rule" foreground="#e6e6ac"/>
+  <node strikeout="0" underline="0" bold="0" background="#7c7c7c" italic="0" name="Block Quote" foreground="#efe8f4"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="List Unordered" foreground="#c6941f"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="List Ordered" foreground="#c6941f"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="Default" foreground="#ffffff"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="Escape" foreground="#979ada"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="HTML Amp" foreground="#24d341"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="0" name="HTML Inline" foreground="#4bc24b"/>
+  <node strikeout="0" underline="0" bold="0" background="#2c2c2c" italic="0" name="Code Inline" foreground="#dadc57"/>
+  <node strikeout="0" underline="0" bold="0" background="#1b1b1b" italic="1" name="Emphasis" foreground="#ffffff"/>
+  <node strikeout="0" underline="0" bold="1" background="#1b1b1b" italic="0" name="Strong" foreground="#ffffff"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Image Inline" foreground="#ff75aa"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Image Reference" foreground="#ff75aa"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Link Inline" foreground="#31b7ff"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Link Reference" foreground="#31b7ff"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Link Label" foreground="#31b7ff"/>
+  <node strikeout="0" underline="1" bold="0" background="#1b1b1b" italic="0" name="Link Automatic" foreground="#31b7ff"/>
+</scheme>
