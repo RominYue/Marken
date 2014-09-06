@@ -51,6 +51,14 @@ void Highlighter::highlightBlock(const QString& text) {
         }
     }
     if (currentData->data()->isLineStatusChanged()) {
+        if (currentData->data()->blocks.size() > 0) {
+            if ((*currentData->data()->blocks.rbegin())->type() != ParseElementType::TYPE_PARAGRAPH) {
+                if (prevData != nullptr) {
+                    this->_parser->parseSpan(prevData->data());
+                    this->highlight(prevBlock);
+                }
+            }
+        }
         this->setCurrentBlockState(this->currentBlockState() + 1);
     }
     currentData->data()->saveLineStatus();
@@ -63,6 +71,9 @@ void Highlighter::highlight(QTextBlock block) {
         ColorScheme& scheme = setting.colorScheme();
         ParseLine* line = data->data();
         QTextCursor cursor(block);
+        cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+        cursor.mergeCharFormat(scheme.format(ParseElementType::TYPE_PARAGRAPH));
         for (auto block : line->blocks) {
             if (block->type() == ParseElementType::TYPE_EMPTY ||
                 block->type() == ParseElementType::TYPE_INVALID) {

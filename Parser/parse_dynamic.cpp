@@ -39,6 +39,7 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     ParseElementFactory factory;
     data->labelSet = &this->_linkLabelSet;
     data->removeCurrentBlocks();
+    bool stopNest = false;
     bool stopInherit = false;
     while (offset < lineLength) {
         int length = -1;
@@ -50,6 +51,16 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                     if (element->isVirtual) {
                         continue;
                     }
+                }
+                if (stopNest) {
+                    if (element->type() != ParseElementType::TYPE_PARAGRAPH) {
+                        if (!element->isVirtual) {
+                            continue;
+                        }
+                    }
+                }
+                if (!element->isVirtual && !element->nestable()) {
+                    stopNest = true;
                 }
                 element->text = line.substr(offset, length);
                 element->utf8Offset = wordCount[offset];
@@ -112,6 +123,10 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             }
         }
     }
+    this->parseSpan(data);
+}
+
+void DynamicParser::parseSpan(ParseLine* data) {
     this->_prevLineNum = 0;
     this->_nextLineNum = 0;
     if (data->blocks.size() > 0) {
@@ -123,6 +138,8 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
             this->_spanParser.parseElement(elem);
             this->_prevLineNum = this->_spanParser.prevLineNum();
             this->_nextLineNum = this->_spanParser.nextLineNum();
+        } else {
+            data->removeCurrentSpans();
         }
     }
 }

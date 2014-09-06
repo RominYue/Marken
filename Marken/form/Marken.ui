@@ -164,16 +164,9 @@ QTabBar::tab:selected {
     <addaction name="actionReference_Link"/>
     <addaction name="actionLink_Label"/>
    </widget>
-   <widget class="QMenu" name="menuTool">
-    <property name="title">
-     <string>Tool(&amp;T)</string>
-    </property>
-    <addaction name="actionPreview"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuSyntax"/>
-   <addaction name="menuTool"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

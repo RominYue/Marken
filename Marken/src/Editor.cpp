@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QPalette>
+#include "parse_line.h"
+#include "BlockData.h"
 #include "LineNumberArea.h"
 #include "Highlighter.h"
 #include "Setting.h"
@@ -17,14 +19,12 @@ Editor::Editor(QWidget *parent) :
     this->_lineNumberArea = new LineNumberArea(this);
     this->connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     this->connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-    this->connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     this->updateLineNumberAreaWidth(0);
 
     this->updateColorScheme();
     this->_parser = QSharedPointer<DynamicParser>(new DynamicParser());
     this->_highlighter = new Highlighter(this->document());
     this->_highlighter->setParser(this->_parser);
-    this->highlightCurrentLine();
 }
 
 QString Editor::name() const {
@@ -55,7 +55,8 @@ void Editor::loadText() {
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         in.setCodec("UTF-8");
-        this->setPlainText(in.readAll());
+        QString text = in.readAll();
+        this->setPlainText(text);
         file.close();
         this->document()->setModified(false);
     }
@@ -79,8 +80,20 @@ void Editor::saveAs(const QString &path) {
 }
 
 void Editor::saveAsHtml(const QString &path) {
-    Q_UNUSED(path);
-    // TODO
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return;
+    }
+    QString html;
+    QTextBlock block = this->document()->firstBlock();
+    while (block.isValid()) {
+        html += QString::fromUtf8(dynamic_cast<BlockData*>(block.userData())->data()->generateHtml().c_str()) + "\n";
+        block = block.next();
+    }
+    QTextStream fout(&file);
+    fout.setCodec("UTF-8");
+    fout << html;
+    file.close();
 }
 
 void Editor::rehighlight() {
@@ -105,7 +118,7 @@ void Editor::updateColorScheme() {
 }
 
 int Editor::firstVisibleLineNum() const {
-    return this->firstVisibleBlock().blockNumber();
+    return this->firstVisibleBlock().blockNumber() + 1;
 }
 
 int Editor::lineNumberAreaWidth() {
@@ -510,25 +523,6 @@ void Editor::updateLineNumberArea(const QRect &rect, int dy) {
     if (rect.contains(this->viewport()->rect())) {
         this->updateLineNumberAreaWidth(0);
     }
-}
-
-void Editor::highlightCurrentLine() {
-    QList<QTextEdit::ExtraSelection> extraSelections;
-    if (!isReadOnly()) {
-        QTextEdit::ExtraSelection selection;
-        QColor lineColor;
-        if (this->palette().base().color().value() < 128) {
-            lineColor = this->palette().base().color().lighter();
-        } else {
-            lineColor = this->palette().base().color().darker();
-        }
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
-    }
-    setExtraSelections(extraSelections);
 }
 
 void Editor::resizeEvent(QResizeEvent *e) {

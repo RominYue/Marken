@@ -49,9 +49,6 @@ void Marken::initToolbar() {
     toolBarEdit->addAction(this->ui->actionCopy);
     toolBarEdit->addAction(this->ui->actionPaste);
     toolBarEdit->addAction(this->ui->actionCut);
-    QToolBar *toolBarTool = addToolBar(tr("Tool"));
-    toolBarTool->setObjectName("toolBarTool");
-    toolBarTool->addAction(this->ui->actionPreview);
 }
 
 void Marken::modificationChanged(bool) {
@@ -374,6 +371,7 @@ void Marken::on_actionPreference_triggered() {
      dialog.setLayout(new QHBoxLayout());
      dialog.layout()->addWidget(new ColorSchemeForm());
      dialog.exec();
+     this->ui->preview->updateColorScheme();
      for (int i = 0; i < this->ui->tabWidget->count(); ++i) {
          Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(i));
          editor->updateColorScheme();
@@ -508,5 +506,8 @@ void Marken::on_tabWidget_currentChanged(int index) {
     if (index != -1) {
         Editor* editor = dynamic_cast<Editor*>(this->ui->tabWidget->widget(index));
         this->connect(editor, SIGNAL(updateRequest(QRect,int)), this, SLOT(scrollPreview(QRect,int)));
+        this->ui->preview->changePreview(editor);
+    } else {
+        this->ui->preview->changePreview(nullptr);
     }
 }

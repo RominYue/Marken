@@ -32,6 +32,10 @@ bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
     return false;
 }
 
+bool ParseElementQuote::nestable() const {
+    return true;
+}
+
 bool ParseElementQuote::inheritable() const {
     return true;
 }

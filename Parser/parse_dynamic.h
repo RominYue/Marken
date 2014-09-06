@@ -23,6 +23,7 @@ public:
     DynamicParser();
     virtual ~DynamicParser();
     void parseLine(ParseLine* data, string line);
+    void parseSpan(ParseLine* data);
 
     int prevLineNum() const;
     int nextLineNum() const;
