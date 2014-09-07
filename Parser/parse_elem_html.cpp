@@ -158,7 +158,7 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
         }
         ++index;
     }
-    return true;
+    return false;
 }
 
 bool ParseElementHtml::matchToEnd(const string &line, int &index) {

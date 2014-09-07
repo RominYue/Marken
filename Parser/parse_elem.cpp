@@ -43,6 +43,9 @@ string ParseElement::translateAmp(const string& text) const {
         case '&':
             html += "&amp;";
             break;
+        case '"':
+            html += "&quot;";
+            break;
         default:
             html += ch;
             break;

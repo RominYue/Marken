@@ -13,11 +13,15 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
     if (parent->prev() == nullptr) {
         return false;
     }
-    if (parent->prev()->getTypeAt(offset) != ParseElementType::TYPE_PARAGRAPH) {
+    int tempOffset = 0;
+    if (parent->blocks.size() > 0) {
+        tempOffset = (*parent->blocks.rbegin())->offset;
+    }
+    if (parent->prev()->getTypeAt(tempOffset) != ParseElementType::TYPE_PARAGRAPH) {
         return false;
     }
     if (parent->prev()->prev() != nullptr) {
-        if (parent->prev()->prev()->getTypeAt(offset) == ParseElementType::TYPE_PARAGRAPH) {
+        if (parent->prev()->prev()->getTypeAt(tempOffset) == ParseElementType::TYPE_PARAGRAPH) {
             return false;
         }
     }
@@ -27,7 +31,11 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
         if (ch == '=' || ch == '-') {
             for (int i = offset + 1; i < lineLen; ++i) {
                 if (line[i] != ch) {
-                    return false;
+                    for (; i < lineLen; ++i) {
+                        if (line[i] != ' ' && line[i] != '\t') {
+                            return false;
+                        }
+                    }
                 }
             }
             if (ch == '=') {
@@ -36,7 +44,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
                 level = 2;
             }
             this->_isLower = true;
-            int index = parent->prev()->getIndexAt(offset);
+            int index = parent->prev()->getIndexAt(tempOffset);
             auto elem = parent->prev()->blocks[index];
             shared_ptr<ParseElementHeaderSetext> setext(new ParseElementHeaderSetext());
             setext->parent = elem->parent;
