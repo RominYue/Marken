@@ -36,7 +36,7 @@ can <a href="/projects/markdown/syntax.text">see the source for it by adding '.t
 
 
 
-<hr>
+<hr/>
 
 <p><h2 id="overview">Overview</h2></p>
 
@@ -175,7 +175,7 @@ terrible format for writing about HTML syntax, because every single <code>&lt;</
 and <code>&amp;</code> in your example code needs to be escaped.)</p>
 
 
-<hr>
+<hr/>
 
 
 <p><h2 id="block">Block Elements</h2></p>
@@ -537,7 +537,7 @@ following lines will produce a horizontal rule:</p>
 <pre><code>---------------------------------------</code></pre>
 
 
-<hr>
+<hr/>
 
 <p><h2 id="span">Span Elements</h2></p>
 
@@ -832,7 +832,7 @@ dimensions of an image; if this is important to you, you can simply
 use regular HTML <code>&lt;img&gt;</code> tags.</p>
 
 
-<hr>
+<hr/>
 
 
 <p><h2 id="misc">Miscellaneous</h2></p>

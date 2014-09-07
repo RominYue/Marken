@@ -39,7 +39,7 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
     ParseElementFactory factory;
     data->labelSet = &this->_linkLabelSet;
     data->removeCurrentBlocks();
-    bool stopNest = false;
+    bool stopParseList = false;
     bool stopInherit = false;
     while (offset < lineLength) {
         int length = -1;
@@ -52,15 +52,19 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
                         continue;
                     }
                 }
-                if (stopNest) {
-                    if (element->type() != ParseElementType::TYPE_PARAGRAPH) {
+                if (stopParseList) {
+                    if (element->type() == ParseElementType::TYPE_LIST_ORDERED ||
+                        element->type() == ParseElementType::TYPE_LIST_UNORDERED) {
                         if (!element->isVirtual) {
                             continue;
                         }
                     }
                 }
-                if (!element->isVirtual && !element->nestable()) {
-                    stopNest = true;
+                if (element->type() == ParseElementType::TYPE_LIST_ORDERED ||
+                    element->type() == ParseElementType::TYPE_LIST_UNORDERED) {
+                    if (!element->isVirtual) {
+                        stopParseList = true;
+                    }
                 }
                 element->text = line.substr(offset, length);
                 element->utf8Offset = wordCount[offset];

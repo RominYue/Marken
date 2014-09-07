@@ -16,7 +16,7 @@ int main() {
     int totalCaseNum = 0, totalPassedNum = 0;
     double totalTime = 0.0;
     while (fcase >> testCaseName) {
-        string buffer, str1, str2;
+        string buffer;
         cout << testCaseName << "\t\t";
         fstream fin;
         fin.open("test/" + testCaseName + ".in", ios::in | ios::binary);
@@ -40,9 +40,10 @@ int main() {
         bool passed = true;
         ftest.open("test/" + testCaseName + ".test", ios::in);
         fout.open("test/" + testCaseName + ".out", ios::in);
-        while (ftest >> str1) {
-            fout >> str2;
-            if (str1 != str2) {
+        char ch1, ch2;
+        while (ftest >> ch1) {
+            fout >> ch2;
+            if (ch1 != ch2) {
                 passed = false;
                 break;
             }
@@ -53,7 +54,6 @@ int main() {
         totalTime += double(endTime - beginTime);
         if (passed) {
             ++totalPassedNum;
-            cout << "Passed ";
         } else {
             cout << "Failed ";
         }

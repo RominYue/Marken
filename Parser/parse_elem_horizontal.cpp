@@ -10,13 +10,6 @@ ParseElementType ParseElementHorizontal::type() const {
 }
 
 bool ParseElementHorizontal::tryParse(const string &line, int offset, int& length) {
-    int elemLen = parent->blocks.size();
-    for (int i = 0; i < elemLen; ++i) {
-        if (parent->blocks[i]->type() != ParseElementType::TYPE_QUOTE) {
-            auto elem = parent->blocks[i];
-            return false;
-        }
-    }
     int lineLen = line.length();
     if (lineLen > offset) {
         char ch = line[offset];
@@ -39,7 +32,7 @@ bool ParseElementHorizontal::tryParse(const string &line, int offset, int& lengt
 }
 
 string ParseElementHorizontal::generateOpenHtml() const {
-    return "<hr>";
+    return "<hr/>";
 }
 
 string ParseElementHorizontal::generateCloseHtml() const {

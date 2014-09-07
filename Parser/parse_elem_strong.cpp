@@ -28,9 +28,10 @@ int ParseElementStrong::tryParse(const string& text, int offset) {
                                     if (hasText) {
                                         return i + 2 - offset;
                                     }
+                                    return 0;
                                 }
                             }
-                        } else {
+                        } else if (text[i] != ' ' && text[i] != '\t') {
                             hasText = true;
                         }
                     }

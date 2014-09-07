@@ -38,7 +38,7 @@
 <li><a href="#acknowledgement">感谢</a></li>
 <li><a href="#editor">Markdown 免费编辑器</a>
 </li></ul>
-<hr>
+<hr/>
 
 <p><h2 id="overview">概述</h2></p>
 
@@ -123,7 +123,7 @@
 
 <p>不过需要注意的是，code 范围内，不论是行内还是区块， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都<em>一定</em>会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）</p>
 
-<hr>
+<hr/>
 
 <p><h2 id="block">区块元素</h2></p>
 
@@ -419,7 +419,7 @@ end tell
 <pre><code>---------------------------------------</code></pre>
 
 
-<hr>
+<hr/>
 
 <p><h2 id="span">区段元素</h2></p>
 
@@ -656,7 +656,7 @@ equivalent of &lt;code&gt;&amp;amp;mdash;&lt;/code&gt;.&lt;/p&gt;</code></pre>
 
 <p>到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 <code>&lt;img&gt;</code> 标签。</p>
 
-<hr>
+<hr/>
 
 <p><h2 id="misc">其它</h2></p>
 

@@ -10,7 +10,6 @@ public:
 
     virtual bool tryParse(const string &line, int offset, int& length);
 
-    virtual bool nestable() const;
     virtual bool inheritable() const;
 
     bool isVirtual;

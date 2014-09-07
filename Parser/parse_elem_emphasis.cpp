@@ -24,7 +24,8 @@ int ParseElementEmphasis::tryParse(const string& text, int offset) {
                     if (hasText) {
                         return i + 1 - offset;
                     }
-                } else {
+                    return 0;
+                } else if (text[i] != ' ' && text[i] != '\t') {
                     hasText = true;
                 }
             }
