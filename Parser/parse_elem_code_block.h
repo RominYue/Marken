@@ -8,10 +8,14 @@ public:
     ParseElementCodeBlock();
     virtual ParseElementType type() const override final;
 
+    virtual bool inheritable() const override final;
     virtual bool tryParse(const string &line, int offset, int& length) override final;
 
     virtual string generateOpenHtml() const override final;
     virtual string generateCloseHtml() const override final;
+
+private:
+    bool _isEmpty;
 };
 
 #endif // PARSE_ELEM_CODE_BLOCK_H

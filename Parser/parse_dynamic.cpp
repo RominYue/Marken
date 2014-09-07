@@ -46,6 +46,9 @@ void DynamicParser::parseLine(ParseLine* data, string line) {
         for (auto element : this->_blocks) {
             element->parent = data;
             element->offset = offset;
+            if (element->stopParsing(offset)) {
+                continue;
+            }
             if (element->tryParse(line, offset, length)) {
                 if (stopInherit) {
                     if (element->isVirtual) {

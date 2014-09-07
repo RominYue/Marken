@@ -120,7 +120,7 @@ string ParseLine::generateHtml() const {
     return html;
 }
 
-shared_ptr<ParseElement> ParseLine::getElementAt(const int offset) const {
+shared_ptr<ParseElementBlock> ParseLine::getElementAt(const int offset) const {
     for (auto element : this->blocks) {
         if (element->offset == offset) {
             return element;
@@ -149,4 +149,18 @@ int ParseLine::getIndexAt(const int offset) const {
         }
     }
     return -1;
+}
+
+shared_ptr<ParseElementBlock> ParseLine::lastElement() const {
+    if (this->blocks.size() > 0) {
+        return *this->blocks.rbegin();
+    }
+    return nullptr;
+}
+
+ParseElementType ParseLine::lastType() const {
+    if (this->blocks.size() > 0) {
+        return (*this->blocks.rbegin())->type();
+    }
+    return ParseElementType::TYPE_INVALID;
 }

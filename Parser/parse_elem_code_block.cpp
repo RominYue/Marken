@@ -9,9 +9,16 @@ ParseElementType ParseElementCodeBlock::type() const {
     return ParseElementType::TYPE_CODE_BLOCK;
 }
 
+bool ParseElementCodeBlock::inheritable() const {
+    return true;
+}
+
 bool ParseElementCodeBlock::tryParse(const string &line, int offset, int& length) {
     int lastOffset = 0;
     if (parent->prev() != nullptr) {
+        if (parent->prev()->lastType() == ParseElementType::TYPE_PARAGRAPH) {
+            return false;
+        }
         if (parent->prev()->blocks.size() > 0) {
             lastOffset = (*parent->prev()->blocks.rbegin())->offset;
         }
@@ -31,6 +38,13 @@ bool ParseElementCodeBlock::tryParse(const string &line, int offset, int& length
                 return false;
             }
             if (tabCnt == 1 || spaceCnt == 4) {
+                this->_isEmpty = true;
+                for (++index; index < lineLen; ++index) {
+                    if (line[index] != ' ' && line[index] != '\t') {
+                        this->_isEmpty = false;
+                        break;
+                    }
+                }
                 length = lineLen - offset;
                 return true;
             }
@@ -40,11 +54,32 @@ bool ParseElementCodeBlock::tryParse(const string &line, int offset, int& length
 }
 
 string ParseElementCodeBlock::generateOpenHtml() const {
+    if (this->isVirtual) {
+        return "";
+    }
     string html;
-    if (parent->prev() == nullptr) {
-        html += "<pre><code>";
-    } else if (parent->prev()->getTypeAt(offset) != ParseElementType::TYPE_CODE_BLOCK) {
-        html += "<pre><code>";
+    bool isPrevEmpty = true;
+    auto line = parent->prev();
+    while (line != nullptr) {
+        if (line->lastType() == ParseElementType::TYPE_CODE_BLOCK) {
+            auto elem = dynamic_pointer_cast<ParseElementCodeBlock>(line->lastElement());
+            if (!elem->_isEmpty) {
+                isPrevEmpty = false;
+                break;
+            }
+        } else {
+            break;
+        }
+        line = line->prev();
+    }
+    if (this->_isEmpty) {
+        if (isPrevEmpty) {
+            return "";
+        }
+    } else {
+        if (isPrevEmpty) {
+            html += "<pre><code>";
+        }
     }
     int index = 1;
     if (this->text.size() > 0) {
@@ -58,10 +93,31 @@ string ParseElementCodeBlock::generateOpenHtml() const {
 }
 
 string ParseElementCodeBlock::generateCloseHtml() const {
-    if (parent->next() == nullptr) {
-        return "</code></pre>";
-    } else if (parent->next()->getTypeAt(offset) != ParseElementType::TYPE_CODE_BLOCK) {
-        return "</code></pre>";
+    if (this->isVirtual) {
+        return "";
+    }
+    bool isNextEmpty = true;
+    auto line = parent->next();
+    while (line != nullptr) {
+        if (line->lastType() == ParseElementType::TYPE_CODE_BLOCK) {
+            auto elem = dynamic_pointer_cast<ParseElementCodeBlock>(line->lastElement());
+            if (!elem->_isEmpty) {
+                isNextEmpty = false;
+                break;
+            }
+        } else {
+            break;
+        }
+        line = line->next();
+    }
+    if (this->_isEmpty) {
+        if (isNextEmpty) {
+            return "";
+        }
+    } else {
+        if (isNextEmpty) {
+            return "</code></pre>";
+        }
     }
     return "";
 }

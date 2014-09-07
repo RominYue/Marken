@@ -8,6 +8,7 @@ public:
     ParseElementBlock();
     virtual bool isBlockElement() const override final;
 
+    virtual bool stopParsing(int offset) const;
     virtual bool tryParse(const string &line, int offset, int& length);
 
     virtual bool inheritable() const;

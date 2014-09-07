@@ -12,6 +12,10 @@ ParseElementType ParseElementParagraph::type() const {
     return ParseElementType::TYPE_PARAGRAPH;
 }
 
+bool ParseElementParagraph::stopParsing(int offset) const {
+    return false;
+}
+
 bool ParseElementParagraph::tryParse(const string &line, int offset, int& length) {
     this->isVirtual = false;
     if (line[offset] != ' ' && line[offset] != '\t') {

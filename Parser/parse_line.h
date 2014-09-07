@@ -32,9 +32,11 @@ public:
 
     string generateHtml() const;
 
-    shared_ptr<ParseElement> getElementAt(const int offset) const;
+    shared_ptr<ParseElementBlock> getElementAt(const int offset) const;
     ParseElementType getTypeAt(const int offset) const;
     int getIndexAt(const int offset) const;
+    shared_ptr<ParseElementBlock> lastElement() const;
+    ParseElementType lastType() const;
 
     ParseLabelSet* labelSet;
     vector<shared_ptr<ParseElementBlock>> blocks;
