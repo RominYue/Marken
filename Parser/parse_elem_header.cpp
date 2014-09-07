@@ -5,8 +5,8 @@ ParseElementHeader::ParseElementHeader() : ParseElementBlock() {
 }
 
 int ParseElementHeader::getCleanStartIndex() const {
-    int start = 0;
     int len = this->text.size();
+    int start = len;
     for (int i = 0; i < len; ++i) {
         if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
             start = i;
@@ -17,19 +17,17 @@ int ParseElementHeader::getCleanStartIndex() const {
 }
 
 int ParseElementHeader::getCleanEndIndex() const {
-    int end = this->text.size();
+    int end = 0;
     int len = this->text.size();
     for (int i = len - 1; i >= 0; --i) {
         if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
-            if (i > 0 && text[i - 1] == '\\') {
-                if (i > 1 && text[i - 2] != '\\') {
+            if (text[i] == '\\') {
+                if (i > 0 && text[i - 1] == '\\') {
                     end = i + 1;
-                }
-                else {
+                } else {
                     end = i + 2;
                 }
-            }
-            else {
+            } else {
                 end = i + 1;
             }
             break;
@@ -42,7 +40,7 @@ string ParseElementHeader::getCleanedHeader() const {
     int start = this->getCleanStartIndex();
     int end = this->getCleanEndIndex();
     if (start < end) {
-        return this->translateAmp(text.substr(start, end - start));
+        return text.substr(start, end - start);
     }
     return "";
 }
