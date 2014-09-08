@@ -25,7 +25,7 @@ int ParseElementEmphasis::tryParse(const string& text, int offset) {
                         return i + 1 - offset;
                     }
                     return 0;
-                } else if (text[i] != ' ' && text[i] != '\t') {
+                } else if (!isspace(text[i])) {
                     hasText = true;
                 }
             }

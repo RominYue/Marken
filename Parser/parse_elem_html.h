@@ -26,6 +26,7 @@ protected:
     string _tag;
     bool findOpenTagOffset(const string &line, int &index);
     bool findCloseTagOffset(const string &line, int &index);
+    bool matchToTagEnd(const string &line, int &index);
     bool matchToGt(const string &line, int &index);
     bool matchToEnd(const string &line, int &index);
 };

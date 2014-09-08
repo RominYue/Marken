@@ -33,7 +33,7 @@ bool ParseElementHtml::findOpenTagOffset(const string &line, int &index) {
             }
             break;
         case STATUS_LT:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 status = STATUS_LT;
             } else if (isalpha(ch)) {
                 status = STATUS_TAG;
@@ -64,7 +64,7 @@ bool ParseElementHtml::findCloseTagOffset(const string &line, int &index) {
             }
             break;
         case STATUS_LT:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 status = STATUS_LT;
             } else if (ch == '/') {
                 status = STATUS_SLASH;
@@ -73,7 +73,7 @@ bool ParseElementHtml::findCloseTagOffset(const string &line, int &index) {
             }
             break;
         case STATUS_SLASH:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 status = STATUS_SLASH;
             } else if (isalpha(ch)) {
                 status = STATUS_TAG;
@@ -90,6 +90,19 @@ bool ParseElementHtml::findCloseTagOffset(const string &line, int &index) {
     return false;
 }
 
+bool ParseElementHtml::matchToTagEnd(const string &line, int &index) {
+    int length = line.length();
+    int start = index, end = length;
+    for (int i = index; i < length; ++i) {
+        if (isspace(line[i]) || line[i] == '>' || line[i] == '/') {
+            end = i;
+            break;
+        }
+    }
+    this->setTag(line.substr(start, end - start));
+    return true;
+}
+
 bool ParseElementHtml::matchToGt(const string &line, int &index) {
     Status status = STATUS_TAG;
     int lineLength = line.length();
@@ -99,7 +112,7 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
         char ch = line[index];
         switch (status) {
         case STATUS_TAG:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 status = STATUS_SPACE_SUF;
                 if (first) {
                     tagEnd = index;
@@ -120,7 +133,7 @@ bool ParseElementHtml::matchToGt(const string &line, int &index) {
             }
             break;
         case STATUS_SPACE_SUF:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 status = STATUS_SPACE_SUF;
             } else if (ch == '>') {
                 status = STATUS_GT;
@@ -165,7 +178,7 @@ bool ParseElementHtml::matchToEnd(const string &line, int &index) {
     int lineLength = line.length();
     while (index < lineLength) {
         char ch = line[index];
-        if (ch != ' ' && ch != '\t') {
+        if (!isspace(ch)) {
             return false;
         }
     }

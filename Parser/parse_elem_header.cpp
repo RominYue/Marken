@@ -8,7 +8,7 @@ int ParseElementHeader::getCleanStartIndex() const {
     int len = this->text.size();
     int start = len;
     for (int i = 0; i < len; ++i) {
-        if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
+        if (!isspace(text[i]) && text[i] != '#') {
             start = i;
             break;
         }
@@ -20,7 +20,7 @@ int ParseElementHeader::getCleanEndIndex() const {
     int end = 0;
     int len = this->text.size();
     for (int i = len - 1; i >= 0; --i) {
-        if (text[i] != ' ' && text[i] != '\t' && text[i] != '#') {
+        if (!isspace(text[i]) && text[i] != '#') {
             if (text[i] == '\\') {
                 if (i > 0 && text[i - 1] == '\\') {
                     end = i + 1;

@@ -40,7 +40,7 @@ bool ParseElementCodeBlock::tryParse(const string &line, int offset, int& length
             if (tabCnt == 1 || spaceCnt == 4) {
                 this->_isEmpty = true;
                 for (++index; index < lineLen; ++index) {
-                    if (line[index] != ' ' && line[index] != '\t') {
+                    if (!isspace(line[index])) {
                         this->_isEmpty = false;
                         break;
                     }

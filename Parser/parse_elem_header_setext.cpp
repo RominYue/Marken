@@ -32,7 +32,7 @@ bool ParseElementHeaderSetext::tryParse(const string &line, int offset, int& len
             for (int i = offset + 1; i < lineLen; ++i) {
                 if (line[i] != ch) {
                     for (; i < lineLen; ++i) {
-                        if (line[i] != ' ' && line[i] != '\t') {
+                        if (!isspace(line[i])) {
                             return false;
                         }
                     }

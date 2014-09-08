@@ -19,4 +19,4 @@ Debug
 Release
 
 # Test case output
-Parser/test/*.test
+*.test

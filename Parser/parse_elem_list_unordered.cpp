@@ -12,7 +12,7 @@ ParseElementType ParseElementListUnordered::type() const {
 bool ParseElementListUnordered::tryParse(const string &line, int offset, int& length) {
     int lineLen = line.length();
     if (lineLen > offset) {
-        if (line[offset] == ' ' || line[offset] == '\t') {
+        if (isspace(line[offset])) {
             if (parent->prev() == nullptr) {
                 return false;
             }

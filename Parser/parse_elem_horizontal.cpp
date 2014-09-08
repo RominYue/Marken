@@ -18,7 +18,7 @@ bool ParseElementHorizontal::tryParse(const string &line, int offset, int& lengt
             for (int index = offset + 1; index < lineLen; ++index) {
                 if (line[index] == ch) {
                     ++num;
-                } else if (line[index] != ' ' && line[index] != '\t') {
+                } else if (!isspace(line[index])) {
                     return false;
                 }
             }

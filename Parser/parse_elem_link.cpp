@@ -66,14 +66,14 @@ string ParseElementLink::getCleanedLink(const string& link) const {
     int len = link.length();
     int start = 0;
     for (int i = 0; i < len; ++i) {
-        if (link[i] != ' ' && link[i] != '\t') {
+        if (!isspace(link[i])) {
             start = i;
             break;
         }
     }
     int end = len - 1;
     for (int i = len - 1; i >= 0; --i) {
-        if (link[i] != ' ' && link[i] != '\t') {
+        if (!isspace(link[i])) {
             end = i;
             break;
         }
@@ -91,14 +91,14 @@ string ParseElementLink::getCleanedTitle(const string& title) const {
     int len = title.length();
     int start = 0;
     for (int i = 0; i < len; ++i) {
-        if (title[i] != ' ' && title[i] != '\t') {
+        if (!isspace(title[i])) {
             start = i;
             break;
         }
     }
     int end = len - 1;
     for (int i = len - 1; i >= 0; --i) {
-        if (title[i] != ' ' && title[i] != '\t') {
+        if (!isspace(title[i])) {
             end = i;
             break;
         }
@@ -116,14 +116,14 @@ string ParseElementLink::getCleanedLabel(const string& label) const {
     int len = label.length();
     int start = 0;
     for (int i = 0; i < len; ++i) {
-        if (label[i] != ' ' && label[i] != '\t') {
+        if (!isspace(label[i])) {
             start = i;
             break;
         }
     }
     int end = len - 1;
     for (int i = len - 1; i >= 0; --i) {
-        if (label[i] != ' ' && label[i] != '\t') {
+        if (!isspace(label[i])) {
             end = i;
             break;
         }

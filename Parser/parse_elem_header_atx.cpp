@@ -15,7 +15,7 @@ bool ParseElementHeaderAtx::tryParse(const string &line, int offset, int& length
         if (line[i] == '#') {
             ++hashNum;
         } else {
-            if (line[i] != ' ' && line[i] != '\t') {
+            if (!isspace(line[i])) {
                 return false;
             }
             break;

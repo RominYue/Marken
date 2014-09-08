@@ -12,7 +12,6 @@ public:
     virtual ParseElementType type() const;
 
     virtual bool tryParse(const string &line, int offset, int& length) override;
-    virtual bool inheritable() const override final;
     virtual string generateOpenHtml() const override final;
 };
 

@@ -18,7 +18,7 @@ bool ParseElementParagraph::stopParsing(int offset) const {
 
 bool ParseElementParagraph::tryParse(const string &line, int offset, int& length) {
     this->isVirtual = false;
-    if (line[offset] != ' ' && line[offset] != '\t') {
+    if (!isspace(line[offset])) {
         if (parent->prev() != nullptr) {
             if (parent->prev()->blocks.size() > 0) {
                 auto lastElem = (*parent->prev()->blocks.rbegin());

@@ -27,7 +27,7 @@ bool ParseElementCodeFence::tryParse(const string &line, int offset, int& length
                     if (line[i] == prevFence->_fenceChar) {
                         first = i;
                         break;
-                    } else if (line[i] != ' ' && line[i] != '\t') {
+                    } else if (!isspace(line[i])) {
                         break;
                     }
                 }
@@ -41,7 +41,7 @@ bool ParseElementCodeFence::tryParse(const string &line, int offset, int& length
                     if (num >= prevFence->_fenceLen) {
                         bool clean = true;
                         for (int i = first + num; i < lineLen; ++i) {
-                            if (line[i] != ' ' && line[i] != '\t') {
+                            if (!isspace(line[i])) {
                                 clean = false;
                                 break;
                             }
@@ -95,14 +95,14 @@ bool ParseElementCodeFence::tryParse(const string &line, int offset, int& length
             this->_language = "";
             int start = offset + this->_fenceLen;
             for (; start < lineLen; ++start) {
-                if (line[start] != ' ' && line[start] != '\t') {
+                if (!isspace(line[start])) {
                     break;
                 }
             }
             if (start != lineLen) {
                 int end = lineLen;
                 for (int i = start; i < lineLen; ++i) {
-                    if (line[i] == ' ' || line[i] == '\t') {
+                    if (isspace(line[i])) {
                         end = i;
                         break;
                     }

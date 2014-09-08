@@ -18,20 +18,20 @@ bool ParseElementLinkLabel::tryParse(const string &line, int offset, int& length
         if (index < lineLen) {
             if (line[index] == ':') {
                 for (++index; index < lineLen; ++index) {
-                    if (line[index] != ' ' && line[index] != '\t') {
+                    if (!isspace(line[index])) {
                         break;
                     }
                 }
                 if (index < lineLen) {
                     int start = index;
                     for (++index; index < lineLen; ++index) {
-                        if (line[index] == ' ' || line[index] == '\t') {
+                        if (isspace(line[index])) {
                             break;
                         }
                     }
                     this->link = this->getCleanedLink(line.substr(start, index - start));
                     for (++index; index < lineLen; ++index) {
-                        if (line[index] != ' ' && line[index] != '\t') {
+                        if (!isspace(line[index])) {
                             break;
                         }
                     }
@@ -59,7 +59,7 @@ bool ParseElementLinkLabel::tryParse(const string &line, int offset, int& length
             return false;
         }
         if (elem->type() == ParseElementType::TYPE_LINK_LABEL) {
-            if (text[offset] != ' ' && text[offset] != '\t') {
+            if (!isspace(text[offset])) {
                 auto linkLabel = dynamic_pointer_cast<ParseElementLinkLabel>(elem);
                 length = lineLen - offset;
                 this->label = linkLabel->label;

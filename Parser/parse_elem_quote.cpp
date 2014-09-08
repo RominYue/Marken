@@ -12,7 +12,7 @@ ParseElementType ParseElementQuote::type() const {
 bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
     int lineLen = line.length();
     if (lineLen > offset) {
-        if (line[offset] == ' ' || line[offset] == '\t') {
+        if (isspace(line[offset])) {
             if (parent->prev() == nullptr) {
                 return false;
             }
@@ -22,7 +22,7 @@ bool ParseElementQuote::tryParse(const string &line, int offset, int& length) {
                 return true;
             }
         } else if (line[offset] == '>') {
-            if (offset + 1 == lineLen || line[offset + 1] == ' ' || line[offset + 1] == '\t') {
+            if (offset + 1 == lineLen || isspace(line[offset + 1])) {
                 this->isVirtual = false;
                 length = 1;
                 return true;

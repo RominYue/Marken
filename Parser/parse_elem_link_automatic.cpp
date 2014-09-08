@@ -50,14 +50,14 @@ bool ParseElementLinkAutomatic::isEmail() const {
         case STATUS_TEXT1:
             if (ch == '@') {
                 status = STATUS_AT;
-            } else if (ch == ' ' || ch == '\t') {
+            } else if (isspace(ch)) {
                 return false;
             } else if (ch < 0) {
                 return false;
             }
             break;
         case STATUS_AT:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 return false;
             } else if (ch > 0) {
                 status = STATUS_TEXT2;
@@ -68,14 +68,14 @@ bool ParseElementLinkAutomatic::isEmail() const {
         case STATUS_TEXT2:
             if (ch == '.') {
                 status = STATUS_DOT;
-            } else if (ch == ' ' || ch == '\t') {
+            } else if (isspace(ch)) {
                 return false;
             } else if (ch < 0) {
                 return false;
             }
             break;
         case STATUS_DOT:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 return false;
             } else if (ch > 0) {
                 status = STATUS_TEXT3;
@@ -84,7 +84,7 @@ bool ParseElementLinkAutomatic::isEmail() const {
             }
             break;
         case STATUS_TEXT3:
-            if (ch == ' ' || ch == '\t') {
+            if (isspace(ch)) {
                 return false;
             } else if (ch < 0) {
                 return false;
