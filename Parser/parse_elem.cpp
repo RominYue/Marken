@@ -43,8 +43,9 @@ string ParseElement::removeSideSpaces(const string& text) const {
 }
 
 string ParseElement::translateAmp(const string& text) const {
-    int len = text.length();
     string html;
+    int len = text.length();
+    int tab = 0;
     for (int i = 0; i < len; ++i) {
         char ch = text[i];
         switch (ch) {
@@ -60,9 +61,27 @@ string ParseElement::translateAmp(const string& text) const {
         case '"':
             html += "&quot;";
             break;
+        case '\t':
+            if (tab == 0) {
+                html += "    ";
+            } else {
+                for (int j = 0; j < 4 - tab; ++j) {
+                    html += " ";
+                }
+            }
+            tab = 0;
+            break;
         default:
             html += ch;
             break;
+        }
+        if (ch != '\t') {
+            if (((ch & 0x80) == 0) || ((ch & 0xC0) == 0xC0)) {
+                tab += 1;
+                if (tab == 4) {
+                    tab = 0;
+                }
+            }
         }
     }
     return html;

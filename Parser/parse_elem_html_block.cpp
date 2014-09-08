@@ -6,14 +6,56 @@ static set<string> _acceptTags;
 
 ParseElementHtmlBlock::ParseElementHtmlBlock() : ParseElementBlock() {
     if (_acceptTags.size() == 0) {
-        _acceptTags = {"article", "header", "aside", "hgroup", "blockquote",
-                       "hr", "iframe", "body", "li", "map", "button", "object",
-                       "canvas", "ol", "caption", "output", "col", "p",
-                       "colgroup", "pre", "dd", "progress", "div", "section",
-                       "dl", "table", "td", "dt", "tbody", "embed", "textarea",
-                       "fieldset", "tfoot", "figcaption", "th", "figure",
-                       "thead", "footer", "tr", "form", "ul", "h1", "h2", "h3",
-                       "h4", "h5", "h6", "video", "script", "style"};
+        _acceptTags.insert("article");
+        _acceptTags.insert("header");
+        _acceptTags.insert("aside");
+        _acceptTags.insert("hgroup");
+        _acceptTags.insert("blockquote");
+        _acceptTags.insert("hr");
+        _acceptTags.insert("iframe");
+        _acceptTags.insert("body");
+        _acceptTags.insert("li");
+        _acceptTags.insert("map");
+        _acceptTags.insert("button");
+        _acceptTags.insert("object");
+        _acceptTags.insert("canvas");
+        _acceptTags.insert("ol");
+        _acceptTags.insert("caption");
+        _acceptTags.insert("output");
+        _acceptTags.insert("col");
+        _acceptTags.insert("p");
+        _acceptTags.insert("colgroup");
+        _acceptTags.insert("pre");
+        _acceptTags.insert("dd");
+        _acceptTags.insert("progress");
+        _acceptTags.insert("div");
+        _acceptTags.insert("section");
+        _acceptTags.insert("dl");
+        _acceptTags.insert("table");
+        _acceptTags.insert("td");
+        _acceptTags.insert("dt");
+        _acceptTags.insert("tbody");
+        _acceptTags.insert("embed");
+        _acceptTags.insert("textarea");
+        _acceptTags.insert("fieldset");
+        _acceptTags.insert("tfoot");
+        _acceptTags.insert("figcaption");
+        _acceptTags.insert("th");
+        _acceptTags.insert("figure");
+        _acceptTags.insert("thead");
+        _acceptTags.insert("footer");
+        _acceptTags.insert("tr");
+        _acceptTags.insert("form");
+        _acceptTags.insert("ul");
+        _acceptTags.insert("h1");
+        _acceptTags.insert("h2");
+        _acceptTags.insert("h3");
+        _acceptTags.insert("h4");
+        _acceptTags.insert("h5");
+        _acceptTags.insert("h6");
+        _acceptTags.insert("video");
+        _acceptTags.insert("script");
+        _acceptTags.insert("style");
     }
 }
 
