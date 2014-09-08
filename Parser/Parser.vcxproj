@@ -1,154 +1,227 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{672CDD48-7699-4135-8A91-39F5967DAE88}</ProjectGuid>
+    <ProjectGuid>{FECDBB6B-82A6-35CA-B721-BEA1793BD1E0}</ProjectGuid>
     <RootNamespace>Parser</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolSet>v120</PlatformToolSet>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>Parser</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolSet>v120</PlatformToolSet>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>Parser</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Parser</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Parser</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>"include";"include\common";"include\block";"include\span";"include\parser";"C:\qt\5.3\msvc2013\include";"C:\qt\5.3\msvc2013\include\QtCore";"release";C:\qt\5.3\msvc2013\mkspecs\win32-msvc2013;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_NO_DEBUG;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\qt\5.3\msvc2013\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\Parser.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_NO_DEBUG;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>"include";"include\common";"include\block";"include\span";"include\parser";"C:\qt\5.3\msvc2013\include";"C:\qt\5.3\msvc2013\include\QtCore";"debug";C:\qt\5.3\msvc2013\mkspecs\win32-msvc2013;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\qt\5.3\msvc2013\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\Parser.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\parser\DynamicParser.cpp" />
+    <ClCompile Include="src\common\ParseElement.cpp" />
+    <ClCompile Include="src\span\ParseElementAmp.cpp" />
+    <ClCompile Include="src\block\ParseElementBlock.cpp" />
+    <ClCompile Include="src\block\ParseElementCodeBlock.cpp" />
+    <ClCompile Include="src\block\ParseElementCodeFence.cpp" />
+    <ClCompile Include="src\span\ParseElementCodeInline.cpp" />
+    <ClCompile Include="src\span\ParseElementEmphasis.cpp" />
+    <ClCompile Include="src\span\ParseElementEmpty.cpp" />
+    <ClCompile Include="src\span\ParseElementEscape.cpp" />
+    <ClCompile Include="src\common\ParseElementFactory.cpp" />
+    <ClCompile Include="src\block\ParseElementHeader.cpp" />
+    <ClCompile Include="src\block\ParseElementHeaderAtx.cpp" />
+    <ClCompile Include="src\block\ParseElementHeaderSetext.cpp" />
+    <ClCompile Include="src\block\ParseElementHorizontal.cpp" />
+    <ClCompile Include="src\common\ParseElementHtml.cpp" />
+    <ClCompile Include="src\block\ParseElementHtmlBlock.cpp" />
+    <ClCompile Include="src\span\ParseElementHtmlInline.cpp" />
+    <ClCompile Include="src\span\ParseElementImage.cpp" />
+    <ClCompile Include="src\span\ParseElementImageInline.cpp" />
+    <ClCompile Include="src\span\ParseElementImageReference.cpp" />
+    <ClCompile Include="src\common\ParseElementLink.cpp" />
+    <ClCompile Include="src\span\ParseElementLinkAutomatic.cpp" />
+    <ClCompile Include="src\span\ParseElementLinkInline.cpp" />
+    <ClCompile Include="src\block\ParseElementLinkLabel.cpp" />
+    <ClCompile Include="src\span\ParseElementLinkReference.cpp" />
+    <ClCompile Include="src\block\ParseElementList.cpp" />
+    <ClCompile Include="src\block\ParseElementListOrdered.cpp" />
+    <ClCompile Include="src\block\ParseElementListUnordered.cpp" />
+    <ClCompile Include="src\block\ParseElementParagraph.cpp" />
+    <ClCompile Include="src\span\ParseElementPlain.cpp" />
+    <ClCompile Include="src\block\ParseElementQuote.cpp" />
+    <ClCompile Include="src\span\ParseElementSpan.cpp" />
+    <ClCompile Include="src\span\ParseElementStrong.cpp" />
+    <ClCompile Include="src\common\ParseLabelSet.cpp" />
+    <ClCompile Include="src\common\ParseLineData.cpp" />
+    <ClCompile Include="src\parser\SpanParser.cpp" />
+    <ClCompile Include="src\parser\StaticParser.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="parse.cpp" />
-    <ClCompile Include="parse_dynamic.cpp" />
-    <ClCompile Include="parse_elem.cpp" />
-    <ClCompile Include="parse_elem_amp.cpp" />
-    <ClCompile Include="parse_elem_block.cpp" />
-    <ClCompile Include="parse_elem_code_block.cpp" />
-    <ClCompile Include="parse_elem_code_fence.cpp" />
-    <ClCompile Include="parse_elem_code_inline.cpp" />
-    <ClCompile Include="parse_elem_emphasis.cpp" />
-    <ClCompile Include="parse_elem_empty.cpp" />
-    <ClCompile Include="parse_elem_escape.cpp" />
-    <ClCompile Include="parse_elem_factory.cpp" />
-    <ClCompile Include="parse_elem_header.cpp" />
-    <ClCompile Include="parse_elem_header_atx.cpp" />
-    <ClCompile Include="parse_elem_header_setext.cpp" />
-    <ClCompile Include="parse_elem_horizontal.cpp" />
-    <ClCompile Include="parse_elem_html.cpp" />
-    <ClCompile Include="parse_elem_html_block.cpp" />
-    <ClCompile Include="parse_elem_html_inline.cpp" />
-    <ClCompile Include="parse_elem_image.cpp" />
-    <ClCompile Include="parse_elem_image_inline.cpp" />
-    <ClCompile Include="parse_elem_image_reference.cpp" />
-    <ClCompile Include="parse_elem_link.cpp" />
-    <ClCompile Include="parse_elem_link_automatic.cpp" />
-    <ClCompile Include="parse_elem_link_inline.cpp" />
-    <ClCompile Include="parse_elem_link_label.cpp" />
-    <ClCompile Include="parse_elem_link_reference.cpp" />
-    <ClCompile Include="parse_elem_list.cpp" />
-    <ClCompile Include="parse_elem_list_ordered.cpp" />
-    <ClCompile Include="parse_elem_list_unordered.cpp" />
-    <ClCompile Include="parse_elem_paragraph.cpp" />
-    <ClCompile Include="parse_elem_plain.cpp" />
-    <ClCompile Include="parse_elem_quote.cpp" />
-    <ClCompile Include="parse_elem_span.cpp" />
-    <ClCompile Include="parse_elem_strong.cpp" />
-    <ClCompile Include="parse_label_set.cpp" />
-    <ClCompile Include="parse_line.cpp" />
-    <ClCompile Include="parse_span.cpp" />
-    <ClCompile Include="parse_static.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="parse.h" />
-    <ClInclude Include="parse_dynamic.h" />
-    <ClInclude Include="parse_elem.h" />
-    <ClInclude Include="parse_elem_amp.h" />
-    <ClInclude Include="parse_elem_block.h" />
-    <ClInclude Include="parse_elem_code_block.h" />
-    <ClInclude Include="parse_elem_code_fence.h" />
-    <ClInclude Include="parse_elem_code_inline.h" />
-    <ClInclude Include="parse_elem_emphasis.h" />
-    <ClInclude Include="parse_elem_empty.h" />
-    <ClInclude Include="parse_elem_escape.h" />
-    <ClInclude Include="parse_elem_factory.h" />
-    <ClInclude Include="parse_elem_header.h" />
-    <ClInclude Include="parse_elem_header_atx.h" />
-    <ClInclude Include="parse_elem_header_setext.h" />
-    <ClInclude Include="parse_elem_horizontal.h" />
-    <ClInclude Include="parse_elem_html.h" />
-    <ClInclude Include="parse_elem_html_block.h" />
-    <ClInclude Include="parse_elem_html_inline.h" />
-    <ClInclude Include="parse_elem_image.h" />
-    <ClInclude Include="parse_elem_image_inline.h" />
-    <ClInclude Include="parse_elem_image_reference.h" />
-    <ClInclude Include="parse_elem_link.h" />
-    <ClInclude Include="parse_elem_link_automatic.h" />
-    <ClInclude Include="parse_elem_link_inline.h" />
-    <ClInclude Include="parse_elem_link_label.h" />
-    <ClInclude Include="parse_elem_link_reference.h" />
-    <ClInclude Include="parse_elem_list.h" />
-    <ClInclude Include="parse_elem_list_ordered.h" />
-    <ClInclude Include="parse_elem_list_unordered.h" />
-    <ClInclude Include="parse_elem_paragraph.h" />
-    <ClInclude Include="parse_elem_plain.h" />
-    <ClInclude Include="parse_elem_quote.h" />
-    <ClInclude Include="parse_elem_span.h" />
-    <ClInclude Include="parse_elem_strong.h" />
-    <ClInclude Include="parse_elem_type.h" />
-    <ClInclude Include="parse_label_set.h" />
-    <ClInclude Include="parse_line.h" />
-    <ClInclude Include="parse_span.h" />
-    <ClInclude Include="parse_static.h" />
+    <ClInclude Include="include\parser\DynamicParser.h" />
+    <ClInclude Include="include\common\ParseElement.h" />
+    <ClInclude Include="include\span\ParseElementAmp.h" />
+    <ClInclude Include="include\block\ParseElementBlock.h" />
+    <ClInclude Include="include\block\ParseElementCodeBlock.h" />
+    <ClInclude Include="include\block\ParseElementCodeFence.h" />
+    <ClInclude Include="include\span\ParseElementCodeInline.h" />
+    <ClInclude Include="include\span\ParseElementEmphasis.h" />
+    <ClInclude Include="include\span\ParseElementEmpty.h" />
+    <ClInclude Include="include\span\ParseElementEscape.h" />
+    <ClInclude Include="include\common\ParseElementFactory.h" />
+    <ClInclude Include="include\block\ParseElementHeader.h" />
+    <ClInclude Include="include\block\ParseElementHeaderAtx.h" />
+    <ClInclude Include="include\block\ParseElementHeaderSetext.h" />
+    <ClInclude Include="include\block\ParseElementHorizontal.h" />
+    <ClInclude Include="include\common\ParseElementHtml.h" />
+    <ClInclude Include="include\block\ParseElementHtmlBlock.h" />
+    <ClInclude Include="include\span\ParseElementHtmlInline.h" />
+    <ClInclude Include="include\span\ParseElementImage.h" />
+    <ClInclude Include="include\span\ParseElementImageInline.h" />
+    <ClInclude Include="include\span\ParseElementImageReference.h" />
+    <ClInclude Include="include\common\ParseElementLink.h" />
+    <ClInclude Include="include\span\ParseElementLinkAutomatic.h" />
+    <ClInclude Include="include\span\ParseElementLinkInline.h" />
+    <ClInclude Include="include\block\ParseElementLinkLabel.h" />
+    <ClInclude Include="include\span\ParseElementLinkReference.h" />
+    <ClInclude Include="include\block\ParseElementList.h" />
+    <ClInclude Include="include\block\ParseElementListOrdered.h" />
+    <ClInclude Include="include\block\ParseElementListUnordered.h" />
+    <ClInclude Include="include\block\ParseElementParagraph.h" />
+    <ClInclude Include="include\span\ParseElementPlain.h" />
+    <ClInclude Include="include\block\ParseElementQuote.h" />
+    <ClInclude Include="include\span\ParseElementSpan.h" />
+    <ClInclude Include="include\span\ParseElementStrong.h" />
+    <ClInclude Include="include\common\ParseElementType.h" />
+    <ClInclude Include="include\common\ParseLabelSet.h" />
+    <ClInclude Include="include\common\ParseLineData.h" />
+    <ClInclude Include="include\parser\SpanParser.h" />
+    <ClInclude Include="include\parser\StaticParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" Qt5Version_x0020_Win32="Qt 5.3" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

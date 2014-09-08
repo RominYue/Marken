@@ -1,80 +1,49 @@
-#include <ctime>
-#include <string>
-#include <vector>
-#include <fstream>
+#include <cstdio>
 #include <iostream>
-#include "parse_static.h"
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+#include <QDebug>
+#include "StaticParser.h"
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cout.precision(3);
-    fstream fcase;
-    fcase.open("test/cases", ios::in);
-    string testCaseName;
     StaticParser parser;
-    int totalCaseNum = 0, totalPassedNum = 0;
-    double totalTime = 0.0;
-    while (fcase >> testCaseName) {
-        string buffer;
-        cout << testCaseName << "\t\t";
-        fstream fin;
-        fin.open("test/" + testCaseName + ".in", ios::in | ios::binary);
-        vector<string> in;
-        while (getline(fin, buffer)) {
-            in.push_back(buffer);
+    for (qint32 i = 1; i <= 100; ++i) {
+        QString fileName = QString("test/common/%1").arg(i);
+        parser.ParserToFile(fileName + ".in", fileName + ".test");
+        QString html1, html2;
+        QFile fileOut(fileName + ".out");
+        if (!fileOut.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            break;
         }
-        fin.close();
-
-        fstream ftest;
-        ftest.open("test/" + testCaseName + ".test", ios::out | ios::binary);
-        clock_t beginTime = clock();
-        vector<string> test = parser.parseToHtmlList(in);
-        clock_t endTime = clock();
-        for (auto line : test) {
-            ftest << line << '\n';
+        QTextStream fout(&fileOut);
+        fout.setCodec("UTF-8");
+        while (!fout.atEnd()) {
+            html1 += fout.readLine();
         }
-        ftest.close();
-
-        fstream fout;
-        bool passed = true;
-        ftest.open("test/" + testCaseName + ".test", ios::in);
-        fout.open("test/" + testCaseName + ".out", ios::in);
-        string result1, result2;
-        while (getline(ftest, buffer)) {
-            result1 += buffer;
+        fileOut.close();
+        QFile fileTest(fileName + ".test");
+        if (!fileTest.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            break;
         }
-        ftest.close();
-        while (getline(fout, buffer)) {
-            result2 += buffer;
+        QTextStream ftest(&fileTest);
+        ftest.setCodec("UTF-8");
+        while (!ftest.atEnd()) {
+            html2 += ftest.readLine();
         }
-        fout.close();
-        if (result1 != result2) {
-            passed = false;
-        }
-
-        ++totalCaseNum;
-        double elapsedSecs = double(endTime - beginTime) / CLOCKS_PER_SEC;
-        totalTime += double(endTime - beginTime);
-        if (passed) {
-            ++totalPassedNum;
+        fileTest.close();
+        if (html1 != html2) {
+            cout << "FAILED " + string(fileName.toLatin1().data()) << endl;
+            cout << "Expect: " << endl;
+            cout << string(html1.toLatin1().data()) << endl;
+            cout << "Actual: " << endl;
+            cout << string(html2.toLatin1().data()) << endl;
+            break;
         } else {
-            cout << "Failed ";
+            cout << "PASSED " + string(fileName.toLatin1().data()) << endl;
         }
-        cout << fixed << elapsedSecs << endl;
     }
-    fcase.close();
-    for (int i = 0; i < 79; ++i) {
-        cout << '=';
-    }
-    cout << endl;
-    if (totalPassedNum == totalCaseNum) {
-        cout << "All " << totalCaseNum << " test cases passed." << endl;
-    } else {
-        cout << "Total: " << totalCaseNum << endl;
-        cout << "Passed: " << totalPassedNum << endl;
-        cout << "Failed: " << totalCaseNum - totalPassedNum << endl;
-    }
-    cout << "Total Seconds: " << fixed << (totalTime / CLOCKS_PER_SEC) << endl;
+    getchar();
     return 0;
 }
