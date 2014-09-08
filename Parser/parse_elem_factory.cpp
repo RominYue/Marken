@@ -2,6 +2,7 @@
 #include "parse_elem_block.h"
 #include "parse_elem_html_block.h"
 #include "parse_elem_code_block.h"
+#include "parse_elem_code_fence.h"
 #include "parse_elem_header_atx.h"
 #include "parse_elem_header_setext.h"
 #include "parse_elem_horizontal.h"
@@ -34,6 +35,9 @@ shared_ptr<ParseElement> ParseElementFactory::copy(const shared_ptr<ParseElement
         break;
     case ParseElementType::TYPE_CODE_BLOCK:
         newElement = new ParseElementCodeBlock(*dynamic_pointer_cast<ParseElementCodeBlock>(element));
+        break;
+    case ParseElementType::TYPE_CODE_FENCE:
+        newElement = new ParseElementCodeFence(*dynamic_pointer_cast<ParseElementCodeFence>(element));
         break;
     case ParseElementType::TYPE_HEADER_ATX:
         newElement = new ParseElementHeaderAtx(*dynamic_pointer_cast<ParseElementHeaderAtx>(element));

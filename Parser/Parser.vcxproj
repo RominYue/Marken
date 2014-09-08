@@ -72,6 +72,7 @@
     <ClCompile Include="parse_elem_amp.cpp" />
     <ClCompile Include="parse_elem_block.cpp" />
     <ClCompile Include="parse_elem_code_block.cpp" />
+    <ClCompile Include="parse_elem_code_fence.cpp" />
     <ClCompile Include="parse_elem_code_inline.cpp" />
     <ClCompile Include="parse_elem_emphasis.cpp" />
     <ClCompile Include="parse_elem_empty.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="parse_elem_amp.h" />
     <ClInclude Include="parse_elem_block.h" />
     <ClInclude Include="parse_elem_code_block.h" />
+    <ClInclude Include="parse_elem_code_fence.h" />
     <ClInclude Include="parse_elem_code_inline.h" />
     <ClInclude Include="parse_elem_emphasis.h" />
     <ClInclude Include="parse_elem_empty.h" />

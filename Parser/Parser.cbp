@@ -76,6 +76,12 @@
 		<Unit filename="parse_elem_code_block.h">
 			<Option virtualFolder="Elements/Block/" />
 		</Unit>
+		<Unit filename="parse_elem_code_fence.cpp">
+			<Option virtualFolder="Elements/Block/" />
+		</Unit>
+		<Unit filename="parse_elem_code_fence.h">
+			<Option virtualFolder="Elements/Block/" />
+		</Unit>
 		<Unit filename="parse_elem_code_inline.cpp">
 			<Option virtualFolder="Elements/Span/" />
 		</Unit>

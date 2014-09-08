@@ -2,6 +2,7 @@
 #include "parse_elem_empty.h"
 #include "parse_elem_html_block.h"
 #include "parse_elem_code_block.h"
+#include "parse_elem_code_fence.h"
 #include "parse_elem_header_atx.h"
 #include "parse_elem_header_setext.h"
 #include "parse_elem_horizontal.h"
@@ -18,6 +19,7 @@ using namespace std;
 
 DynamicParser::DynamicParser() : Parser() {
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHtmlBlock()));
+    this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeFence()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementCodeBlock()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderAtx()));
     this->_blocks.push_back(shared_ptr<ParseElementBlock>(new ParseElementHeaderSetext()));

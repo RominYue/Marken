@@ -9,6 +9,7 @@ enum class ParseElementType {
 
     TYPE_HTML_BLOCK,
     TYPE_CODE_BLOCK,
+    TYPE_CODE_FENCE,
     TYPE_HEADER_ATX,
     TYPE_HEADER_SETEXT,
     TYPE_HORIZON,

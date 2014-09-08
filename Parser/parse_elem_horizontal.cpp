@@ -32,7 +32,7 @@ bool ParseElementHorizontal::tryParse(const string &line, int offset, int& lengt
 }
 
 string ParseElementHorizontal::generateOpenHtml() const {
-    return "<hr/>";
+    return "<hr />";
 }
 
 string ParseElementHorizontal::generateCloseHtml() const {

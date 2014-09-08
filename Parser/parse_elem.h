@@ -33,6 +33,8 @@ public:
 protected:
     bool isdigit(char ch) const;
     bool isalpha(char ch) const;
+    bool isspace(char ch) const;
+    string removeSideSpaces(const string& text) const;
     string translateAmp(const string& text) const;
 };
 

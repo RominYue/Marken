@@ -40,13 +40,17 @@ int main() {
         bool passed = true;
         ftest.open("test/" + testCaseName + ".test", ios::in);
         fout.open("test/" + testCaseName + ".out", ios::in);
-        char ch1, ch2;
-        while (ftest >> ch1) {
-            fout >> ch2;
-            if (ch1 != ch2) {
-                passed = false;
-                break;
-            }
+        string result1, result2;
+        while (getline(ftest, buffer)) {
+            result1 += buffer;
+        }
+        ftest.close();
+        while (getline(fout, buffer)) {
+            result2 += buffer;
+        }
+        fout.close();
+        if (result1 != result2) {
+            passed = false;
         }
 
         ++totalCaseNum;
