@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
     StaticParser parser;
-    for (int i = 1; i <= 118; ++i) {
+    for (int i = 1; i <= 127; ++i) {
         QString fileName = QString("test/common/%1").arg(i);
         parser.ParserToFile(fileName + ".in", fileName + ".test");
         QString html1, html2;

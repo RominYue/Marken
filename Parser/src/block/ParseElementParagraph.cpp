@@ -86,13 +86,25 @@ QString ParseElementParagraph::generateOpenHtml() const {
 }
 
 QString ParseElementParagraph::generateCloseHtml() const {
+    int spaceNum;
+    QString html;
+    for (int i = this->text.length() - 1; i >= 0; --i) {
+        if (this->text[i].isSpace()) {
+            ++spaceNum;
+        } else {
+            break;
+        }
+    }
+    if (spaceNum >= 2) {
+        html += "<br />";
+    }
     if (isListSingleLine()) {
-        return "";
+        return html;
     }
     if (this->isParagraphEnd()) {
         return "</p>";
     }
-    return "";
+    return html;
 }
 
 bool ParseElementParagraph::isParagraphBegin() const {

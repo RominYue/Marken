@@ -169,9 +169,9 @@ QVector<QVector<QSharedPointer<ParseElementSpan>>> SpanParser::ParserParagraph(c
     QVector<QVector<QSharedPointer<ParseElementSpan>>> spanVec;
     lengths.push_back(0);
     for (auto p : paragraph) {
-        line += p;
+        line += p.trimmed();
         spanVec.push_back(QVector<QSharedPointer<ParseElementSpan>>());
-        lengths.push_back((int)p.length());
+        lengths.push_back((int)p.trimmed().length());
     }
     for (int i = 1; i <= lineNum; ++i) {
         lengths[i] += lengths[i - 1];
