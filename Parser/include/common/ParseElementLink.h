@@ -16,13 +16,11 @@ protected:
         STATUS_ESCAPE,
         STATUS_RIGHT,
     };
-    bool ParserOpenClose(const QString& text, qint32& index, QString& inner, QChar open, QChar close);
-    bool ParserBrackets(const QString& text, qint32& index, QString& inner);
-    bool ParserParentheses(const QString& text, qint32& index, QString& inner);
-
-    QString getCleanedLink(const QString& link) const;
-    QString getCleanedTitle(const QString& title) const;
-    QString getCleanedLabel(const QString& label) const;
+    bool parseOpenClose(const QString& text, int& index, QString& inner, QChar open, QChar close);
+    bool parseBrackets(const QString& text, int& index, QString& inner);
+    bool parseParentheses(const QString& text, int& index, QString& inner);
+    bool parseLink(const QString& text, int& index, QString& link);
+    bool parseTitle(const QString& text, int& index, QString& title);
 
     QString generateOpenLinkHtml(const QString& href, const QString& title) const;
 };

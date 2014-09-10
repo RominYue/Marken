@@ -7,9 +7,9 @@ ParseElementType ParseElementLinkAutomatic::type() const {
     return ParseElementType::TYPE_LINK_AUTOMATIC;
 }
 
-qint32 ParseElementLinkAutomatic::tryParse(const QString& text, qint32 offset) {
-    qint32 index = offset;
-    if (this->ParserOpenClose(text, index, this->_link, '<', '>')) {
+int ParseElementLinkAutomatic::tryParse(const QString& text, int offset) {
+    int index = offset;
+    if (this->parseOpenClose(text, index, this->_link, '<', '>')) {
         if (isLink() || isEmail()) {
             return index - offset;
         }
@@ -41,8 +41,8 @@ bool ParseElementLinkAutomatic::isEmail() const {
         STATUS_TEXT3,
     };
     EmailStatus status = STATUS_TEXT1;
-    qint32 length = this->_link.length();
-    for (qint32 i = 0; i < length; ++i) {
+    int length = this->_link.length();
+    for (int i = 0; i < length; ++i) {
         QChar ch = this->_link[i];
         switch (status) {
         case STATUS_TEXT1:
@@ -97,9 +97,9 @@ bool ParseElementLinkAutomatic::isEmail() const {
 
 QString ParseElementLinkAutomatic::htmlEscaped(const QString& text) const {
     QString amp;
-    qint32 length = text.length();
-    for (qint32 i = 0; i < length; ++i) {
-        amp += QString("&#%1;").arg((qint32)text[i].toLatin1());
+    int length = text.length();
+    for (int i = 0; i < length; ++i) {
+        amp += QString("&#%1;").arg((int)text[i].toLatin1());
     }
     return amp;
 }

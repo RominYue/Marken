@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
     StaticParser parser;
-    for (qint32 i = 1; i <= 100; ++i) {
+    for (int i = 1; i <= 118; ++i) {
         QString fileName = QString("test/common/%1").arg(i);
         parser.ParserToFile(fileName + ".in", fileName + ".test");
         QString html1, html2;
@@ -39,7 +39,6 @@ int main() {
             cout << string(html1.toLatin1().data()) << endl;
             cout << "Actual: " << endl;
             cout << string(html2.toLatin1().data()) << endl;
-            break;
         } else {
             cout << "PASSED " + string(fileName.toLatin1().data()) << endl;
         }

@@ -9,7 +9,7 @@ bool ParseElementBlock::isBlockElement() const {
     return true;
 }
 
-bool ParseElementBlock::stopParsing(qint32 offset) const {
+bool ParseElementBlock::stopParsing(int offset) const {
     if (parent->prev() != nullptr) {
         if (parent->prev()->lastType() == ParseElementType::TYPE_PARAGRAPH) {
             auto last = parent->prev()->lastElement();
@@ -21,7 +21,7 @@ bool ParseElementBlock::stopParsing(qint32 offset) const {
     return false;
 }
 
-bool ParseElementBlock::tryParse(const QString &line, qint32 offset, qint32& length) {
+bool ParseElementBlock::tryParse(const QString &line, int offset, int& length) {
     UNUSED(line);
     UNUSED(offset);
     UNUSED(length);

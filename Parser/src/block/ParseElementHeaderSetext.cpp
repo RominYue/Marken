@@ -8,11 +8,11 @@ ParseElementType ParseElementHeaderSetext::type() const {
     return ParseElementType::TYPE_HEADER_SETEXT;
 }
 
-bool ParseElementHeaderSetext::tryParse(const QString &line, qint32 offset, qint32& length) {
+bool ParseElementHeaderSetext::tryParse(const QString &line, int offset, int& length) {
     if (parent->prev() == nullptr) {
         return false;
     }
-    qint32 tempOffset = 0;
+    int tempOffset = 0;
     if (parent->blocks.size() > 0) {
         tempOffset = parent->lastElement()->offset;
     }
@@ -24,11 +24,11 @@ bool ParseElementHeaderSetext::tryParse(const QString &line, qint32 offset, qint
             return false;
         }
     }
-    qint32 lineLen = line.length();
+    int lineLen = line.length();
     if (lineLen > offset) {
         QChar ch = line[offset];
         if (ch == '=' || ch == '-') {
-            for (qint32 i = offset + 1; i < lineLen; ++i) {
+            for (int i = offset + 1; i < lineLen; ++i) {
                 if (line[i] != ch) {
                     for (; i < lineLen; ++i) {
                         if (!line[i].isSpace()) {
@@ -43,7 +43,7 @@ bool ParseElementHeaderSetext::tryParse(const QString &line, qint32 offset, qint
                 level = 2;
             }
             this->_isLower = true;
-            qint32 index = parent->prev()->getIndexAt(tempOffset);
+            int index = parent->prev()->getIndexAt(tempOffset);
             auto elem = parent->prev()->blocks[index];
             QSharedPointer<ParseElementHeaderSetext> setext(new ParseElementHeaderSetext());
             setext->parent = elem->parent;

@@ -9,21 +9,17 @@ ParseElementType ParseElementImageReference::type() const {
     return ParseElementType::TYPE_IMAGE_REFERENCE;
 }
 
-qint32 ParseElementImageReference::tryParse(const QString& text, qint32 offset) {
+int ParseElementImageReference::tryParse(const QString& text, int offset) {
     if (text[offset] == '!') {
-        qint32 length = text.length();
-        qint32 index = offset + 1;
-        if (this->ParserBrackets(text, index, this->_alt)) {
+        int length = text.length();
+        int index = offset + 1;
+        if (this->parseBrackets(text, index, this->_alt)) {
             if (index < length) {
                 if (text[index] == ' ') {
                     ++index;
                 }
             }
-            if (this->ParserBrackets(text, index, this->_label)) {
-                if (this->_label.length() == 0) {
-                    this->_label = this->getCleanedLabel(this->_alt);
-                }
-                this->parent->labelSet->addLinkElement(this->_label, this);
+            if (this->parseBrackets(text, index, this->_label)) {
                 return index - offset;
             }
         }

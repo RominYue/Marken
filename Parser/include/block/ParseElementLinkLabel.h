@@ -10,9 +10,9 @@ public:
     virtual ~ParseElementLinkLabel() = default;
     virtual ParseElementType type() const override final;
 
-    virtual bool tryParse(const QString &line, qint32 offset, qint32& length) override final;
+    virtual bool tryParse(const QString &line, int offset, int& length) override final;
 
-    virtual void remove() override final;
+    virtual QString generateOpenHtml() const override final;
 
     QString label;
     QString link;

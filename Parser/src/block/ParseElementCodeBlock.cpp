@@ -12,8 +12,8 @@ bool ParseElementCodeBlock::inheritable() const {
     return true;
 }
 
-bool ParseElementCodeBlock::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lastOffset = 0;
+bool ParseElementCodeBlock::tryParse(const QString &line, int offset, int& length) {
+    int lastOffset = 0;
     if (parent->prev() != nullptr) {
         if (parent->prev()->lastType() == ParseElementType::TYPE_PARAGRAPH) {
             return false;
@@ -23,10 +23,10 @@ bool ParseElementCodeBlock::tryParse(const QString &line, qint32 offset, qint32&
         }
     }
     if (offset == lastOffset) {
-        qint32 lineLen = line.length();
-        qint32 spaceCnt = 0;
-        qint32 tabCnt = 0;
-        for (qint32 index = offset; index < lineLen; ++index) {
+        int lineLen = line.length();
+        int spaceCnt = 0;
+        int tabCnt = 0;
+        for (int index = offset; index < lineLen; ++index) {
             if (line[index] == '\t') {
                 tabCnt += 1;
                 spaceCnt -= lineLen;
@@ -62,7 +62,7 @@ QString ParseElementCodeBlock::generateOpenHtml() const {
     while (line != nullptr) {
         if (line->lastType() == ParseElementType::TYPE_CODE_BLOCK) {
             auto elem = qSharedPointerDynamicCast<ParseElementCodeBlock>(line->lastElement());
-            if (!elem->_isEmpty) {
+            if (!elem->isVirtual && !elem->_isEmpty) {
                 isPrevEmpty = false;
                 break;
             }
@@ -80,13 +80,13 @@ QString ParseElementCodeBlock::generateOpenHtml() const {
             html += "<pre><code>";
         }
     }
-    qint32 index = 1;
+    int index = 1;
     if (this->text.size() > 0) {
         if (this->text[0] == ' ') {
             index = 4;
         }
     }
-    qint32 len = text.length();
+    int len = text.length();
     html += this->htmlEscaped(text.mid(index, len - index));
     return html;
 }
@@ -100,7 +100,7 @@ QString ParseElementCodeBlock::generateCloseHtml() const {
     while (line != nullptr) {
         if (line->lastType() == ParseElementType::TYPE_CODE_BLOCK) {
             auto elem = qSharedPointerDynamicCast<ParseElementCodeBlock>(line->lastElement());
-            if (!elem->_isEmpty) {
+            if (!elem->isVirtual && !elem->_isEmpty) {
                 isNextEmpty = false;
                 break;
             }

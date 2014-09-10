@@ -24,11 +24,11 @@ protected:
         STATUS_GT
     };
     QString _tag;
-    bool findOpenTagOffset(const QString &line, qint32 &index);
-    bool findCloseTagOffset(const QString &line, qint32 &index);
-    bool matchToTagEnd(const QString &line, qint32 &index);
-    bool matchToGt(const QString &line, qint32 &index);
-    bool matchToEnd(const QString &line, qint32 &index);
+    bool findOpenTagOffset(const QString &line, int &index);
+    bool findCloseTagOffset(const QString &line, int &index);
+    bool matchToTagEnd(const QString &line, int &index);
+    bool matchToGt(const QString &line, int &index);
+    bool matchToEnd(const QString &line, int &index);
 };
 
 #endif // PARSE_ELEM_HTML_H

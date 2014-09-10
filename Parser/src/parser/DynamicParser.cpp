@@ -19,7 +19,6 @@
 DynamicParser::DynamicParser() {
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementHtmlBlock()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementCodeFence()));
-    this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementCodeBlock()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementHeaderAtx()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementHeaderSetext()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementHorizontal()));
@@ -27,6 +26,7 @@ DynamicParser::DynamicParser() {
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementListOrdered()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementQuote()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementLinkLabel()));
+    this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementCodeBlock()));
     this->_blocks.push_back(QSharedPointer<ParseElementBlock>(new ParseElementParagraph()));
 }
 
@@ -34,15 +34,15 @@ DynamicParser::~DynamicParser() {
 }
 
 void DynamicParser::ParserLine(ParseLineData* data, QString line) {
-    qint32 offset = 0;
-    qint32 lineLength = line.size();
+    int offset = 0;
+    int lineLength = line.size();
     ParseElementFactory factory;
-    data->labelSet = &this->_linkLabelSet;
+    data->labelSet = &this->linkLabelSet;
     data->removeCurrentBlocks();
     bool stopParseList = false;
     bool stopInherit = false;
     while (offset < lineLength) {
-        qint32 length = -1;
+        int length = -1;
         for (auto element : this->_blocks) {
             element->parent = data;
             element->offset = offset;
@@ -74,7 +74,7 @@ void DynamicParser::ParserLine(ParseLineData* data, QString line) {
                 if (element->parent->prev() != nullptr) {
                     if (element->parent->prev()->blocks.size() > 0) {
                         if (element->parent->prev()->blocks.size() > data->blocks.size()) {
-                            qint32 index = data->blocks.size();
+                            int index = data->blocks.size();
                             if (element->type() != data->prev()->blocks[index]->type() ||
                                 element->offset != data->prev()->blocks[index]->offset ||
                                 element->isVirtual != data->prev()->blocks[index]->isVirtual) {
@@ -103,11 +103,11 @@ void DynamicParser::ParserLine(ParseLineData* data, QString line) {
         }
     }
     if (data->prev() != nullptr) {
-        qint32 elemLen = data->blocks.size();
-        qint32 prevLen = data->prev()->blocks.size();
+        int elemLen = data->blocks.size();
+        int prevLen = data->prev()->blocks.size();
         if (elemLen < prevLen) {
             if (!stopInherit) {
-                for (qint32 i = elemLen; i < prevLen; ++i) {
+                for (int i = elemLen; i < prevLen; ++i) {
                     if (data->prev()->blocks[i]->type() != ParseElementType::TYPE_PARAGRAPH) {
                         if (data->prev()->blocks[i]->inheritable()) {
                             auto elem = factory.copy(data->prev()->blocks[i]);
@@ -150,10 +150,10 @@ void DynamicParser::ParserSpan(ParseLineData* data) {
     }
 }
 
-qint32 DynamicParser::prevLineNum() const {
+int DynamicParser::prevLineNum() const {
     return this->_prevLineNum;
 }
 
-qint32 DynamicParser::nextLineNum() const {
+int DynamicParser::nextLineNum() const {
     return this->_nextLineNum;
 }

@@ -8,8 +8,8 @@ ParseElementType ParseElementListOrdered::type() const {
     return ParseElementType::TYPE_LIST_ORDERED;
 }
 
-bool ParseElementListOrdered::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
+bool ParseElementListOrdered::tryParse(const QString &line, int offset, int& length) {
+    int lineLen = line.length();
     if (lineLen > offset) {
         if (line[offset].isSpace()) {
             if (parent->prev() == nullptr) {
@@ -21,7 +21,7 @@ bool ParseElementListOrdered::tryParse(const QString &line, qint32 offset, qint3
                 return true;
             }
         } else if (line[offset].isDigit()) {
-            qint32 index = offset;
+            int index = offset;
             for (++index; index < lineLen; ++index) {
                 if (!line[index].isDigit()) {
                     break;

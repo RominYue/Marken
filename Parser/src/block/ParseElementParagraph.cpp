@@ -11,12 +11,12 @@ ParseElementType ParseElementParagraph::type() const {
     return ParseElementType::TYPE_PARAGRAPH;
 }
 
-bool ParseElementParagraph::stopParsing(qint32 offset) const {
+bool ParseElementParagraph::stopParsing(int offset) const {
     Q_UNUSED(offset);
     return false;
 }
 
-bool ParseElementParagraph::tryParse(const QString &line, qint32 offset, qint32& length) {
+bool ParseElementParagraph::tryParse(const QString &line, int offset, int& length) {
     this->isVirtual = false;
     if (!line[offset].isSpace()) {
         if (parent->prev() != nullptr) {
@@ -51,12 +51,12 @@ bool ParseElementParagraph::tryParse(const QString &line, qint32 offset, qint32&
                 }
             }
         }
-        qint32 elemLen = parent->blocks.size();
+        int elemLen = parent->blocks.size();
         if (elemLen == 0) {
             this->offset = 0;
         } else {
             auto elem = parent->lastElement();
-            qint32 elemOffset = elem->offset;
+            int elemOffset = elem->offset;
             this->offset = offset;
             if (parent->prev() != nullptr) {
                 if (parent->prev()->blocks.size() == parent->blocks.size() + 1) {
@@ -102,7 +102,7 @@ bool ParseElementParagraph::isParagraphBegin() const {
     if (parent->prev()->getTypeAt(offset) != ParseElementType::TYPE_PARAGRAPH) {
         return true;
     }
-    qint32 elemLen = parent->blocks.size();
+    int elemLen = parent->blocks.size();
     if (elemLen > 1) {
         auto prevElem = parent->blocks[elemLen - 2];
         if (prevElem->isBlockElement()) {
@@ -125,7 +125,7 @@ bool ParseElementParagraph::isParagraphEnd() const {
     if (parent->next()->getTypeAt(offset) != ParseElementType::TYPE_PARAGRAPH) {
         return true;
     }
-    qint32 elemLen = parent->blocks.size();
+    int elemLen = parent->blocks.size();
     if (elemLen > 1) {
         auto prevElem = parent->blocks[elemLen - 2];
         if (prevElem->isBlockElement()) {
@@ -151,7 +151,7 @@ bool ParseElementParagraph::isParagraphEnd() const {
 }
 
 bool ParseElementParagraph::isListSingleLine() const {
-    qint32 elemLen = parent->blocks.size();
+    int elemLen = parent->blocks.size();
     if (elemLen > 1) {
         auto prevElem = parent->blocks[elemLen - 2];
         if (prevElem->isBlockElement()) {
@@ -168,8 +168,8 @@ bool ParseElementParagraph::isListSingleLine() const {
                         if (next->blocks.size() != line->blocks.size()) {
                             return true;
                         }
-                        qint32 blockLen = next->blocks.size();
-                        for (qint32 i = 0; i < blockLen - 1; ++i) {
+                        int blockLen = next->blocks.size();
+                        for (int i = 0; i < blockLen - 1; ++i) {
                             if (next->blocks[i]->type() != line->blocks[i]->type()) {
                                 return true;
                             }

@@ -14,20 +14,13 @@ public:
     virtual ~ParseLabelSet();
 
     void addLinkLabel(ParseElementLinkLabel* linkLabel);
-    void addLinkTitle(ParseElementLinkLabel* linkLabel);
-    void removeLinkLabel(ParseElementLinkLabel* linkLabel);
-    void removeLinkTitle(ParseElementLinkLabel* linkLabel);
-
-    void addLinkElement(const QString& label, ParseElementLink* elem);
-    void removeLinkElement(const QString& label, ParseElementLink* elem);
 
     QString getLink(const QString& label);
     QString getTitle(const QString& label);
 
 private:
-    QMap<QString, QList<QString>> _links;
-    QMap<QString, QList<QString>> _titles;
-    QMap<QString, QList<ParseElementLink*>> _elems;
+    QMap<QString, QString> _links;
+    QMap<QString, QString> _titles;
 };
 
 #endif // PARSE_LABEL_SET_H

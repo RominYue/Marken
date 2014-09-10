@@ -7,15 +7,15 @@ ParseElementType ParseElementStrong::type() const {
     return ParseElementType::TYPE_STRONG;
 }
 
-qint32 ParseElementStrong::tryParse(const QString& text, qint32 offset) {
+int ParseElementStrong::tryParse(const QString& text, int offset) {
     QChar beginChar = text[offset];
     if (beginChar == '*' || beginChar == '_') {
-        qint32 length = text.length();
+        int length = text.length();
         if (offset + 1 < length) {
             if (text[offset + 1] == beginChar) {
                 bool escape = false;
                 bool hasText = false;
-                for (qint32 i = offset + 1; i < length; ++i) {
+                for (int i = offset + 1; i < length; ++i) {
                     if (escape) {
                         escape = false;
                     } else {
@@ -53,6 +53,6 @@ QString ParseElementStrong::innerText() const {
     return this->text.mid(2, this->text.length() - 4);
 }
 
-qint32 ParseElementStrong::innerOffset() const {
+int ParseElementStrong::innerOffset() const {
     return 2;
 }

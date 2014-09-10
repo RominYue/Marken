@@ -7,8 +7,8 @@ ParseElementType ParseElementEscape::type() const {
     return ParseElementType::TYPE_ESCAPE;
 }
 
-qint32 ParseElementEscape::tryParse(const QString& text, qint32 offset) {
-    qint32 length = text.length();
+int ParseElementEscape::tryParse(const QString& text, int offset) {
+    int length = text.length();
     if (text[offset] == '\\') {
         if (offset + 1 < length) {
             switch (text[offset + 1].toLatin1()) {

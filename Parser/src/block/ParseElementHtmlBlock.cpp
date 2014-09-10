@@ -62,12 +62,12 @@ ParseElementType ParseElementHtmlBlock::type() const {
     return ParseElementType::TYPE_HTML_BLOCK;
 }
 
-bool ParseElementHtmlBlock::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
+bool ParseElementHtmlBlock::tryParse(const QString &line, int offset, int& length) {
+    int lineLen = line.length();
     if (this->parent->prev() != nullptr) {
         if (this->parent->prev()->lastType() == ParseElementType::TYPE_HTML_BLOCK) {
-            qint32 tempOffset = 0;
-            qint32 prevBlockLen = this->parent->prev()->blocks.size();
+            int tempOffset = 0;
+            int prevBlockLen = this->parent->prev()->blocks.size();
             if (prevBlockLen > 1) {
                 tempOffset = this->parent->prev()->blocks[prevBlockLen - 2]->offset;
             }
@@ -77,8 +77,8 @@ bool ParseElementHtmlBlock::tryParse(const QString &line, qint32 offset, qint32&
             }
         }
     }
-    qint32 first = offset;
-    for (qint32 i = offset; i < lineLen; ++i) {
+    int first = offset;
+    for (int i = offset; i < lineLen; ++i) {
         if (!line[i].isSpace()) {
             first = i;
             break;
@@ -87,7 +87,7 @@ bool ParseElementHtmlBlock::tryParse(const QString &line, qint32 offset, qint32&
     if (first - offset >= 4) {
         return false;
     }
-    qint32 index = first;
+    int index = first;
     bool found = true;
     if (!this->findOpenTagOffset(line, index)) {
         index = first;

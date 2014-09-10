@@ -18,12 +18,12 @@ public:
     virtual QString generateCloseHtml() const;
 
     virtual QString innerText() const;
-    virtual qint32 innerOffset() const;
+    virtual int innerOffset() const;
 
     virtual void remove();
 
-    qint32 offset;
-    qint32 length;
+    int offset;
+    int length;
     QString text;
     ParseLineData* parent;
 

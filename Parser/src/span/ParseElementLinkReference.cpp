@@ -9,22 +9,32 @@ ParseElementType ParseElementLinkReference::type() const {
     return ParseElementType::TYPE_LINK_REFERENCE;
 }
 
-qint32 ParseElementLinkReference::tryParse(const QString& text, qint32 offset) {
-    qint32 index = offset;
-    qint32 length = text.length();
-    if (this->ParserBrackets(text, index, this->_inner)) {
+QString ParseElementLinkReference::innerText() const {
+    return this->_inner;
+}
+
+int ParseElementLinkReference::innerOffset() const {
+    return 1;
+}
+
+int ParseElementLinkReference::tryParse(const QString& text, int offset) {
+    int index = offset;
+    int length = text.length();
+    if (this->parseBrackets(text, index, this->_inner)) {
+        int temp = index;
         if (index < length) {
             if (text[index] == ' ') {
                 ++index;
             }
         }
-        if (this->ParserBrackets(text, index, this->_label)) {
+        if (this->parseBrackets(text, index, this->_label)) {
             if (this->_label.length() == 0) {
-                this->_label = this->getCleanedLabel(this->_inner);
+                this->_label = this->_inner;
             }
-            this->parent->labelSet->addLinkElement(this->_label, this);
             return index - offset;
         }
+        this->_label = this->_inner;
+        return temp - offset;
     }
     return 0;
 }
@@ -33,20 +43,16 @@ QString ParseElementLinkReference::generateOpenHtml() const {
     QString link = this->parent->labelSet->getLink(this->_label);
     QString title = this->parent->labelSet->getTitle(this->_label);
     if (link.length() == 0) {
-        return this->htmlEscaped(this->text);
+        return '[';
     }
-    return this->generateOpenLinkHtml(link, title) + this->htmlEscaped(this->_inner);
+    return this->generateOpenLinkHtml(link, title);
 }
 
 QString ParseElementLinkReference::generateCloseHtml() const {
     QString link = this->parent->labelSet->getLink(this->_label);
     QString title = this->parent->labelSet->getTitle(this->_label);
     if (link.length() == 0) {
-        return "";
+        return text.mid(this->_inner.length() + 1, text.length() - this->_inner.length() - 1);
     }
     return "</a>";
-}
-
-void ParseElementLinkReference::remove() {
-    this->parent->labelSet->removeLinkElement(this->_label, this);
 }

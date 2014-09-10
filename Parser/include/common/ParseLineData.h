@@ -29,9 +29,9 @@ public:
 
     QString generateHtml() const;
 
-    QSharedPointer<ParseElementBlock> getElementAt(const qint32 offset) const;
-    ParseElementType getTypeAt(const qint32 offset) const;
-    qint32 getIndexAt(const qint32 offset) const;
+    QSharedPointer<ParseElementBlock> getElementAt(const int offset) const;
+    ParseElementType getTypeAt(const int offset) const;
+    int getIndexAt(const int offset) const;
     QSharedPointer<ParseElementBlock> lastElement() const;
     ParseElementType lastType() const;
 
@@ -47,7 +47,7 @@ private:
 
     struct OffsetElement {
         QSharedPointer<ParseElementSpan> elem;
-        qint32 offset;
+        int offset;
         bool isOpen;
         bool operator <(const OffsetElement& element) const {
             if (offset == element.offset) {

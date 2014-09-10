@@ -2,8 +2,10 @@
 #include <QTextStream>
 #include <QSharedPointer>
 #include "DynamicParser.h"
-#include "StaticParser.h"
+#include "ParseElementBlock.h"
+#include "ParseElementLinkLabel.h"
 #include "ParseLineData.h"
+#include "StaticParser.h"
 
 StaticParser::StaticParser() {
 }
@@ -11,16 +13,24 @@ StaticParser::StaticParser() {
 QVector<QString> StaticParser::ParserToHtmlList(const QVector<QString>& document) const {
     QVector<QString> htmlList;
     QVector<QSharedPointer<ParseLineData>> dataList;
-    DynamicParser Parser;
+    DynamicParser parser;
     for (auto line : document) {
         QSharedPointer<ParseLineData> data(new ParseLineData());
         if (dataList.size() == 0) {
-            Parser.ParserLine(data.data(), line);
+            parser.ParserLine(data.data(), line);
         } else {
             data->setNeighbor(dataList.last().data(), nullptr);
-            Parser.ParserLine(data.data(), line);
+            parser.ParserLine(data.data(), line);
         }
         dataList.push_back(data);
+    }
+    for (int i = dataList.size() - 1; i >= 0; --i) {
+        for (auto block : dataList[i]->blocks) {
+            if (block->type() == ParseElementType::TYPE_LINK_LABEL) {
+                auto linkLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(block);
+                parser.linkLabelSet.addLinkLabel(linkLabel.data());
+            }
+        }
     }
     for (auto data : dataList) {
         htmlList.push_back(data->generateHtml());

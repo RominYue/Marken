@@ -20,7 +20,7 @@ QString ParseElement::innerText() const {
     return "";
 }
 
-qint32 ParseElement::innerOffset() const {
+int ParseElement::innerOffset() const {
     return 0;
 }
 
@@ -29,13 +29,13 @@ void ParseElement::remove() {
 
 QString ParseElement::htmlEscaped(const QString& text) const {
     QString html;
-    qint32 tab = 0;
-    for (qint32 i = 0; i < text.length(); ++i) {
+    int tab = 0;
+    for (int i = 0; i < text.length(); ++i) {
         if (text[i].toLatin1() == '\t') {
             if (tab == 0) {
                 html += "    ";
             } else {
-                for (qint32 j = 0; j < 4 - tab; ++j) {
+                for (int j = 0; j < 4 - tab; ++j) {
                     html += " ";
                 }
             }

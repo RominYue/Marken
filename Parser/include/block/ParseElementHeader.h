@@ -9,10 +9,10 @@ public:
     virtual ~ParseElementHeader() = default;
 
     QString getCleanedHeader() const;
-    qint32 getCleanStartIndex() const;
-    qint32 getCleanEndIndex() const;
+    int getCleanStartIndex() const;
+    int getCleanEndIndex() const;
 
-    qint32 level;
+    int level;
 
 protected:
     QString generateOpenTag() const;

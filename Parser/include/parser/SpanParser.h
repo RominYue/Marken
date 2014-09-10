@@ -18,19 +18,19 @@ public:
     SpanParser();
     void ParserElement(QSharedPointer<ParseElement> elem);
 
-    qint32 prevLineNum() const;
-    qint32 nextLineNum() const;
+    int prevLineNum() const;
+    int nextLineNum() const;
 
 private:
-    qint32 _prevLineNum;
-    qint32 _nextLineNum;
+    int _prevLineNum;
+    int _nextLineNum;
 
     ParseElementFactory _factory;
     QVector<QSharedPointer<ParseElementSpan>> _spans;
     void ParserHeader(QSharedPointer<ParseElementHeader> elem);
     void ParserHeaderSetext(QSharedPointer<ParseElementHeaderSetext> elem);
     void ParserParagraphElement(QSharedPointer<ParseElementParagraph> elem);
-    QVector<QSharedPointer<ParseElementSpan>> ParserLine(const QString& line, qint32 offset);
+    QVector<QSharedPointer<ParseElementSpan>> ParserLine(const QString& line, int offset);
     QVector<QVector<QSharedPointer<ParseElementSpan>>> ParserParagraph(const QVector<QString>& paragraph);
 
     void initSpanParent(ParseLineData* parent);

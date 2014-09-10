@@ -10,7 +10,7 @@ public:
     virtual ParseElementType type() const override final;
 
     virtual bool inheritable() const override final;
-    virtual bool tryParse(const QString &line, qint32 offset, qint32& length) override final;
+    virtual bool tryParse(const QString &line, int offset, int& length) override final;
 
     virtual QString generateOpenHtml() const override final;
     virtual QString generateCloseHtml() const override final;

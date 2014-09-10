@@ -3,10 +3,10 @@
 ParseElementLink::ParseElementLink() {
 }
 
-bool ParseElementLink::ParserOpenClose(const QString& text, qint32& index, QString& inner, QChar open, QChar close) {
+bool ParseElementLink::parseOpenClose(const QString& text, int& index, QString& inner, QChar open, QChar close) {
     Status status = STATUS_BEGIN;
-    qint32 length = text.length();
-    qint32 offset = index;
+    int length = text.length();
+    int offset = index;
     while (index < length) {
         QChar ch = text[index];
         switch (status) {
@@ -53,92 +53,68 @@ bool ParseElementLink::ParserOpenClose(const QString& text, qint32& index, QStri
     return false;
 }
 
-bool ParseElementLink::ParserBrackets(const QString& text, qint32& index, QString& inner) {
-    return ParserOpenClose(text, index, inner, '[', ']');
+bool ParseElementLink::parseBrackets(const QString& text, int& index, QString& inner) {
+    return parseOpenClose(text, index, inner, '[', ']');
 }
 
-bool ParseElementLink::ParserParentheses(const QString& text, qint32& index, QString& inner) {
-    return ParserOpenClose(text, index, inner, '(', ')');
+bool ParseElementLink::parseParentheses(const QString& text, int& index, QString& inner) {
+    return parseOpenClose(text, index, inner, '(', ')');
 }
 
-QString ParseElementLink::getCleanedLink(const QString& link) const {
-    qint32 len = link.length();
-    qint32 start = 0;
-    for (qint32 i = 0; i < len; ++i) {
-        if (!link[i].isSpace()) {
-            start = i;
+bool ParseElementLink::parseLink(const QString& text, int& index, QString& link) {
+    int length = text.length();
+    for (; index < length; ++index) {
+        if (!text[index].isSpace()) {
             break;
         }
     }
-    qint32 end = len - 1;
-    for (qint32 i = len - 1; i >= 0; --i) {
-        if (!link[i].isSpace()) {
-            end = i;
-            break;
-        }
-    }
-    if (start > end) {
-        return "";
-    }
-    if (link[start] == '<' && link[end] == '>') {
-        return link.mid(start + 1, end - start - 1);
-    }
-    return link.mid(start, end - start + 1);
-}
-
-QString ParseElementLink::getCleanedTitle(const QString& title) const {
-    qint32 len = title.length();
-    qint32 start = 0;
-    for (qint32 i = 0; i < len; ++i) {
-        if (!title[i].isSpace()) {
-            start = i;
-            break;
-        }
-    }
-    qint32 end = len - 1;
-    for (qint32 i = len - 1; i >= 0; --i) {
-        if (!title[i].isSpace()) {
-            end = i;
-            break;
-        }
-    }
-    if (start > end) {
-        return "";
-    }
-    if (title[start] == '"' || title[start] == '\'' || (title[start] == '(' && title[end] == ')')) {
-        return title.mid(start + 1, end - start - 1);
-    }
-    return title.mid(start, end - start + 1);
-}
-
-QString ParseElementLink::getCleanedLabel(const QString& label) const {
-    qint32 len = label.length();
-    qint32 start = 0;
-    for (qint32 i = 0; i < len; ++i) {
-        if (!label[i].isSpace()) {
-            start = i;
-            break;
-        }
-    }
-    qint32 end = len - 1;
-    for (qint32 i = len - 1; i >= 0; --i) {
-        if (!label[i].isSpace()) {
-            end = i;
-            break;
-        }
-    }
-    if (start > end) {
-        return "";
-    }
-    QString cleaned;
-    for (qint32 i = start; i <= end; ++i) {
-        if (label[i] >= 'A' && label[i] <= 'Z') {
-            cleaned += label[i].toLatin1() - 'A' + 'a';
+    if (index < length) {
+        int start = index;
+        if (text[index] == '<') {
+            for (++index; index < length; ++index) {
+                if (text[index] == '>') {
+                    if (index + 1 < length) {
+                        if (!text[index + 1].isSpace()) {
+                            return false;
+                        }
+                    }
+                    ++index;
+                    link = text.mid(start + 1, index - start - 2);
+                    return true;
+                }
+            }
         } else {
-            cleaned += label[i];
+            for (++index; index < length; ++index) {
+                if (text[index].isSpace()) {
+                    break;
+                }
+            }
+            link = text.mid(start, index - start);
+            return true;
         }
+    } else {
+        link = "";
+        return true;
     }
-    return cleaned;
+    return false;
+}
+
+bool ParseElementLink::parseTitle(const QString& text, int& index, QString& title) {
+    int length = text.length();
+    title = text.mid(index, length - index).trimmed();
+    if (title.length() > 0) {
+        QChar first = title[0];
+        QChar last = title[title.length() - 1];
+        if ((first == '"' && last == '"') ||
+            (first == '\'' && last == '\'') ||
+            (first == '(' && last == ')')) {
+            title = title.mid(1, title.length() - 2);
+            return true;
+        }
+    } else {
+        return true;
+    }
+    return false;
 }
 
 QString ParseElementLink::generateOpenLinkHtml(const QString& href, const QString& title) const {

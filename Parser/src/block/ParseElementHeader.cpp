@@ -3,10 +3,10 @@
 ParseElementHeader::ParseElementHeader() : ParseElementBlock() {
 }
 
-qint32 ParseElementHeader::getCleanStartIndex() const {
-    qint32 len = this->text.size();
-    qint32 start = len;
-    for (qint32 i = 0; i < len; ++i) {
+int ParseElementHeader::getCleanStartIndex() const {
+    int len = this->text.size();
+    int start = len;
+    for (int i = 0; i < len; ++i) {
         if (!text[i].isSpace() && text[i] != '#') {
             start = i;
             break;
@@ -15,10 +15,10 @@ qint32 ParseElementHeader::getCleanStartIndex() const {
     return start;
 }
 
-qint32 ParseElementHeader::getCleanEndIndex() const {
-    qint32 end = 0;
-    qint32 len = this->text.size();
-    for (qint32 i = len - 1; i >= 0; --i) {
+int ParseElementHeader::getCleanEndIndex() const {
+    int end = 0;
+    int len = this->text.size();
+    for (int i = len - 1; i >= 0; --i) {
         if (!text[i].isSpace() && text[i] != '#') {
             if (text[i] == '\\') {
                 if (i > 0 && text[i - 1] == '\\') {
@@ -36,8 +36,8 @@ qint32 ParseElementHeader::getCleanEndIndex() const {
 }
 
 QString ParseElementHeader::getCleanedHeader() const {
-    qint32 start = this->getCleanStartIndex();
-    qint32 end = this->getCleanEndIndex();
+    int start = this->getCleanStartIndex();
+    int end = this->getCleanEndIndex();
     if (start < end) {
         return text.mid(start, end - start);
     }

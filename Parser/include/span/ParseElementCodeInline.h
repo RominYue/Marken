@@ -9,12 +9,12 @@ public:
     virtual ~ParseElementCodeInline() = default;
     virtual ParseElementType type() const override final;
 
-    virtual qint32 tryParse(const QString& text, qint32 offset) override final;
+    virtual int tryParse(const QString& text, int offset) override final;
     virtual QString generateOpenHtml() const override final;
     virtual QString generateCloseHtml() const override final;
 
 private:
-    qint32 _backtickNum;
+    int _backtickNum;
 };
 
 #endif // PARSE_ELEM_CODE_INLINE_H

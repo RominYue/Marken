@@ -9,7 +9,7 @@ bool ParseElementSpan::isBlockElement() const {
     return false;
 }
 
-qint32 ParseElementSpan::tryParse(const QString& text, qint32 offset) {
+int ParseElementSpan::tryParse(const QString& text, int offset) {
     UNUSED(text);
     UNUSED(offset);
     return 0;

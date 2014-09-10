@@ -9,8 +9,8 @@ public:
     virtual ~ParseElementBlock() = default;
     virtual bool isBlockElement() const override final;
 
-    virtual bool stopParsing(qint32 offset) const;
-    virtual bool tryParse(const QString &line, qint32 offset, qint32& length);
+    virtual bool stopParsing(int offset) const;
+    virtual bool tryParse(const QString &line, int offset, int& length);
 
     virtual bool inheritable() const;
 

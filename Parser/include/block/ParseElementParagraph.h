@@ -9,8 +9,8 @@ public:
     virtual ~ParseElementParagraph() = default;
     virtual ParseElementType type() const;
 
-    virtual bool stopParsing(qint32 offset) const override final;
-    virtual bool tryParse(const QString &line, qint32 offset, qint32& length) override;
+    virtual bool stopParsing(int offset) const override final;
+    virtual bool tryParse(const QString &line, int offset, int& length) override;
     virtual QString generateOpenHtml() const override final;
     virtual QString generateCloseHtml() const override final;
 

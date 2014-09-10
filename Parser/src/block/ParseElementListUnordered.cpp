@@ -8,8 +8,8 @@ ParseElementType ParseElementListUnordered::type() const {
     return ParseElementType::TYPE_LIST_UNORDERED;
 }
 
-bool ParseElementListUnordered::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
+bool ParseElementListUnordered::tryParse(const QString &line, int offset, int& length) {
+    int lineLen = line.length();
     if (lineLen > offset) {
         if (line[offset].isSpace()) {
             if (parent->prev() == nullptr) {

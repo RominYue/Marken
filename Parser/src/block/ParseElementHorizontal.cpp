@@ -8,13 +8,13 @@ ParseElementType ParseElementHorizontal::type() const {
     return ParseElementType::TYPE_HORIZON;
 }
 
-bool ParseElementHorizontal::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
+bool ParseElementHorizontal::tryParse(const QString &line, int offset, int& length) {
+    int lineLen = line.length();
     if (lineLen > offset) {
         QChar ch = line[offset];
         if (ch == '*' || ch == '-' || ch == '_') {
-            qint32 num = 1;
-            for (qint32 index = offset + 1; index < lineLen; ++index) {
+            int num = 1;
+            for (int index = offset + 1; index < lineLen; ++index) {
                 if (line[index] == ch) {
                     ++num;
                 } else if (!line[index].isSpace()) {

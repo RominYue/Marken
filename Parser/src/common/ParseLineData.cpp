@@ -72,8 +72,8 @@ bool ParseLineData::isLineStatusChanged() const {
     if (this->_oldBlocks.size() != this->blocks.size()) {
         return true;
     }
-    qint32 len = this->blocks.size();
-    for (qint32 i = 0; i < len; ++i) {
+    int len = this->blocks.size();
+    for (int i = 0; i < len; ++i) {
         if (this->_oldBlocks[i]->type() != this->blocks[i]->type() ||
             this->_oldBlocks[i]->offset != this->blocks[i]->offset) {
             return true;
@@ -112,13 +112,13 @@ QString ParseLineData::generateHtml() const {
             }
         }
     }
-    for (qint32 i = blocks.size() - 1; i >= 0; --i) {
+    for (int i = blocks.size() - 1; i >= 0; --i) {
         html += qSharedPointerDynamicCast<ParseElementBlock>(blocks[i])->generateCloseHtml();
     }
     return html;
 }
 
-QSharedPointer<ParseElementBlock> ParseLineData::getElementAt(const qint32 offset) const {
+QSharedPointer<ParseElementBlock> ParseLineData::getElementAt(const int offset) const {
     for (auto element : this->blocks) {
         if (element->offset == offset) {
             return element;
@@ -129,7 +129,7 @@ QSharedPointer<ParseElementBlock> ParseLineData::getElementAt(const qint32 offse
     return QSharedPointer<ParseElementBlock>();
 }
 
-ParseElementType ParseLineData::getTypeAt(const qint32 offset) const {
+ParseElementType ParseLineData::getTypeAt(const int offset) const {
     auto element = getElementAt(offset);
     if (element == nullptr) {
         return ParseElementType::TYPE_INVALID;
@@ -137,9 +137,9 @@ ParseElementType ParseLineData::getTypeAt(const qint32 offset) const {
     return element->type();
 }
 
-qint32 ParseLineData::getIndexAt(const qint32 offset) const {
-    qint32 len = this->blocks.size();
-    for (qint32 i = 0; i < len; ++i) {
+int ParseLineData::getIndexAt(const int offset) const {
+    int len = this->blocks.size();
+    for (int i = 0; i < len; ++i) {
         if (blocks[i]->offset == offset) {
             return i;
         } else if (blocks[i]->offset > offset) {

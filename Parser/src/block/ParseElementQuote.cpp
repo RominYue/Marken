@@ -8,8 +8,8 @@ ParseElementType ParseElementQuote::type() const {
     return ParseElementType::TYPE_QUOTE;
 }
 
-bool ParseElementQuote::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
+bool ParseElementQuote::tryParse(const QString &line, int offset, int& length) {
+    int lineLen = line.length();
     if (lineLen > offset) {
         if (line[offset].isSpace()) {
             if (parent->prev() == nullptr) {

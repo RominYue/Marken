@@ -9,81 +9,63 @@ ParseElementType ParseElementLinkLabel::type() const {
     return ParseElementType::TYPE_LINK_LABEL;
 }
 
-bool ParseElementLinkLabel::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 lineLen = line.length();
-    qint32 index = offset;
-    if (this->ParserBrackets(line, index, this->label)) {
-        this->label = this->getCleanedLabel(this->label);
+bool ParseElementLinkLabel::tryParse(const QString &line, int offset, int& length) {
+    if (parent->prev() != nullptr) {
+        if (parent->prev()->lastType() == ParseElementType::TYPE_PARAGRAPH) {
+            return false;
+        }
+    }
+    int index = offset;
+    int lineLen = line.length();
+    if (this->parseBrackets(line, index, this->label)) {
         if (index < lineLen) {
             if (line[index] == ':') {
-                for (++index; index < lineLen; ++index) {
-                    if (!line[index].isSpace()) {
-                        break;
+                ++index;
+                if (this->parseLink(line, index, this->link)) {
+                    if (this->parseTitle(line, index, this->title)) {
+                        length = lineLen - offset;
+                        this->isBegin = true;
+                        return true;
                     }
-                }
-                if (index < lineLen) {
-                    qint32 start = index;
-                    for (++index; index < lineLen; ++index) {
-                        if (line[index].isSpace()) {
-                            break;
-                        }
-                    }
-                    this->link = this->getCleanedLink(line.mid(start, index - start));
-                    for (++index; index < lineLen; ++index) {
-                        if (!line[index].isSpace()) {
-                            break;
-                        }
-                    }
-                    if (index < lineLen) {
-                        this->title = this->getCleanedTitle(line.mid(index, lineLen - index));
-                    } else {
-                        this->title = "";
-                    }
-                    length = lineLen - offset;
-                    this->isBegin = true;
-                    this->addToLabelSet();
-                    return true;
                 }
             }
         }
-    } else {
-        if (this->parent->prev() == nullptr) {
-            return false;
-        }
-        if (this->parent->prev()->blocks.size() == 0) {
-            return false;
-        }
-        auto elem = this->parent->prev()->lastElement();
-        if (offset <= elem->offset) {
-            return false;
-        }
-        if (elem->type() == ParseElementType::TYPE_LINK_LABEL) {
-            if (!text[offset].isSpace()) {
-                auto linkLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(elem);
-                length = lineLen - offset;
-                this->label = linkLabel->label;
-                this->title = this->getCleanedTitle(line.mid(offset, lineLen - offset));
-                this->isBegin = false;
-                this->addToLabelSet();
-                return true;
+    }
+    if (parent->prev() != nullptr) {
+        if (parent->prev()->lastType() == ParseElementType::TYPE_LINK_LABEL) {
+            if (this->link == "") {
+                auto prevLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(parent->prev()->lastElement());
+                this->label = prevLabel->label;
+                if (this->parseLink(line, index, this->link)) {
+                    if (this->link.length() > 0) {
+                        if (this->parseTitle(line, index, this->title)) {
+                            length = lineLen - offset;
+                            this->isBegin = false;
+                            return true;
+                        }
+                    }
+                }
+            } else if (this->title == "") {
+                auto prevLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(parent->prev()->lastElement());
+                this->label = prevLabel->label;
+                this->link = prevLabel->link;
+                if (this->parseTitle(line, index, this->title)) {
+                    if (this->title.length() > 0) {
+                        length = lineLen - offset;
+                        this->isBegin = false;
+                        return true;
+                    }
+                }
             }
         }
     }
     return false;
 }
 
-void ParseElementLinkLabel::remove() {
-    if (this->isBegin) {
-        this->parent->labelSet->removeLinkLabel(this);
-    } else {
-        this->parent->labelSet->removeLinkTitle(this);
+QString ParseElementLinkLabel::generateOpenHtml() const {
+    QString link = this->parent->labelSet->getLink(this->label);
+    if (link.length() == 0) {
+        return "<p>" + this->htmlEscaped(this->text) + "</p>";
     }
-}
-
-void ParseElementLinkLabel::addToLabelSet() {
-    if (this->isBegin) {
-        this->parent->labelSet->addLinkLabel(this);
-    } else {
-        this->parent->labelSet->addLinkTitle(this);
-    }
+    return "";
 }

@@ -19,16 +19,17 @@ public:
     void ParserLine(ParseLineData* data, QString line);
     void ParserSpan(ParseLineData* data);
 
-    qint32 prevLineNum() const;
-    qint32 nextLineNum() const;
+    int prevLineNum() const;
+    int nextLineNum() const;
+
+    ParseLabelSet linkLabelSet;
 
 private:
     SpanParser _spanParser;
     QVector<QSharedPointer<ParseElementBlock>> _blocks;
-    ParseLabelSet _linkLabelSet;
 
-    qint32 _prevLineNum;
-    qint32 _nextLineNum;
+    int _prevLineNum;
+    int _nextLineNum;
 };
 
 #endif // PARSE_DYNAMIC_H

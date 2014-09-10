@@ -12,7 +12,7 @@ public:
     virtual ~ParseElementHtmlBlock() = default;
     virtual ParseElementType type() const;
 
-    virtual bool tryParse(const QString &line, qint32 offset, qint32& length) override;
+    virtual bool tryParse(const QString &line, int offset, int& length) override;
     virtual QString generateOpenHtml() const override final;
 };
 

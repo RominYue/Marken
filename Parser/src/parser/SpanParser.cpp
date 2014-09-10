@@ -43,11 +43,11 @@ void SpanParser::ParserElement(QSharedPointer<ParseElement> elem) {
     }
 }
 
-qint32 SpanParser::prevLineNum() const {
+int SpanParser::prevLineNum() const {
     return this->_prevLineNum;
 }
 
-qint32 SpanParser::nextLineNum() const {
+int SpanParser::nextLineNum() const {
     return this->_nextLineNum;
 }
 
@@ -100,7 +100,7 @@ void SpanParser::ParserParagraphElement(QSharedPointer<ParseElementParagraph> el
     end->parent->removeCurrentSpans();
     auto spanVec = this->ParserParagraph(paragraph);
     end = begin;
-    qint32 index = 0;
+    int index = 0;
     while (!end->isParagraphEnd()) {
         for (auto span : spanVec[index]) {
             span->offset += end->offset;
@@ -115,14 +115,14 @@ void SpanParser::ParserParagraphElement(QSharedPointer<ParseElementParagraph> el
     end->parent->spans = spanVec[index];
 }
 
-QVector<QSharedPointer<ParseElementSpan>> SpanParser::ParserLine(const QString& line, qint32 shiftOffset) {
+QVector<QSharedPointer<ParseElementSpan>> SpanParser::ParserLine(const QString& line, int shiftOffset) {
     QVector<QSharedPointer<ParseElementSpan>> spans;
-    qint32 last = 0, offset = 0;
-    qint32 lineLen = line.length();
+    int last = 0, offset = 0;
+    int lineLen = line.length();
     while (offset < lineLen) {
         bool flag = true;
         for (auto elem : this->_spans) {
-            qint32 length = elem->tryParse(line, offset);
+            int length = elem->tryParse(line, offset);
             if (length > 0) {
                 flag = false;
                 if (offset > last) {
@@ -164,31 +164,31 @@ QVector<QSharedPointer<ParseElementSpan>> SpanParser::ParserLine(const QString& 
 
 QVector<QVector<QSharedPointer<ParseElementSpan>>> SpanParser::ParserParagraph(const QVector<QString>& paragraph) {
     QString line;
-    qint32 lineNum = paragraph.size();
-    QVector<qint32> lengths;
+    int lineNum = paragraph.size();
+    QVector<int> lengths;
     QVector<QVector<QSharedPointer<ParseElementSpan>>> spanVec;
     lengths.push_back(0);
     for (auto p : paragraph) {
         line += p;
         spanVec.push_back(QVector<QSharedPointer<ParseElementSpan>>());
-        lengths.push_back((qint32)p.length());
+        lengths.push_back((int)p.length());
     }
-    for (qint32 i = 1; i <= lineNum; ++i) {
+    for (int i = 1; i <= lineNum; ++i) {
         lengths[i] += lengths[i - 1];
     }
     auto spans = this->ParserLine(line, 0);
     for (auto span : spans) {
-        qint32 offset = span->offset;
-        qint32 length = span->length;
-        qint32 start = lineNum - 1;
-        for (qint32 i = 1; i <= lineNum; ++i) {
+        int offset = span->offset;
+        int length = span->length;
+        int start = lineNum - 1;
+        for (int i = 1; i <= lineNum; ++i) {
             if (offset < lengths[i]) {
                 start = i;
                 break;
             }
         }
-        qint32 end = lineNum - 1;
-        for (qint32 i = 1; i <= lineNum; ++i) {
+        int end = lineNum - 1;
+        for (int i = 1; i <= lineNum; ++i) {
             if (offset + length <= lengths[i]) {
                 end = i;
                 break;
@@ -201,15 +201,15 @@ QVector<QVector<QSharedPointer<ParseElementSpan>>> SpanParser::ParserParagraph(c
             spanVec[start - 1].push_back(this->_factory.copy(span));
         } else {
             QString text = span->text;
-            qint32 offset = span->offset;
-            qint32 length = span->length;
+            int offset = span->offset;
+            int length = span->length;
             span->openActivate = true;
             span->closeActivate = false;
             span->offset = offset - lengths[start - 1];
             span->length = lengths[start] - offset;
             span->text = text.mid(0, lengths[start] - span->offset);
             spanVec[start - 1].push_back(this->_factory.copy(span));
-            for (qint32 i = start + 1; i < end; ++i) {
+            for (int i = start + 1; i < end; ++i) {
                 span->openActivate = false;
                 span->closeActivate = false;
                 span->offset = 0;

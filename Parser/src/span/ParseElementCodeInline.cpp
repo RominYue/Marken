@@ -7,10 +7,10 @@ ParseElementType ParseElementCodeInline::type() const {
     return ParseElementType::TYPE_CODE_INLINE;
 }
 
-qint32 ParseElementCodeInline::tryParse(const QString& text, qint32 offset) {
+int ParseElementCodeInline::tryParse(const QString& text, int offset) {
     if (text[offset] == '`') {
-        qint32 index = offset;
-        qint32 length = text.length();
+        int index = offset;
+        int length = text.length();
         this->_backtickNum = 1;
         for (++index; index < length; ++index) {
             if (text[index] == '`') {
@@ -19,7 +19,7 @@ qint32 ParseElementCodeInline::tryParse(const QString& text, qint32 offset) {
                 break;
             }
         }
-        qint32 num = 0;
+        int num = 0;
         bool escape = false;
         for (++index; index < length; ++index) {
             if (escape) {

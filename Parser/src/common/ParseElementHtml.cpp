@@ -18,9 +18,9 @@ void ParseElementHtml::setTag(const QString& val) {
     }
 }
 
-bool ParseElementHtml::findOpenTagOffset(const QString &line, qint32 &index) {
+bool ParseElementHtml::findOpenTagOffset(const QString &line, int &index) {
     Status status = STATUS_BEGIN;
-    qint32 lineLength = line.length();
+    int lineLength = line.length();
     while (index < lineLength) {
         QChar ch = line[index];
         switch (status) {
@@ -49,9 +49,9 @@ bool ParseElementHtml::findOpenTagOffset(const QString &line, qint32 &index) {
     return false;
 }
 
-bool ParseElementHtml::findCloseTagOffset(const QString &line, qint32 &index) {
+bool ParseElementHtml::findCloseTagOffset(const QString &line, int &index) {
     Status status = STATUS_BEGIN;
-    qint32 lineLength = line.length();
+    int lineLength = line.length();
     while (index < lineLength) {
         QChar ch = line[index];
         switch (status) {
@@ -89,10 +89,10 @@ bool ParseElementHtml::findCloseTagOffset(const QString &line, qint32 &index) {
     return false;
 }
 
-bool ParseElementHtml::matchToTagEnd(const QString &line, qint32 &index) {
-    qint32 length = line.length();
-    qint32 start = index, end = length;
-    for (qint32 i = index; i < length; ++i) {
+bool ParseElementHtml::matchToTagEnd(const QString &line, int &index) {
+    int length = line.length();
+    int start = index, end = length;
+    for (int i = index; i < length; ++i) {
         if (line[i].isSpace() || line[i] == '>' || line[i] == '/') {
             end = i;
             break;
@@ -102,10 +102,10 @@ bool ParseElementHtml::matchToTagEnd(const QString &line, qint32 &index) {
     return true;
 }
 
-bool ParseElementHtml::matchToGt(const QString &line, qint32 &index) {
+bool ParseElementHtml::matchToGt(const QString &line, int &index) {
     Status status = STATUS_TAG;
-    qint32 lineLength = line.length();
-    qint32 tagStart = index, tagEnd = index;
+    int lineLength = line.length();
+    int tagStart = index, tagEnd = index;
     bool first = true;
     while (index < lineLength) {
         QChar ch = line[index];
@@ -173,8 +173,8 @@ bool ParseElementHtml::matchToGt(const QString &line, qint32 &index) {
     return false;
 }
 
-bool ParseElementHtml::matchToEnd(const QString &line, qint32 &index) {
-    qint32 lineLength = line.length();
+bool ParseElementHtml::matchToEnd(const QString &line, int &index) {
+    int lineLength = line.length();
     while (index < lineLength) {
         QChar ch = line[index];
         if (!ch.isSpace()) {

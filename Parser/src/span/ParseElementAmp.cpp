@@ -7,11 +7,11 @@ ParseElementType ParseElementAmp::type() const {
     return ParseElementType::TYPE_AMP;
 }
 
-qint32 ParseElementAmp::tryParse(const QString& text, qint32 offset) {
+int ParseElementAmp::tryParse(const QString& text, int offset) {
     if (text[offset] == '&') {
         Status status = STATUS_AMP;
-        qint32 length = text.length();
-        for (qint32 i = offset + 1; i < length; ++i) {
+        int length = text.length();
+        for (int i = offset + 1; i < length; ++i) {
             switch (status) {
             case STATUS_AMP:
                 if (text[i] == QChar('#')) {

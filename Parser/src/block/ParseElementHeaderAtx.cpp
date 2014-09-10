@@ -7,10 +7,10 @@ ParseElementType ParseElementHeaderAtx::type() const {
     return ParseElementType::TYPE_HEADER_ATX;
 }
 
-bool ParseElementHeaderAtx::tryParse(const QString &line, qint32 offset, qint32& length) {
-    qint32 hashNum = 0;
-    qint32 lineLen = line.length();
-    for (qint32 i = offset; i < lineLen; ++i) {
+bool ParseElementHeaderAtx::tryParse(const QString &line, int offset, int& length) {
+    int hashNum = 0;
+    int lineLen = line.length();
+    for (int i = offset; i < lineLen; ++i) {
         if (line[i] == '#') {
             ++hashNum;
         } else {

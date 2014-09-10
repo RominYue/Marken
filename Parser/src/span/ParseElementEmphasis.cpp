@@ -7,13 +7,13 @@ ParseElementType ParseElementEmphasis::type() const {
     return ParseElementType::TYPE_EMPHASIS;
 }
 
-qint32 ParseElementEmphasis::tryParse(const QString& text, qint32 offset) {
+int ParseElementEmphasis::tryParse(const QString& text, int offset) {
     QChar beginChar = text[offset];
     if (beginChar == '*' || beginChar == '_') {
-        qint32 length = text.length();
+        int length = text.length();
         bool escape = false;
         bool hasText = false;
-        for (qint32 i = offset + 1; i < length; ++i) {
+        for (int i = offset + 1; i < length; ++i) {
             if (escape) {
                 escape = false;
             } else {
@@ -45,6 +45,6 @@ QString ParseElementEmphasis::innerText() const {
     return this->text.mid(1, this->text.length() - 2);
 }
 
-qint32 ParseElementEmphasis::innerOffset() const {
+int ParseElementEmphasis::innerOffset() const {
     return 1;
 }

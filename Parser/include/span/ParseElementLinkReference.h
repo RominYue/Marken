@@ -10,11 +10,12 @@ public:
     virtual ~ParseElementLinkReference() = default;
     virtual ParseElementType type() const override final;
 
-    virtual qint32 tryParse(const QString& text, qint32 offset) override final;
+    virtual QString innerText() const override final;
+    virtual int innerOffset() const override final;
+
+    virtual int tryParse(const QString& text, int offset) override final;
     virtual QString generateOpenHtml() const override final;
     virtual QString generateCloseHtml() const override final;
-
-    virtual void remove() override final;
 
 private:
     QString _inner;

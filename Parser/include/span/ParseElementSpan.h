@@ -9,7 +9,7 @@ public:
     virtual ~ParseElementSpan() = default;
     virtual bool isBlockElement() const override final;
 
-    virtual qint32 tryParse(const QString& text, qint32 offset);
+    virtual int tryParse(const QString& text, int offset);
 
     bool openActivate;
     bool closeActivate;
