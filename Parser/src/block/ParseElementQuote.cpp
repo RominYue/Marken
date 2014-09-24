@@ -12,6 +12,7 @@ bool ParseElementQuote::tryParse(const QString &line, int offset, int& length) {
     int lineLen = line.length();
     if (lineLen > offset) {
         if (line[offset].isSpace()) {
+            return false;
             if (parent->prev() == nullptr) {
                 return false;
             }
@@ -21,18 +22,12 @@ bool ParseElementQuote::tryParse(const QString &line, int offset, int& length) {
                 return true;
             }
         } else if (line[offset] == '>') {
-            if (offset + 1 == lineLen || line[offset + 1].isSpace()) {
-                this->isVirtual = false;
-                length = 1;
-                return true;
-            }
+            this->isVirtual = false;
+            length = 1;
+            return true;
         }
     }
     return false;
-}
-
-bool ParseElementQuote::inheritable() const {
-    return true;
 }
 
 QString ParseElementQuote::generateOpenHtml() const {

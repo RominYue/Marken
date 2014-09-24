@@ -86,8 +86,8 @@ QString ParseElementParagraph::generateOpenHtml() const {
 }
 
 QString ParseElementParagraph::generateCloseHtml() const {
-    int spaceNum;
     QString html;
+    int spaceNum = 0;
     for (int i = this->text.length() - 1; i >= 0; --i) {
         if (this->text[i].isSpace()) {
             ++spaceNum;

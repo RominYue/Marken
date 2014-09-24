@@ -43,7 +43,7 @@ QString ParseElementLinkReference::generateOpenHtml() const {
     QString link = this->parent->labelSet->getLink(this->_label);
     QString title = this->parent->labelSet->getTitle(this->_label);
     if (link.length() == 0) {
-        return '[';
+        return "[";
     }
     return this->generateOpenLinkHtml(link, title);
 }

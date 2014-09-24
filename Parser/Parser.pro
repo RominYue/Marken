@@ -41,7 +41,7 @@ SOURCES += \
     src/common/ParseElementHtml.cpp \
     src/common/ParseElementLink.cpp \
     src/common/ParseLabelSet.cpp \
-    src/common/ParseLine.cpp \
+    src/common/ParseLineData.cpp \
     src/parser/DynamicParser.cpp \
     src/parser/SpanParser.cpp \
     src/parser/StaticParser.cpp \
@@ -83,7 +83,7 @@ HEADERS += \
     include/common/ParseElementLink.h \
     include/common/ParseElementType.h \
     include/common/ParseLabelSet.h \
-    include/common/ParseLine.h \
+    include/common/ParseLineData.h \
     include/parser/DynamicParser.h \
     include/parser/SpanParser.h \
     include/parser/StaticParser.h \
