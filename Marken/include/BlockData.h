@@ -2,16 +2,16 @@
 #define MARKDOWNBLOCKDATA_H
 
 #include <QTextBlockUserData>
-#include "parse_line.h"
+#include "ParseLineData.h"
 
 class BlockData : public QTextBlockUserData {
 public:
     BlockData();
 
-    ParseLine* data();
+    ParseLineData* data();
 
 private:
-    ParseLine _data;
+    ParseLineData _data;
 };
 
 #endif // MARKDOWNBLOCKDATA_H

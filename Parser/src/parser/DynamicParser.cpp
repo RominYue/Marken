@@ -33,7 +33,7 @@ DynamicParser::DynamicParser() {
 DynamicParser::~DynamicParser() {
 }
 
-void DynamicParser::ParserLine(ParseLineData* data, QString line) {
+void DynamicParser::parseLine(ParseLineData* data, QString line) {
     int offset = 0;
     int lineLength = line.size();
     ParseElementFactory factory;
@@ -129,10 +129,10 @@ void DynamicParser::ParserLine(ParseLineData* data, QString line) {
             }
         }
     }
-    this->ParserSpan(data);
+    this->parseSpan(data);
 }
 
-void DynamicParser::ParserSpan(ParseLineData* data) {
+void DynamicParser::parseSpan(ParseLineData* data) {
     this->_prevLineNum = 0;
     this->_nextLineNum = 0;
     if (data->blocks.size() > 0) {

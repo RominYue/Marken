@@ -1,7 +1,7 @@
 #include <string>
-#include "parse_line.h"
-#include "parse_elem_block.h"
-#include "parse_elem_span.h"
+#include "ParseLineData.h"
+#include "ParseElementBlock.h"
+#include "ParseElementSpan.h"
 #include "Setting.h"
 #include "BlockData.h"
 #include "Highlighter.h"
@@ -24,11 +24,11 @@ void Highlighter::highlightBlock(const QString& text) {
     BlockData* nextData = dynamic_cast<BlockData*>(nextBlock.userData());
     if (currentData == nullptr) {
         currentData = new BlockData();
-        ParseLine* prevLine = nullptr;
+        ParseLineData* prevLine = nullptr;
         if (prevData != nullptr) {
             prevLine = prevData->data();
         }
-        ParseLine* nextLine = nullptr;
+        ParseLineData* nextLine = nullptr;
         if (nextData != nullptr) {
             nextLine = nextData->data();
         }
@@ -36,8 +36,7 @@ void Highlighter::highlightBlock(const QString& text) {
         currentBlock.setUserData(currentData);
     }
     if (this->_parser != nullptr) {
-        string line = text.toUtf8().constData();
-        this->_parser->parseLine(currentData->data(), line);
+        this->_parser->parseLine(currentData->data(), text);
         int prevLineNum = this->_parser->prevLineNum();
         while (prevLineNum--) {
             this->highlight(prevBlock);
@@ -52,7 +51,7 @@ void Highlighter::highlightBlock(const QString& text) {
     }
     if (currentData->data()->isLineStatusChanged()) {
         if (currentData->data()->blocks.size() > 0) {
-            if ((*currentData->data()->blocks.rbegin())->type() != ParseElementType::TYPE_PARAGRAPH) {
+            if (currentData->data()->lastType() != ParseElementType::TYPE_PARAGRAPH) {
                 if (prevData != nullptr) {
                     this->_parser->parseSpan(prevData->data());
                     this->highlight(prevBlock);
@@ -69,7 +68,7 @@ void Highlighter::highlight(QTextBlock block) {
     if (data != nullptr) {
         ColorSchemeSetting& setting = Setting::instance()->colorSetting;
         ColorScheme& scheme = setting.colorScheme();
-        ParseLine* line = data->data();
+        ParseLineData* line = data->data();
         QTextCursor cursor(block);
         cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
         cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
@@ -79,13 +78,13 @@ void Highlighter::highlight(QTextBlock block) {
                 block->type() == ParseElementType::TYPE_INVALID) {
                 continue;
             }
-            int utf8Offset = block->utf8Offset;
-            int utf8Length = block->utf8Length;
+            int offset = block->offset;
+            int length = block->length;
             cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-            for (int i = 0; i < utf8Offset; ++i) {
+            for (int i = 0; i < offset; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
             }
-            for (int i = 0; i < utf8Length; ++i) {
+            for (int i = 0; i < length; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             }
             cursor.mergeCharFormat(scheme.format(block->type()));
@@ -96,13 +95,13 @@ void Highlighter::highlight(QTextBlock block) {
                 span->type() == ParseElementType::TYPE_PLAIN) {
                 continue;
             }
-            int utf8Offset = span->utf8Offset;
-            int utf8Length = span->utf8Length;
+            int offset = span->offset;
+            int length = span->length;
             cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
-            for (int i = 0; i < utf8Offset; ++i) {
+            for (int i = 0; i < offset; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
             }
-            for (int i = 0; i < utf8Length; ++i) {
+            for (int i = 0; i < length; ++i) {
                 cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             }
             cursor.mergeCharFormat(scheme.format(span->type()));

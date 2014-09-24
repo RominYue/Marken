@@ -16,8 +16,8 @@ class DynamicParser {
 public:
     DynamicParser();
     virtual ~DynamicParser();
-    void ParserLine(ParseLineData* data, QString line);
-    void ParserSpan(ParseLineData* data);
+    void parseLine(ParseLineData* data, QString line);
+    void parseSpan(ParseLineData* data);
 
     int prevLineNum() const;
     int nextLineNum() const;

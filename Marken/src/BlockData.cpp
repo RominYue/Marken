@@ -4,6 +4,6 @@ BlockData::BlockData() :
     QTextBlockUserData() {
 }
 
-ParseLine* BlockData::data() {
+ParseLineData* BlockData::data() {
     return &this->_data;
 }

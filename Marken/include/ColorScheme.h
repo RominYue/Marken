@@ -5,7 +5,7 @@
 #include <QColor>
 #include <QString>
 #include <QTextCharFormat>
-#include "parse_elem_type.h"
+#include "ParseElementType.h"
 
 class ColorScheme {
 public:

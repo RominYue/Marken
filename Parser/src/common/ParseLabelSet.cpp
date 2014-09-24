@@ -8,6 +8,11 @@ ParseLabelSet::ParseLabelSet() {
 ParseLabelSet::~ParseLabelSet() {
 }
 
+void ParseLabelSet::clear() {
+    this->_links.clear();
+    this->_titles.clear();
+}
+
 void ParseLabelSet::addLinkLabel(ParseElementLinkLabel* linkLabel) {
     QString label = linkLabel->label.toLower();
     QString& link = linkLabel->link;

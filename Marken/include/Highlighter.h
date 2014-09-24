@@ -3,7 +3,7 @@
 
 #include <QSharedPointer>
 #include <QSyntaxHighlighter>
-#include "parse_dynamic.h"
+#include "DynamicParser.h"
 
 class Highlighter : public QSyntaxHighlighter {
     Q_OBJECT

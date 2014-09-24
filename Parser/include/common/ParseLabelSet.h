@@ -13,6 +13,7 @@ public:
     ParseLabelSet();
     virtual ~ParseLabelSet();
 
+    void clear();
     void addLinkLabel(ParseElementLinkLabel* linkLabel);
 
     QString getLink(const QString& label);

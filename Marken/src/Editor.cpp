@@ -4,7 +4,10 @@
 #include <QFile>
 #include <QTextStream>
 #include <QPalette>
-#include "parse_line.h"
+#include "ParseLineData.h"
+#include "ParseLabelSet.h"
+#include "ParseElementBlock.h"
+#include "ParseElementLinkLabel.h"
 #include "BlockData.h"
 #include "LineNumberArea.h"
 #include "Highlighter.h"
@@ -85,9 +88,26 @@ void Editor::saveAsHtml(const QString &path) {
         return;
     }
     QString html;
-    QTextBlock block = this->document()->firstBlock();
+    auto block = this->document()->lastBlock();
+    if (block.isValid()) {
+        ParseLineData* data = dynamic_cast<ParseLineData*>(block.userData());
+        if (data != nullptr) {
+            data->labelSet->clear();
+            while (block.isValid()) {
+                ParseLineData* data = dynamic_cast<ParseLineData*>(block.userData());
+                for (auto blockElem : data->blocks) {
+                    if (blockElem->type() == ParseElementType::TYPE_LINK_LABEL) {
+                        auto linkLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(blockElem);
+                        data->labelSet->addLinkLabel(linkLabel.data());
+                    }
+                }
+                block = block.previous();
+            }
+        }
+    }
+    block = this->document()->firstBlock();
     while (block.isValid()) {
-        html += QString::fromUtf8(dynamic_cast<BlockData*>(block.userData())->data()->generateHtml().c_str()) + "\n";
+        html += dynamic_cast<BlockData*>(block.userData())->data()->generateHtml() + "\n";
         block = block.next();
     }
     QTextStream fout(&file);

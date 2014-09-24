@@ -4,7 +4,7 @@
 #include <QSharedPointer>
 #include <QKeyEvent>
 #include <QPlainTextEdit>
-#include "parse_dynamic.h"
+#include "DynamicParser.h"
 
 class LineNumberArea;
 class Highlighter;

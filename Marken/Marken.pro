@@ -8,7 +8,6 @@ QT       += core gui xml webkit webkitwidgets
 
 CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++0x
-QMAKE_LFLAGS = -static
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,48 +20,15 @@ TRANSLATIONS += lang/Lang_CH.ts
 
 INCLUDEPATH += "./include"
 INCLUDEPATH += "../Parser"
+INCLUDEPATH += "../Parser/include"
+INCLUDEPATH += "../Parser/include/block"
+INCLUDEPATH += "../Parser/include/common"
+INCLUDEPATH += "../Parser/include/parser"
+INCLUDEPATH += "../Parser/include/span"
 
 SOURCES += src/main.cpp\
     src/Marken.cpp \
     src/ColorWidget.cpp \
-    ../Parser/parse.cpp \
-    ../Parser/parse_dynamic.cpp \
-    ../Parser/parse_elem.cpp \
-    ../Parser/parse_elem_amp.cpp \
-    ../Parser/parse_elem_block.cpp \
-    ../Parser/parse_elem_code_block.cpp \
-    ../Parser/parse_elem_code_inline.cpp \
-    ../Parser/parse_elem_emphasis.cpp \
-    ../Parser/parse_elem_empty.cpp \
-    ../Parser/parse_elem_escape.cpp \
-    ../Parser/parse_elem_factory.cpp \
-    ../Parser/parse_elem_header.cpp \
-    ../Parser/parse_elem_header_atx.cpp \
-    ../Parser/parse_elem_header_setext.cpp \
-    ../Parser/parse_elem_horizontal.cpp \
-    ../Parser/parse_elem_html.cpp \
-    ../Parser/parse_elem_html_block.cpp \
-    ../Parser/parse_elem_html_inline.cpp \
-    ../Parser/parse_elem_image.cpp \
-    ../Parser/parse_elem_image_inline.cpp \
-    ../Parser/parse_elem_image_reference.cpp \
-    ../Parser/parse_elem_link.cpp \
-    ../Parser/parse_elem_link_automatic.cpp \
-    ../Parser/parse_elem_link_inline.cpp \
-    ../Parser/parse_elem_link_label.cpp \
-    ../Parser/parse_elem_link_reference.cpp \
-    ../Parser/parse_elem_list.cpp \
-    ../Parser/parse_elem_list_ordered.cpp \
-    ../Parser/parse_elem_list_unordered.cpp \
-    ../Parser/parse_elem_paragraph.cpp \
-    ../Parser/parse_elem_plain.cpp \
-    ../Parser/parse_elem_quote.cpp \
-    ../Parser/parse_elem_span.cpp \
-    ../Parser/parse_elem_strong.cpp \
-    ../Parser/parse_label_set.cpp \
-    ../Parser/parse_line.cpp \
-    ../Parser/parse_span.cpp \
-    ../Parser/parse_static.cpp \
     src/Preview.cpp \
     src/LineNumberArea.cpp \
     src/BlockData.cpp \
@@ -72,49 +38,48 @@ SOURCES += src/main.cpp\
     src/ColorSchemeForm.cpp \
     src/ColorScheme.cpp \
     src/ColorSchemeSetting.cpp \
-    src/Setting.cpp
+    src/Setting.cpp \
+    ../Parser/src/block/ParseElementBlock.cpp \
+    ../Parser/src/block/ParseElementCodeBlock.cpp \
+    ../Parser/src/block/ParseElementCodeFence.cpp \
+    ../Parser/src/block/ParseElementHeader.cpp \
+    ../Parser/src/block/ParseElementHeaderAtx.cpp \
+    ../Parser/src/block/ParseElementHeaderSetext.cpp \
+    ../Parser/src/block/ParseElementHorizontal.cpp \
+    ../Parser/src/block/ParseElementHtmlBlock.cpp \
+    ../Parser/src/block/ParseElementLinkLabel.cpp \
+    ../Parser/src/block/ParseElementList.cpp \
+    ../Parser/src/block/ParseElementListOrdered.cpp \
+    ../Parser/src/block/ParseElementListUnordered.cpp \
+    ../Parser/src/block/ParseElementParagraph.cpp \
+    ../Parser/src/block/ParseElementQuote.cpp \
+    ../Parser/src/common/ParseElement.cpp \
+    ../Parser/src/common/ParseElementFactory.cpp \
+    ../Parser/src/common/ParseElementHtml.cpp \
+    ../Parser/src/common/ParseElementLink.cpp \
+    ../Parser/src/common/ParseLabelSet.cpp \
+    ../Parser/src/common/ParseLineData.cpp \
+    ../Parser/src/parser/DynamicParser.cpp \
+    ../Parser/src/parser/SpanParser.cpp \
+    ../Parser/src/parser/StaticParser.cpp \
+    ../Parser/src/span/ParseElementAmp.cpp \
+    ../Parser/src/span/ParseElementCodeInline.cpp \
+    ../Parser/src/span/ParseElementEmphasis.cpp \
+    ../Parser/src/span/ParseElementEmpty.cpp \
+    ../Parser/src/span/ParseElementEscape.cpp \
+    ../Parser/src/span/ParseElementHtmlInline.cpp \
+    ../Parser/src/span/ParseElementImage.cpp \
+    ../Parser/src/span/ParseElementImageInline.cpp \
+    ../Parser/src/span/ParseElementImageReference.cpp \
+    ../Parser/src/span/ParseElementLinkAutomatic.cpp \
+    ../Parser/src/span/ParseElementLinkInline.cpp \
+    ../Parser/src/span/ParseElementLinkReference.cpp \
+    ../Parser/src/span/ParseElementPlain.cpp \
+    ../Parser/src/span/ParseElementSpan.cpp \
+    ../Parser/src/span/ParseElementStrong.cpp
 
 HEADERS  += include/Marken.h \
     include/ColorWidget.h \
-    ../Parser/parse.h \
-    ../Parser/parse_dynamic.h \
-    ../Parser/parse_elem.h \
-    ../Parser/parse_elem_amp.h \
-    ../Parser/parse_elem_block.h \
-    ../Parser/parse_elem_code_block.h \
-    ../Parser/parse_elem_code_inline.h \
-    ../Parser/parse_elem_emphasis.h \
-    ../Parser/parse_elem_empty.h \
-    ../Parser/parse_elem_escape.h \
-    ../Parser/parse_elem_factory.h \
-    ../Parser/parse_elem_header.h \
-    ../Parser/parse_elem_header_atx.h \
-    ../Parser/parse_elem_header_setext.h \
-    ../Parser/parse_elem_horizontal.h \
-    ../Parser/parse_elem_html.h \
-    ../Parser/parse_elem_html_block.h \
-    ../Parser/parse_elem_html_inline.h \
-    ../Parser/parse_elem_image.h \
-    ../Parser/parse_elem_image_inline.h \
-    ../Parser/parse_elem_image_reference.h \
-    ../Parser/parse_elem_link.h \
-    ../Parser/parse_elem_link_automatic.h \
-    ../Parser/parse_elem_link_inline.h \
-    ../Parser/parse_elem_link_label.h \
-    ../Parser/parse_elem_link_reference.h \
-    ../Parser/parse_elem_list.h \
-    ../Parser/parse_elem_list_ordered.h \
-    ../Parser/parse_elem_list_unordered.h \
-    ../Parser/parse_elem_paragraph.h \
-    ../Parser/parse_elem_plain.h \
-    ../Parser/parse_elem_quote.h \
-    ../Parser/parse_elem_span.h \
-    ../Parser/parse_elem_strong.h \
-    ../Parser/parse_elem_type.h \
-    ../Parser/parse_label_set.h \
-    ../Parser/parse_line.h \
-    ../Parser/parse_span.h \
-    ../Parser/parse_static.h \
     include/Preview.h \
     include/LineNumberArea.h \
     include/BlockData.h \
@@ -124,7 +89,46 @@ HEADERS  += include/Marken.h \
     include/ColorSchemeForm.h \
     include/ColorScheme.h \
     include/ColorSchemeSetting.h \
-    include/Setting.h
+    include/Setting.h \
+    ../Parser/include/block/ParseElementBlock.h \
+    ../Parser/include/block/ParseElementCodeBlock.h \
+    ../Parser/include/block/ParseElementCodeFence.h \
+    ../Parser/include/block/ParseElementHeader.h \
+    ../Parser/include/block/ParseElementHeaderAtx.h \
+    ../Parser/include/block/ParseElementHeaderSetext.h \
+    ../Parser/include/block/ParseElementHorizontal.h \
+    ../Parser/include/block/ParseElementHtmlBlock.h \
+    ../Parser/include/block/ParseElementLinkLabel.h \
+    ../Parser/include/block/ParseElementList.h \
+    ../Parser/include/block/ParseElementListOrdered.h \
+    ../Parser/include/block/ParseElementListUnordered.h \
+    ../Parser/include/block/ParseElementParagraph.h \
+    ../Parser/include/block/ParseElementQuote.h \
+    ../Parser/include/common/ParseElement.h \
+    ../Parser/include/common/ParseElementFactory.h \
+    ../Parser/include/common/ParseElementHtml.h \
+    ../Parser/include/common/ParseElementLink.h \
+    ../Parser/include/common/ParseElementType.h \
+    ../Parser/include/common/ParseLabelSet.h \
+    ../Parser/include/common/ParseLineData.h \
+    ../Parser/include/parser/DynamicParser.h \
+    ../Parser/include/parser/SpanParser.h \
+    ../Parser/include/parser/StaticParser.h \
+    ../Parser/include/span/ParseElementAmp.h \
+    ../Parser/include/span/ParseElementCodeInline.h \
+    ../Parser/include/span/ParseElementEmphasis.h \
+    ../Parser/include/span/ParseElementEmpty.h \
+    ../Parser/include/span/ParseElementEscape.h \
+    ../Parser/include/span/ParseElementHtmlInline.h \
+    ../Parser/include/span/ParseElementImage.h \
+    ../Parser/include/span/ParseElementImageInline.h \
+    ../Parser/include/span/ParseElementImageReference.h \
+    ../Parser/include/span/ParseElementLinkAutomatic.h \
+    ../Parser/include/span/ParseElementLinkInline.h \
+    ../Parser/include/span/ParseElementLinkReference.h \
+    ../Parser/include/span/ParseElementPlain.h \
+    ../Parser/include/span/ParseElementSpan.h \
+    ../Parser/include/span/ParseElementStrong.h
 
 FORMS    += form/Marken.ui \
     form/Preview.ui \

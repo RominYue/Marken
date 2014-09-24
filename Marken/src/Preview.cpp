@@ -6,7 +6,10 @@
 #include <QTextStream>
 #include <QTextBlock>
 #include <QWebFrame>
-#include "parse_elem_block.h"
+#include "ParseLineData.h"
+#include "ParseLabelSet.h"
+#include "ParseElementBlock.h"
+#include "ParseElementLinkLabel.h"
 #include "Setting.h"
 #include "BlockData.h"
 #include "Preview.h"
@@ -45,7 +48,24 @@ void Preview::showPreview(Editor *editor) {
         return;
     }
     QString html;
-    auto block = editor->document()->firstBlock();
+    auto block = editor->document()->lastBlock();
+    if (block.isValid()) {
+        ParseLineData* data = dynamic_cast<ParseLineData*>(block.userData());
+        if (data != nullptr) {
+            data->labelSet->clear();
+            while (block.isValid()) {
+                ParseLineData* data = dynamic_cast<ParseLineData*>(block.userData());
+                for (auto blockElem : data->blocks) {
+                    if (blockElem->type() == ParseElementType::TYPE_LINK_LABEL) {
+                        auto linkLabel = qSharedPointerDynamicCast<ParseElementLinkLabel>(blockElem);
+                        data->labelSet->addLinkLabel(linkLabel.data());
+                    }
+                }
+                block = block.previous();
+            }
+        }
+    }
+    block = editor->document()->firstBlock();
     int lineNum = 0;
     bool isCode = false;
     this->_lineAnchors.clear();
@@ -53,7 +73,7 @@ void Preview::showPreview(Editor *editor) {
         auto data = dynamic_cast<BlockData*>(block.userData())->data();
         if (data->blocks.size() == 0) {
             isCode = false;
-        } else if ((*data->blocks.rbegin())->type() != ParseElementType::TYPE_CODE_BLOCK) {
+        } else if (data->lastType() != ParseElementType::TYPE_CODE_BLOCK) {
             isCode = false;
         }
         ++lineNum;
@@ -61,9 +81,9 @@ void Preview::showPreview(Editor *editor) {
             this->_lineAnchors.insert(lineNum);
             html += "<a href=\"#\" id=\"" + this->getLineNumAnchor(lineNum) + "\"> </a> ";
         }
-        html += QString::fromUtf8(data->generateHtml().c_str()) + "\n";
+        html += data->generateHtml() + "\n";
         if (data->blocks.size() > 0) {
-            if ((*data->blocks.rbegin())->type() == ParseElementType::TYPE_CODE_BLOCK) {
+            if (data->lastType() == ParseElementType::TYPE_CODE_BLOCK) {
                 isCode = true;
             }
         }

@@ -17,10 +17,10 @@ QVector<QString> StaticParser::ParserToHtmlList(const QVector<QString>& document
     for (auto line : document) {
         QSharedPointer<ParseLineData> data(new ParseLineData());
         if (dataList.size() == 0) {
-            parser.ParserLine(data.data(), line);
+            parser.parseLine(data.data(), line);
         } else {
             data->setNeighbor(dataList.last().data(), nullptr);
-            parser.ParserLine(data.data(), line);
+            parser.parseLine(data.data(), line);
         }
         dataList.push_back(data);
     }
